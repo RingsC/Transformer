@@ -1,0 +1,12 @@
+#TO INCLUDE ALL THE SUB-DIRECTORY TO TOP CMakeList.txt
+message(STATUS "Adding subdirectory common")
+add_subdirectory(common)
+add_subdirectory(execution)
+add_subdirectory(keywords)
+add_subdirectory(memory)
+add_subdirectory(query)
+add_subdirectory(system)
+add_subdirectory(types)
+add_subdirectory(utils)
+
+

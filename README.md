@@ -1,3 +1,4 @@
+[![Linux](https://travis-ci.org/RingsC/Transformer.svg?branch=master "Linux")](https://travis-ci.org/RingsC/Transformer)
 # Transformer
 A new SQL engine, compatible with ANSI SQL.
 

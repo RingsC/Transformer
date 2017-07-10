@@ -1,0 +1,18 @@
+language: c++
+
+os:
+  - linux
+
+c++:
+  - cmake
+  - g++
+  - c++
+
+script:
+  - mkdir ./build_cmk
+  - cd ./build_cmk
+  - cmake ..
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+

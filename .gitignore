@@ -1,0 +1,26 @@
+# Visual Studio
+*.db
+*.opendb
+*.vcproj
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filter
+*.vcxproj.filters
+*.sln
+
+# Makefiles
+Makefile
+*.make
+
+# Misc
+*.txt
+*.7z
+*.zip
+*.tar.gz
+# Directories we don't ever want to commit
+bin
+obj
+Debug
+release
+Release
+.vs

@@ -7,7 +7,7 @@
 #define __MEMORY_H__
 
 #include <new>
-#include "include/system/system.h"
+#include "system/system.h"
 
 namespace Transformer {
 namespace Memory {

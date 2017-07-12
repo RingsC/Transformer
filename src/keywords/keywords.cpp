@@ -13,7 +13,7 @@ KeyWord::scanKeyWordsList_[] ={
 }
 
 ScanKeyWord
-KeyWord::KeyWordLookup (const char* keyword, const ScanKeyWord* kewords_list, int number_keywords )
+KeyWord::KeyWordLookup (const char* keyword, const ScanKeyWord kewords_list, int number_keywords )
 {
 	ScanKeyWord key ;
 	return key;

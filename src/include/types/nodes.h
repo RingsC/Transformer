@@ -6,7 +6,6 @@
 #define __NODES_H__
 
 #include "types/types.h"
-#include "system/system.h"
 
 namespace Transformer{
 namespace Types{

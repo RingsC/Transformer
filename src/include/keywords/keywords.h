@@ -1,19 +1,17 @@
 /***
 THE KEYWORDS.
 
-parser/keywords/keywords.h
-*/
+path:
+	parser/keywords/keywords.h
+**/
 
 #ifndef __KEYWORDS_H__
 #define __KEYWORDS_H__
 
-#include "system.h"
-#include "types/types.h"
+#include "system/system.h"
 
 namespace Transformer{
 namespace KeyWords {
-
-using namespace Types;
 
 typedef enum {
 	UNRESERVED_KEYWORD =0 ,  //
@@ -22,13 +20,14 @@ typedef enum {
 	RESERVED_KEYWORD
 } KeyWordTypes; 
 
-typedef struct scan_keywords_t
+struct scan_keyword_t
 {
 	const char* key_name; 
 	int16 value; 
 	KeyWordTypes catalog;
-} ScanKeyWord ;
+} ;
 
+typedef struct scan_keyword_t* ScanKeyWord; 
 
 #define TRANS_KEYWORD(a,b,c) {a,b,c}
 
@@ -37,11 +36,12 @@ class TRANS_EXPORT KeyWord
 public:
 	KeyWord () {}
 	~KeyWord () {} 
-	static ScanKeyWord KeyWordLookup(const char* keyword, const ScanKeyWord* kewords_list, int number_keywords);
-	inline uint16 getKeyWordsNumber () const { return sizeof(KeyWord::scanKeyWordsList_)/sizeof(KeyWord::scanKeyWordsList_[0]) ;}
+	static ScanKeyWord KeyWordLookup(const char* keyword, const ScanKeyWord kewords_list, int number_keywords);
+	static uint16 getKeyWordsNumber () { return sizeof(KeyWord::scanKeyWordsList_)/sizeof(KeyWord::scanKeyWordsList_[0]) ;}
+	static ScanKeyWord getScanKeyWord () { return scanKeyWordsList_;} 
 private:
 	static const int32 MAX_KEYWORDS_NUMBER=1024;
-	static ScanKeyWord scanKeyWordsList_ [MAX_KEYWORDS_NUMBER]; 
+	static scan_keyword_t scanKeyWordsList_ [MAX_KEYWORDS_NUMBER]; 
 } ;	
 
 } //Keywrods.

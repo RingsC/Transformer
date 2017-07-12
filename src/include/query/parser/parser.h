@@ -8,22 +8,23 @@
 #define __PARSER_H__
 
 #include "types/types.h"
+#include "types/nodes.h"
 #include "system/system.h"
 
+
 namespace Transformer{
-namespace Parser{
+namespace ParserN{
 
-using namespace Types ;
-class ASTNode;
-
-class TRANS_EXPORT Parser : public NonCopyable {
+class TRANS_EXPORT Parser : public Transformer::Types::NonCopyable {
 public:
-	Parser () {}
-	~Parser() {}
-	virtual ASTNode* raw_parser(const char* str); 	
+	Parser () ;
+	~Parser() ;
+	virtual Transformer::Types::ASTNode* raw_parser(const char* str); 	
 } ;
 
 
 }//namespace Parser. 
 }//namespace Transformer.
-#endif   /* PARSER_H */
+
+
+#endif   /* __PARSER_H__ */

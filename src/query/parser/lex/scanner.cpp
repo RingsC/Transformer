@@ -1,17 +1,27 @@
 #line 2 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 #line 2 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
-/*The include files here*/
+/************************************Start of verbatim codes.**********************************************/
+/*	
+	path:src/query/parser/lex/scanner.l
+*/
 
+#include <ctype.h>
 #include <stdio.h>
-#include "scanner.h"
-#include "keywords/keywords.h"
+#include <stdlib.h>
+#include <memory>
 
-using namespace Transformer::Lex;
+#include <parser/helper.h>
+#include <parser/lex/scanner.h>
+#include <keywords/keywords.h>
+#include <parser/parserGramm.h>
+
 using Transformer::KeyWords::ScanKeyWord;
+using Transformer::KeyWords::KeyWord;
+/************************************End of verbatim codes.**********************************************/
 
 
 
-#line 15 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 25 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -360,8 +370,8 @@ static void yy_fatal_error (yyconst char msg[] ,yyscan_t yyscanner );
 	*yy_cp = '\0'; \
 	yyg->yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 2
-#define YY_END_OF_BUFFER 3
+#define YY_NUM_RULES 79
+#define YY_END_OF_BUFFER 80
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -369,70 +379,439 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[11] =
+static yyconst flex_int16_t yy_accept[290] =
     {   0,
-        0,    0,    3,    2,    1,    2,    1,    1,    1,    0
+        0,    0,   12,   12,    0,    0,    0,    0,   11,   11,
+        0,    0,    0,    0,    0,    0,    0,    0,   55,   55,
+        0,    0,   28,   28,    0,    0,   80,   78,    1,    1,
+       69,   49,   69,   78,   68,   19,   68,   68,   68,   68,
+       71,   68,   68,   68,   68,   77,   77,   77,   77,   77,
+       77,   12,    9,    5,    5,    6,    6,   58,   51,   11,
+       16,   32,   32,   22,   42,   31,   22,   46,   46,   48,
+       52,   54,   53,   53,   54,   54,   24,   27,   26,   26,
+       27,   27,   35,   36,   35,    1,   69,   67,   43,   70,
+       44,    1,   61,   72,    2,   72,   71,   75,   60,   62,
+
+       64,   66,   63,   65,   77,    8,   20,   18,   59,   15,
+       12,    9,    9,   10,    5,    7,    4,    3,   58,   57,
+       11,   16,   16,   17,   32,   22,   22,   30,   23,   38,
+       39,   37,   37,   38,   31,   46,   45,   47,   53,   53,
+       55,   24,   24,   25,   26,   26,   28,   37,   37,   44,
+        1,    1,    2,   73,   72,   76,   74,   50,   21,    9,
+       14,   10,    9,    3,   16,   13,   17,   16,   22,   41,
+       23,   22,   39,   37,   37,   40,   47,   53,   55,   24,
+       25,   24,   26,   28,   37,   37,    9,    9,    9,    9,
+       16,   16,   16,   16,   22,   22,   22,   22,   39,   37,
+
+       37,   40,   55,   24,   24,   24,   24,   28,   37,   37,
+        9,    9,    9,    9,    9,   16,   16,   16,   16,   16,
+       22,   22,   22,   22,   22,   37,   37,   55,   24,   24,
+       24,   24,   24,   28,   37,   37,    9,   16,   22,   37,
+       33,   55,   24,   28,   37,   34,   37,   55,   28,   37,
+       37,   55,   55,   55,   28,   28,   28,   37,   37,   55,
+       55,   28,   28,   37,   56,   55,   55,   55,   55,   29,
+       28,   28,   28,   28,   55,   55,   55,   55,   55,   28,
+       28,   28,   28,   28,   55,   55,   28,   28,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    2,    3,    1,    1,    1,    1,    1,    1,    1,
+        1,    2,    4,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    4,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    2,    5,    6,    7,    8,    9,   10,   11,   12,
+       12,   13,   14,   12,   15,   16,   17,   18,   18,   18,
+       18,   18,   18,   18,   18,   19,   19,   20,   12,   21,
+       22,   23,    7,    7,   24,   25,   26,   27,   28,   27,
+       29,   29,   29,   29,   29,   29,   29,   30,   29,   31,
+       29,   29,   32,   29,   33,   29,   29,   34,   29,   29,
+       12,   35,   12,    9,   29,    7,   24,   25,   26,   27,
 
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+       28,   27,   29,   29,   29,   29,   29,   29,   29,   30,
+       29,   31,   29,   29,   32,   29,   36,   29,   29,   37,
+       29,   29,    1,    7,    1,    7,    1,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
 
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29,   29,   29,   29,   29,   29,
+       29,   29,   29,   29,   29
     } ;
 
-static yyconst flex_int32_t yy_meta[5] =
+static yyconst flex_int32_t yy_meta[38] =
     {   0,
-        1,    2,    3,    4
+        1,    1,    2,    2,    3,    4,    3,    5,    3,    3,
+        6,    1,    7,    3,    3,    1,    7,    8,    8,    1,
+        3,    3,    3,    9,    9,    9,    9,    9,   10,   10,
+       10,   10,   10,   10,   11,   10,   10
     } ;
 
-static yyconst flex_int16_t yy_base[14] =
+static yyconst flex_int16_t yy_base[357] =
     {   0,
-        0,    0,   11,   12,    0,    0,    0,    0,    0,   12,
-        3,    5,    6
+        0,    0,  404,  403,   33,   52,  395,  394,  376,  375,
+       41,   42,  362,  361,   55,   75,  353,  352,   82,  117,
+      334,  333,  152,  187,   36,   46,  331, 1164,   85,   88,
+      308, 1164,    0,   85,    0, 1164, 1164,  310,   80,  311,
+       89,   48,   57,  300,  295,    0,  305,  300,  299,  299,
+      292,    0,   98,    0,    0,   47,  289,    0,  291,    0,
+      107,    0,    0,  122,   94,    0,  132,    0,    0,  288,
+      289, 1164,  136,  142,  268,  251,  155, 1164,  158,  161,
+      260,  245, 1164, 1164,  115,  169,    0,    0, 1164,   76,
+      262,  219, 1164,  150,    0,  158,  164,  179, 1164, 1164,
+
+        0,    0,    0,    0,    0, 1164, 1164, 1164,  117, 1164,
+        0,  197,  202,  250,    0,  162, 1164,    0,    0, 1164,
+        0,  206,  235,  249,    0,  212,  241, 1164,  242, 1164,
+      233,    0,    0,    0,    0,    0, 1164,  227,  245,    0,
+      199,  251,  256,  215,  259,    0,  193,    0,    0,  214,
+        0,  267,    0, 1164,  250,  123,  177, 1164, 1164,  283,
+     1164,  204,  289,    0,  297, 1164,  203,  303,  311, 1164,
+      196,  317,  189,    0,    0,    0,  195,    0,  161,  325,
+      169,  331,    0,  155,    0,    0,  335,  339,  345,  349,
+      353,  359,  363,  367,  373,  377,  381,  387, 1164,    0,
+
+        0, 1164,  128,  391,  395,  401,  405,  125,    0,    0,
+      409,  415,  423,  429,  433,  437,  443,  451,  457,  461,
+      465,  471,  479,  485,  489,    0,    0,   98,  493,  499,
+      507,  513,  517,   85,    0,    0,  521,  527,  531,    0,
+     1164,   86,  535,   78,    0, 1164,    0,  541,  551,    0,
+        0,  556,    0,   67,  561,    0,   57,    0,    0,   40,
+      566,   30,  571,    0, 1164,  576,  581,  586,  591, 1164,
+      596,  601,  606,  611,  616,  621,  626,  631,  636,  641,
+      646,  651,  656,  661,  666,    0,  671,    0, 1164,  686,
+      697,  708,  719,  730,  741,  752,  763,  774,  785,  794,
+
+      797,  803,  813,  824,  835,  846,  857,  867,  878,  889,
+      896,  902,  912,  921,  926,  926,  928,  930,  935,  945,
+      956,  960,  962,  971,  982,  993,  997,  999, 1001, 1010,
+     1014, 1016, 1025, 1036, 1047, 1051, 1053, 1062, 1066, 1068,
+     1070, 1072, 1074, 1076, 1078, 1080, 1082, 1084, 1086, 1095,
+     1106, 1110, 1119, 1130, 1141, 1152
     } ;
 
-static yyconst flex_int16_t yy_def[14] =
+static yyconst flex_int16_t yy_def[357] =
     {   0,
-       10,    1,   10,   10,   11,   12,   11,   13,   13,    0,
-       10,   10,   10
+      289,    1,  290,  290,  291,  291,  292,  292,  293,  293,
+      294,  294,  295,  295,  296,  296,  292,  292,  297,  297,
+      295,  295,  298,  298,  299,  299,  289,  289,  289,  289,
+      300,  289,  300,  301,  300,  289,  289,  300,  289,  300,
+      289,  289,  300,  300,  300,  302,  302,  302,  302,  302,
+      302,  303,  289,  304,  304,  289,  289,  305,  289,  306,
+      289,  307,  307,  289,  308,  309,  289,  310,  310,  311,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  300,  300,  289,  289,
+      312,  313,  289,  289,  314,  289,  289,  289,  289,  289,
+
+      300,  300,  300,  300,  302,  289,  289,  289,  289,  289,
+      303,  289,  289,  289,  304,  289,  289,  315,  305,  289,
+      306,  289,  289,  289,  307,  289,  289,  289,  289,  289,
+      289,  316,  317,  318,  309,  310,  289,  319,  289,  320,
+      289,  289,  289,  289,  289,  321,  289,  322,  323,  312,
+      313,  313,  314,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  324,  315,  289,  289,  289,  325,  289,  289,
+      289,  326,  289,  327,  328,  329,  319,  320,  289,  289,
+      289,  330,  321,  289,  331,  332,  333,  324,  324,  324,
+      334,  325,  325,  325,  335,  326,  326,  326,  289,  336,
+
+      337,  289,  289,  338,  330,  330,  330,  289,  339,  340,
+      333,  333,  289,  333,  324,  334,  334,  289,  334,  325,
+      335,  335,  289,  335,  326,  341,  342,  289,  338,  338,
+      289,  338,  330,  289,  343,  344,  333,  334,  335,  345,
+      289,  289,  338,  289,  346,  289,  347,  289,  289,  348,
+      349,  289,  350,  289,  289,  351,  289,  352,  342,  289,
+      353,  289,  354,  344,  289,  353,  353,  355,  353,  289,
+      354,  354,  356,  354,  353,  353,  289,  353,  353,  354,
+      354,  289,  354,  354,  355,  350,  356,  351,    0,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289
     } ;
 
-static yyconst flex_int16_t yy_nxt[17] =
+static yyconst flex_int16_t yy_nxt[1202] =
     {   0,
-        4,    5,    5,    6,    7,    7,    9,    9,    8,    9,
-       10,    3,   10,   10,   10,   10
+       28,   29,   30,   29,   31,   32,   33,   34,   35,   33,
+       36,   37,   35,   35,   38,   39,   40,   41,   41,   42,
+       43,   44,   45,   46,   47,   46,   46,   48,   46,   49,
+       46,   46,   50,   51,   28,   50,   51,   55,   84,   55,
+      270,   55,   55,   63,   63,   56,   55,   55,   84,   57,
+      265,   64,   64,   55,   55,   55,   55,   69,   55,  116,
+       55,   55,   70,  117,   56,   55,   55,   99,   57,  100,
+       85,  263,   55,   55,   55,   65,   65,   69,  101,  102,
+       85,  261,   70,   73,   74,   73,   86,   86,   86,   86,
+       86,   86,   89,   90,   90,   93,   75,   94,   94,  112,
+
+      113,  113,   90,   90,   96,  249,   97,   97,  122,  123,
+      123,  131,  114,  248,   76,  244,   98,   76,   73,   74,
+       73,  124,  158,  126,  127,  127,  132,  159,  242,  133,
+      134,   75,  128,  126,  127,  127,  129,  139,  139,  139,
+      157,  157,  128,  139,  139,  139,  129,  148,  234,   76,
+      149,  228,   76,   79,   80,   79,  142,  143,  143,  145,
+      145,  145,  145,  145,  145,  128,   81,   94,   94,  144,
+       86,   86,   86,  154,  116,  155,  155,   98,  117,   96,
+      208,   97,   97,  204,   82,   98,  203,   82,   79,   80,
+       79,   98,  156,  156,  157,  157,  157,  157,  112,  113,
+
+      113,   81,  137,  160,  160,  160,  199,  122,  123,  123,
+      195,  114,  161,  126,  127,  127,  162,  191,  187,   82,
+      124,   89,   82,  152,  184,  152,  129,  152,  152,  182,
+      179,  152,  152,  152,  137,  152,  165,  165,  165,  152,
+      152,  152,  169,  169,  169,  166,  139,  139,  139,  167,
+      173,  170,  142,  143,  143,  171,  172,  180,  180,  180,
+      145,  145,  145,  168,  163,  144,  170,  155,  155,   89,
+      181,  152,  147,  152,  146,  152,  152,   98,  141,  152,
+      152,  152,  140,  152,  160,  160,  160,  152,  152,  152,
+      189,  113,  113,  161,  120,  137,  120,  162,  165,  165,
+
+      165,  118,  110,  190,  193,  123,  123,  166,  109,  108,
+      107,  167,  169,  169,  169,  106,  104,  194,  197,  127,
+      127,  170,  103,   95,   92,  171,  180,  180,  180,   88,
+      289,  198,  206,  143,  143,  170,  212,  213,  213,  181,
+      189,  113,  113,   77,   77,  207,  189,  113,  113,  214,
+      189,  113,  113,  190,  217,  218,  218,   71,   71,  190,
+      193,  123,  123,  215,  193,  123,  123,  219,  193,  123,
+      123,   67,   67,  194,  222,  223,  223,  194,  197,  127,
+      127,  220,  197,  127,  127,   61,   61,  224,  197,  127,
+      127,  198,  230,  231,  231,  198,  206,  143,  143,   59,
+
+       59,  225,  206,  143,  143,  232,  206,  143,  143,  207,
+      212,  213,  213,   53,   53,  207,  212,  213,  213,  233,
+      289,  289,  289,  214,  160,  160,  160,  289,  289,  214,
+      212,  213,  213,  161,  189,  113,  113,  162,  217,  218,
+      218,  289,  289,  237,  217,  218,  218,  215,  289,  289,
+      289,  219,  165,  165,  165,  289,  289,  219,  217,  218,
+      218,  166,  193,  123,  123,  167,  222,  223,  223,  289,
+      289,  238,  222,  223,  223,  220,  289,  289,  289,  224,
+      169,  169,  169,  289,  289,  224,  222,  223,  223,  170,
+      197,  127,  127,  171,  230,  231,  231,  289,  289,  239,
+
+      230,  231,  231,  225,  289,  289,  289,  232,  180,  180,
+      180,  289,  289,  232,  230,  231,  231,  170,  206,  143,
+      143,  181,  212,  213,  213,  289,  289,  243,  217,  218,
+      218,  233,  222,  223,  223,  237,  230,  231,  231,  289,
+      289,  238,  252,  252,  252,  239,  289,  289,  289,  243,
+      289,  253,  255,  255,  255,  254,  289,  252,  252,  252,
+      289,  256,  255,  255,  255,  257,  253,  267,  252,  252,
+      254,  256,  272,  255,  255,  257,  268,  267,  252,  252,
+      269,  273,  267,  252,  252,  274,  268,  276,  277,  277,
+      269,  268,  267,  252,  252,  269,  268,  272,  255,  255,
+
+      278,  268,  272,  255,  255,  279,  273,  281,  282,  282,
+      274,  273,  272,  255,  255,  274,  273,  267,  252,  252,
+      283,  273,  267,  252,  252,  284,  285,  252,  252,  252,
+      269,  285,  267,  252,  252,  269,  286,  267,  252,  252,
+      254,  285,  272,  255,  255,  279,  268,  272,  255,  255,
+      279,  287,  255,  255,  255,  274,  287,  272,  255,  255,
+      274,  288,  272,  255,  255,  257,  287,  276,  277,  277,
+      284,  273,  281,  282,  282,  284,  268,  289,  289,  289,
+      278,  273,  289,  289,  289,  283,   52,   52,   52,   52,
+       52,   52,   52,   52,   52,   52,   52,   54,   54,   54,
+
+       54,   54,   54,   54,   54,   54,   54,   54,   58,   58,
+       58,   58,   58,   58,   58,   58,   58,   58,   58,   60,
+       60,   60,   60,   60,   60,   60,   60,   60,   60,   60,
+       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
+       62,   66,   66,   66,   66,   66,   66,   66,   66,   66,
+       66,   66,   68,   68,   68,   68,   68,   68,   68,   68,
+       68,   68,   68,   72,   72,   72,   72,   72,   72,   72,
+       72,   72,   72,   72,   78,   78,   78,   78,   78,   78,
+       78,   78,   78,   78,   78,   83,   83,   83,   83,   83,
+       83,   83,   83,   83,   83,   83,   87,  289,  289,  289,
+
+       87,   91,  289,  289,   91,   91,   91,  105,  289,  289,
+      105,  105,  105,  111,  111,  111,  111,  111,  289,  111,
+      111,  111,  111,  111,  115,  115,  115,  115,  115,  115,
+      289,  115,  115,  115,  115,  119,  119,  119,  289,  119,
+      119,  119,  119,  119,  119,  119,  121,  121,  121,  121,
+      121,  289,  121,  121,  121,  121,  121,  125,  125,  125,
+      125,  125,  289,  125,  125,  125,  125,  130,  130,  130,
+      130,  130,  130,  130,  130,  130,  130,  130,  135,  135,
+      135,  135,  135,  289,  135,  135,  135,  135,  135,  136,
+      136,  136,  136,  289,  136,  136,  136,  136,  136,  136,
+
+      138,  289,  289,  289,  138,  138,  150,  289,  289,  150,
+      150,  150,  151,  289,  151,  151,  151,  151,  151,  151,
+      151,  151,  151,  153,  289,  289,  289,  153,  164,  289,
+      289,  289,  164,  174,  174,  175,  175,  176,  176,  177,
+      289,  289,  177,  177,  177,  178,  289,  178,  178,  178,
+      178,  178,  178,  178,  178,  178,  183,  289,  183,  183,
+      183,  183,  183,  183,  183,  183,  183,  185,  185,  186,
+      186,  188,  188,  188,  188,  188,  188,  188,  188,  188,
+      188,  188,  192,  192,  192,  192,  192,  192,  192,  192,
+      192,  192,  192,  196,  196,  196,  196,  196,  196,  196,
+
+      196,  196,  196,  196,  200,  200,  201,  201,  202,  202,
+      205,  205,  205,  205,  205,  205,  205,  205,  205,  205,
+      205,  209,  209,  210,  210,  211,  211,  211,  211,  211,
+      211,  211,  211,  211,  211,  211,  216,  216,  216,  216,
+      216,  216,  216,  216,  216,  216,  216,  221,  221,  221,
+      221,  221,  221,  221,  221,  221,  221,  221,  226,  226,
+      227,  227,  229,  229,  229,  229,  229,  229,  229,  229,
+      229,  229,  229,  235,  235,  236,  236,  240,  240,  241,
+      241,  245,  245,  246,  246,  247,  247,  250,  250,  251,
+      251,  258,  258,  259,  259,  260,  260,  260,  260,  260,
+
+      289,  260,  260,  260,  260,  260,  262,  262,  262,  262,
+      262,  289,  262,  262,  262,  262,  262,  264,  264,  266,
+      266,  266,  266,  266,  266,  266,  266,  266,  266,  266,
+      271,  271,  271,  271,  271,  271,  271,  271,  271,  271,
+      271,  275,  275,  275,  275,  275,  275,  275,  275,  275,
+      275,  275,  280,  280,  280,  280,  280,  280,  280,  280,
+      280,  280,  280,   27,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+
+      289
     } ;
 
-static yyconst flex_int16_t yy_chk[17] =
+static yyconst flex_int16_t yy_chk[1202] =
     {   0,
-        1,    1,    1,    1,   11,   11,   13,   13,   12,   13,
-        3,   10,   10,   10,   10,   10
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    5,   25,    5,
+      262,    5,    5,   11,   12,    5,    5,    5,   26,    5,
+      260,   11,   12,    5,    5,    5,    6,   15,    6,   56,
+        6,    6,   15,   56,    6,    6,    6,   42,    6,   42,
+       25,  257,    6,    6,    6,   11,   12,   16,   43,   43,
+       26,  254,   16,   19,   19,   19,   29,   29,   29,   30,
+       30,   30,   34,   90,   90,   39,   19,   39,   39,   53,
+
+       53,   53,   34,   34,   41,  244,   41,   41,   61,   61,
+       61,   65,   53,  242,   19,  234,   41,   19,   20,   20,
+       20,   61,  109,   64,   64,   64,   65,  109,  228,   65,
+       65,   20,   64,   67,   67,   67,   64,   73,   73,   73,
+      156,  156,   67,   74,   74,   74,   67,   85,  208,   20,
+       85,  203,   20,   23,   23,   23,   77,   77,   77,   79,
+       79,   79,   80,   80,   80,   77,   23,   94,   94,   77,
+       86,   86,   86,   96,  116,   96,   96,   94,  116,   97,
+      184,   97,   97,  181,   23,   96,  179,   23,   24,   24,
+       24,   97,   98,   98,  157,  157,   98,   98,  112,  112,
+
+      112,   24,  177,  113,  113,  113,  173,  122,  122,  122,
+      171,  112,  113,  126,  126,  126,  113,  167,  162,   24,
+      122,  150,   24,   92,  147,   92,  126,   92,   92,  144,
+      141,   92,   92,   92,  138,   92,  123,  123,  123,   92,
+       92,   92,  127,  127,  127,  123,  139,  139,  139,  123,
+      131,  127,  142,  142,  142,  127,  129,  143,  143,  143,
+      145,  145,  145,  124,  114,  142,  143,  155,  155,   91,
+      143,  152,   82,  152,   81,  152,  152,  155,   76,  152,
+      152,  152,   75,  152,  160,  160,  160,  152,  152,  152,
+      163,  163,  163,  160,   71,   70,   59,  160,  165,  165,
+
+      165,   57,   51,  163,  168,  168,  168,  165,   50,   49,
+       48,  165,  169,  169,  169,   47,   45,  168,  172,  172,
+      172,  169,   44,   40,   38,  169,  180,  180,  180,   31,
+       27,  172,  182,  182,  182,  180,  187,  187,  187,  180,
+      188,  188,  188,   22,   21,  182,  189,  189,  189,  187,
+      190,  190,  190,  188,  191,  191,  191,   18,   17,  189,
+      192,  192,  192,  190,  193,  193,  193,  191,  194,  194,
+      194,   14,   13,  192,  195,  195,  195,  193,  196,  196,
+      196,  194,  197,  197,  197,   10,    9,  195,  198,  198,
+      198,  196,  204,  204,  204,  197,  205,  205,  205,    8,
+
+        7,  198,  206,  206,  206,  204,  207,  207,  207,  205,
+      211,  211,  211,    4,    3,  206,  212,  212,  212,  207,
+        0,    0,    0,  211,  213,  213,  213,    0,    0,  212,
+      214,  214,  214,  213,  215,  215,  215,  213,  216,  216,
+      216,    0,    0,  214,  217,  217,  217,  215,    0,    0,
+        0,  216,  218,  218,  218,    0,    0,  217,  219,  219,
+      219,  218,  220,  220,  220,  218,  221,  221,  221,    0,
+        0,  219,  222,  222,  222,  220,    0,    0,    0,  221,
+      223,  223,  223,    0,    0,  222,  224,  224,  224,  223,
+      225,  225,  225,  223,  229,  229,  229,    0,    0,  224,
+
+      230,  230,  230,  225,    0,    0,    0,  229,  231,  231,
+      231,    0,    0,  230,  232,  232,  232,  231,  233,  233,
+      233,  231,  237,  237,  237,    0,    0,  232,  238,  238,
+      238,  233,  239,  239,  239,  237,  243,  243,  243,    0,
+        0,  238,  248,  248,  248,  239,    0,    0,    0,  243,
+        0,  248,  249,  249,  249,  248,    0,  252,  252,  252,
+        0,  249,  255,  255,  255,  249,  252,  261,  261,  261,
+      252,  255,  263,  263,  263,  255,  261,  266,  266,  266,
+      261,  263,  267,  267,  267,  263,  266,  268,  268,  268,
+      266,  267,  269,  269,  269,  267,  268,  271,  271,  271,
+
+      268,  269,  272,  272,  272,  269,  271,  273,  273,  273,
+      271,  272,  274,  274,  274,  272,  273,  275,  275,  275,
+      273,  274,  276,  276,  276,  274,  275,  277,  277,  277,
+      275,  276,  278,  278,  278,  276,  277,  279,  279,  279,
+      277,  278,  280,  280,  280,  278,  279,  281,  281,  281,
+      279,  280,  282,  282,  282,  280,  281,  283,  283,  283,
+      281,  282,  284,  284,  284,  282,  283,  285,  285,  285,
+      283,  284,  287,  287,  287,  284,  285,    0,    0,    0,
+      285,  287,    0,    0,    0,  287,  290,  290,  290,  290,
+      290,  290,  290,  290,  290,  290,  290,  291,  291,  291,
+
+      291,  291,  291,  291,  291,  291,  291,  291,  292,  292,
+      292,  292,  292,  292,  292,  292,  292,  292,  292,  293,
+      293,  293,  293,  293,  293,  293,  293,  293,  293,  293,
+      294,  294,  294,  294,  294,  294,  294,  294,  294,  294,
+      294,  295,  295,  295,  295,  295,  295,  295,  295,  295,
+      295,  295,  296,  296,  296,  296,  296,  296,  296,  296,
+      296,  296,  296,  297,  297,  297,  297,  297,  297,  297,
+      297,  297,  297,  297,  298,  298,  298,  298,  298,  298,
+      298,  298,  298,  298,  298,  299,  299,  299,  299,  299,
+      299,  299,  299,  299,  299,  299,  300,    0,    0,    0,
+
+      300,  301,    0,    0,  301,  301,  301,  302,    0,    0,
+      302,  302,  302,  303,  303,  303,  303,  303,    0,  303,
+      303,  303,  303,  303,  304,  304,  304,  304,  304,  304,
+        0,  304,  304,  304,  304,  305,  305,  305,    0,  305,
+      305,  305,  305,  305,  305,  305,  306,  306,  306,  306,
+      306,    0,  306,  306,  306,  306,  306,  307,  307,  307,
+      307,  307,    0,  307,  307,  307,  307,  308,  308,  308,
+      308,  308,  308,  308,  308,  308,  308,  308,  309,  309,
+      309,  309,  309,    0,  309,  309,  309,  309,  309,  310,
+      310,  310,  310,    0,  310,  310,  310,  310,  310,  310,
+
+      311,    0,    0,    0,  311,  311,  312,    0,    0,  312,
+      312,  312,  313,    0,  313,  313,  313,  313,  313,  313,
+      313,  313,  313,  314,    0,    0,    0,  314,  315,    0,
+        0,    0,  315,  316,  316,  317,  317,  318,  318,  319,
+        0,    0,  319,  319,  319,  320,    0,  320,  320,  320,
+      320,  320,  320,  320,  320,  320,  321,    0,  321,  321,
+      321,  321,  321,  321,  321,  321,  321,  322,  322,  323,
+      323,  324,  324,  324,  324,  324,  324,  324,  324,  324,
+      324,  324,  325,  325,  325,  325,  325,  325,  325,  325,
+      325,  325,  325,  326,  326,  326,  326,  326,  326,  326,
+
+      326,  326,  326,  326,  327,  327,  328,  328,  329,  329,
+      330,  330,  330,  330,  330,  330,  330,  330,  330,  330,
+      330,  331,  331,  332,  332,  333,  333,  333,  333,  333,
+      333,  333,  333,  333,  333,  333,  334,  334,  334,  334,
+      334,  334,  334,  334,  334,  334,  334,  335,  335,  335,
+      335,  335,  335,  335,  335,  335,  335,  335,  336,  336,
+      337,  337,  338,  338,  338,  338,  338,  338,  338,  338,
+      338,  338,  338,  339,  339,  340,  340,  341,  341,  342,
+      342,  343,  343,  344,  344,  345,  345,  346,  346,  347,
+      347,  348,  348,  349,  349,  350,  350,  350,  350,  350,
+
+        0,  350,  350,  350,  350,  350,  351,  351,  351,  351,
+      351,    0,  351,  351,  351,  351,  351,  352,  352,  353,
+      353,  353,  353,  353,  353,  353,  353,  353,  353,  353,
+      354,  354,  354,  354,  354,  354,  354,  354,  354,  354,
+      354,  355,  355,  355,  355,  355,  355,  355,  355,  355,
+      355,  355,  356,  356,  356,  356,  356,  356,  356,  356,
+      356,  356,  356,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+      289,  289,  289,  289,  289,  289,  289,  289,  289,  289,
+
+      289
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -444,19 +823,98 @@ static yyconst flex_int16_t yy_chk[17] =
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
-#line 13 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 23 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+/**************************The Re-Definition of yy-objects.**********************************************/
+//To redefine the TTTYPE, etc.
+#define YYSTYPE Trans_YYSTYPE
+#define YY_EXTRA_TYPE Trans_yy_extra_type *
+#define SET_YYLLOC()  (*(yylloc) = yytext - yyextra->scanbuffer_)
 
-static void use_funct () 
-{
-	//Here use function. 
+#define yyerror(errMsg)  Trans_yyerror(errMsg, yyscanner)
+#define lexer_errposition()  Trrans_scanner_errposition(*(yylloc), yyscanner)
 
-	return ; 
-}
+
+#define ADVANCE_YYLLOC(delta)  ( *(yylloc) += (delta) )
+
+/***********************************Global vars*********************************************************/
+int			backslash_quote = BACKSLASH_QUOTE_SAFE_ENCODING;
+bool		escape_string_warning = true;
+bool		standard_conforming_strings = true;
+
+
+#define startlit()	( yyextra->literallen_ = 0 )
+
+/********************************Start of use-defined functions***********************************************/
+static void addlit(char *ytext, int yleng, Trans_yyscan_t yyscanner);
+static void addlitchar(unsigned char ychar, Trans_yyscan_t yyscanner);
+static char *litbufdup(Trans_yyscan_t yyscanner);
+static char *litbuf_udeescape(unsigned char escape, Trans_yyscan_t yyscanner);
+static unsigned char unescape_single_char(unsigned char c, Trans_yyscan_t yyscanner);
+static int	process_integer_literal(const char *token, YYSTYPE *lval);
+static bool is_utf16_surrogate_first(unsigned int c);
+static bool is_utf16_surrogate_second(unsigned int c);
+static unsigned int surrogate_pair_to_codepoint(unsigned int first, unsigned int second);
+static void addunicode(unsigned int c, yyscan_t yyscanner);
+static bool check_uescapechar(unsigned char escape);
+static void check_escape_warning(Trans_yyscan_t yyscanner);
+static void check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yyscanner);
+/********************************End of use-defined functions***********************************************/
 #define YY_NO_INPUT 1
+#define YY_NO_INPUT 1
+/*************************************Start of definitions.**********************************************************/
+/*the definition of some xb,etc. */
+/*<xb> bit string literal*/
+
+/*<xc> extended C-style comments*/
+
+/*<xd> delimited identifiers (double-quoted identifiers)*/
+
+/*<xh> hexadecimal numeric string*/
+
+/*<xe> extended quoted strings (support backslash escape sequences)*/
+
+/*<xq> standard quoted strings*/
+
+/*<xdolq> $foo$ quoted strings*/
+
+/*<xui> quoted identifier with Unicode escapes*/
+
+/*<xuiend> end of a quoted identifier with Unicode escapes, UESCAPE can follow*/
+
+/*<xus> quoted string with Unicode escapes*/
+
+/*<xusend> end of a quoted string with Unicode escapes, UESCAPE can follow*/
+
+/*<xeu> Unicode surrogate pair in extended quoted string*/
+
 /*the definition of some things.*/
-#line 458 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+/*the whithspace defintions.*/
+/*The quote definitions.*/
+/*The bit string definitions.*/
+/*Hexadecimal number definitions.*/
+/*National characters definitions.*/
+/*Qutoted string allows '\' definitions.*/
+/*xqdouble embedded quote definitions. ''''*/
+/*$$ styple definitions.*/
+/*double quote definitions.*/
+/*somethings about Unicode, definitions. */
+/*C-style comment definitions.*/
+/*************************************End of definitions.**********************************************************/
+#line 904 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
 #define INITIAL 0
+#define xb 1
+#define xc 2
+#define xd 3
+#define xh 4
+#define xe 5
+#define xq 6
+#define xdolq 7
+#define xui 8
+#define xuiend 9
+#define xus 10
+#define xusend 11
+#define xeu 12
 
 #ifndef YY_NO_UNISTD_H
 /* Special case for "unistd.h", since it is non-ANSI. We include it way
@@ -569,8 +1027,6 @@ extern int Trans_yywrap (yyscan_t yyscanner );
 #endif
 #endif
 
-    static void yyunput (int c,char *buf_ptr  ,yyscan_t yyscanner);
-    
 #ifndef yytext_ptr
 static void yy_flex_strncpy (char *,yyconst char *,int ,yyscan_t yyscanner);
 #endif
@@ -695,10 +1151,9 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 40 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 212 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
-
-#line 702 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 1157 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
     yylval = yylval_param;
 
@@ -755,13 +1210,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 11 )
+				if ( yy_current_state >= 290 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 12 );
+		while ( yy_base[yy_current_state] != 1164 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -788,19 +1243,945 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 42 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 213 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 47 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
-ECHO;
+#line 217 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* Set location in case of syntax error in comment */
+					SET_YYLLOC();
+					yyextra->xcdepth_ = 0;
+					BEGIN(xc);
+					/* Put back any characters past slash-star; see above */
+					yyless(2);
+				}
 	YY_BREAK
-#line 802 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+case 3:
+YY_RULE_SETUP
+#line 226 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					(yyextra->xcdepth_)++;
+					/* Put back any characters past slash-star; see above */
+					yyless(2);
+				}
+	YY_BREAK
+case 4:
+YY_RULE_SETUP
+#line 232 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					if (yyextra->xcdepth_ <= 0)
+						BEGIN(INITIAL);
+					else
+						(yyextra->xcdepth_)--;
+				}
+	YY_BREAK
+case 5:
+/* rule 5 can match eol */
+YY_RULE_SETUP
+#line 239 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* ignore */
+				}
+	YY_BREAK
+case 6:
+YY_RULE_SETUP
+#line 243 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* ignore */
+				}
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 247 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* ignore */
+				}
+	YY_BREAK
+case YY_STATE_EOF(xc):
+#line 251 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("unterminated /* comment"); }
+	YY_BREAK
+case 8:
+YY_RULE_SETUP
+#line 253 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* Binary bit type.
+					 * At some point we should simply pass the string
+					 * forward to the parser and label it there.
+					 * In the meantime, place a leading "b" on the string
+					 * to mark it for the input routine as a binary string.
+					 */
+					SET_YYLLOC();
+					BEGIN(xb);
+					startlit();
+					addlitchar('b', yyscanner);
+				}
+	YY_BREAK
+case 9:
+/* rule 9 can match eol */
+#line 266 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 10:
+/* rule 10 can match eol */
+YY_RULE_SETUP
+#line 266 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					yyless(1);
+					BEGIN(INITIAL);
+					yylval->str_ = litbufdup(yyscanner);
+					return BCONST;
+				}
+	YY_BREAK
+case 11:
+/* rule 11 can match eol */
+#line 273 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 12:
+/* rule 12 can match eol */
+YY_RULE_SETUP
+#line 273 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlit(yytext, yyleng, yyscanner);
+				}
+	YY_BREAK
+case 13:
+/* rule 13 can match eol */
+#line 277 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 14:
+/* rule 14 can match eol */
+YY_RULE_SETUP
+#line 277 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* ignore */
+				}
+	YY_BREAK
+case YY_STATE_EOF(xb):
+#line 280 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("unterminated bit string literal"); }
+	YY_BREAK
+case 15:
+YY_RULE_SETUP
+#line 282 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* Hexadecimal bit type.
+					 * At some point we should simply pass the string
+					 * forward to the parser and label it there.
+					 * In the meantime, place a leading "x" on the string
+					 * to mark it for the input routine as a hex string.
+					 */
+					SET_YYLLOC();
+					BEGIN(xh);
+					startlit();
+					addlitchar('x', yyscanner);
+				}
+	YY_BREAK
+case 16:
+/* rule 16 can match eol */
+#line 295 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 17:
+/* rule 17 can match eol */
+YY_RULE_SETUP
+#line 295 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					yyless(1);
+					BEGIN(INITIAL);
+					yylval->str_ = litbufdup(yyscanner);
+					return XCONST;
+				}
+	YY_BREAK
+case YY_STATE_EOF(xh):
+#line 301 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("unterminated hexadecimal string literal"); }
+	YY_BREAK
+case 18:
+YY_RULE_SETUP
+#line 303 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* National character.
+					 * We will pass this along as a normal character string,
+					 * but preceded with an internally-generated "NCHAR".
+					 */
+					Transformer::KeyWords::ScanKeyWord keyword;
+
+					SET_YYLLOC();
+					yyless(1);	/* eat only 'n' this time */
+
+					keyword = KeyWord::KeyWordLookup("nchar",
+												const_cast<Transformer::KeyWords::scan_keyword_t*>(yyextra->keywords_),
+												yyextra->keywords_num_);
+					if (keyword != NULL)
+					{
+						yylval->keyword_ = keyword->key_name_;
+						return keyword->value_;
+					}
+					else
+					{
+						/* If NCHAR isn't a keyword, just return "n" */
+						yylval->str_ = strdup("n");
+						return IDENT;
+					}
+				}
+	YY_BREAK
+case 19:
+YY_RULE_SETUP
+#line 329 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					yyextra->warn_on_first_escape_ = true;
+					yyextra->saw_non_ascii_ = false;
+					SET_YYLLOC();
+					if (yyextra->standard_conforming_strings_)
+						BEGIN(xq);
+					else
+						BEGIN(xe);
+					startlit();
+				}
+	YY_BREAK
+case 20:
+YY_RULE_SETUP
+#line 339 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					yyextra->warn_on_first_escape_ = false;
+					yyextra->saw_non_ascii_ = false;
+					SET_YYLLOC();
+					BEGIN(xe);
+					startlit();
+				}
+	YY_BREAK
+case 21:
+YY_RULE_SETUP
+#line 346 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					if (!yyextra->standard_conforming_strings_)
+						//ereport(ERROR,
+						//		(errcode(ERRCODE_FEATURE_NOT_SUPPORTED),
+						//		 errmsg("unsafe use of string constant with Unicode escapes"),
+						//		 errdetail("String constants with Unicode escapes cannot be used when standard_conforming_strings is off."),
+						//		 lexer_errposition()));
+					BEGIN(xus);
+					startlit();
+				}
+	YY_BREAK
+case 22:
+/* rule 22 can match eol */
+#line 358 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 23:
+/* rule 23 can match eol */
+YY_RULE_SETUP
+#line 358 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					yyless(1);
+					BEGIN(INITIAL);
+					/*
+					 * check that the data remains valid if it might have been
+					 * made invalid by unescaping any chars.
+					 */
+					/*
+					if (yyextra->saw_non_ascii_)
+						verifymbstr(yyextra->literalbuf_,
+									   yyextra->literallen_,
+									   false);
+					*/
+					yylval->str_ = litbufdup(yyscanner);
+					return SCONST;
+				}
+	YY_BREAK
+case 24:
+/* rule 24 can match eol */
+#line 375 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 25:
+/* rule 25 can match eol */
+YY_RULE_SETUP
+#line 375 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* throw back all but the quote */
+					yyless(1);
+					/* xusend state looks for possible UESCAPE */
+					BEGIN(xusend);
+				}
+	YY_BREAK
+case 26:
+/* rule 26 can match eol */
+YY_RULE_SETUP
+#line 381 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* stay in xusend state over whitespace */
+				}
+	YY_BREAK
+case YY_STATE_EOF(xusend):
+#line 384 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 27:
+/* rule 27 can match eol */
+#line 386 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 28:
+/* rule 28 can match eol */
+YY_RULE_SETUP
+#line 386 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* no UESCAPE after the quote, throw back everything */
+					yyless(0);
+					BEGIN(INITIAL);
+					yylval->str_ = litbuf_udeescape('\\', yyscanner);
+					return SCONST;
+				}
+	YY_BREAK
+case 29:
+/* rule 29 can match eol */
+YY_RULE_SETUP
+#line 393 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* found UESCAPE after the end quote */
+					BEGIN(INITIAL);
+					if (!check_uescapechar(yytext[yyleng - 2]))
+					{
+						SET_YYLLOC();
+						ADVANCE_YYLLOC(yyleng - 2);
+						yyerror("invalid Unicode escape character");
+					}
+					yylval->str_ = litbuf_udeescape(yytext[yyleng - 2],
+												   yyscanner);
+					return SCONST;
+				}
+	YY_BREAK
+case 30:
+YY_RULE_SETUP
+#line 406 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlitchar('\'', yyscanner);
+				}
+	YY_BREAK
+case 31:
+/* rule 31 can match eol */
+YY_RULE_SETUP
+#line 409 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlit(yytext, yyleng, yyscanner);
+				}
+	YY_BREAK
+case 32:
+/* rule 32 can match eol */
+YY_RULE_SETUP
+#line 412 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlit(yytext, yyleng, yyscanner);
+				}
+	YY_BREAK
+case 33:
+YY_RULE_SETUP
+#line 415 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					unsigned int c = strtoul(yytext + 2, NULL, 16);
+
+					check_escape_warning(yyscanner);
+
+					if (is_utf16_surrogate_first(c))
+					{
+						yyextra->utf16_first_part_ = c;
+						BEGIN(xeu);
+					}
+					else if (is_utf16_surrogate_second(c))
+						yyerror("invalid Unicode surrogate pair");
+					else
+						addunicode(c, yyscanner);
+				}
+	YY_BREAK
+case 34:
+YY_RULE_SETUP
+#line 430 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					unsigned int	c = strtoul(yytext + 2, NULL, 16);
+
+					if (!is_utf16_surrogate_second(c))
+						yyerror("invalid Unicode surrogate pair");
+
+					c = surrogate_pair_to_codepoint(yyextra->utf16_first_part_, c);
+
+					addunicode(c, yyscanner);
+
+					BEGIN(xe);
+				}
+	YY_BREAK
+case 35:
+YY_RULE_SETUP
+#line 442 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("invalid Unicode surrogate pair"); }
+	YY_BREAK
+case 36:
+/* rule 36 can match eol */
+YY_RULE_SETUP
+#line 443 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("invalid Unicode surrogate pair"); }
+	YY_BREAK
+case YY_STATE_EOF(xeu):
+#line 444 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("invalid Unicode surrogate pair"); }
+	YY_BREAK
+case 37:
+YY_RULE_SETUP
+#line 445 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					//ereport(ERROR,
+					//		(errcode(ERRCODE_INVALID_ESCAPE_SEQUENCE),
+					//		 errmsg("invalid Unicode escape"),
+					//		 errhint("Unicode escapes must be \\uXXXX or \\UXXXXXXXX."),
+					//		 lexer_errposition()));
+				}
+	YY_BREAK
+case 38:
+/* rule 38 can match eol */
+YY_RULE_SETUP
+#line 452 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					if (yytext[1] == '\'')
+					{
+						if (yyextra->backslash_quote_ == BACKSLASH_QUOTE_OFF ||
+							(yyextra->backslash_quote_ == BACKSLASH_QUOTE_SAFE_ENCODING 
+							 )) 
+								printf ("error...\n");
+							//ereport(ERROR,
+							//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
+							//		 errmsg("unsafe use of \\' in a string literal"),
+							//		 errhint("Use '' to write quotes in strings. \\' is insecure in client-only encodings."),
+							//		 lexer_errposition()));
+					}
+					check_string_escape_warning(yytext[1], yyscanner);
+					addlitchar(unescape_single_char(yytext[1], yyscanner),
+							   yyscanner);
+				}
+	YY_BREAK
+case 39:
+YY_RULE_SETUP
+#line 469 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					unsigned char c = strtoul(yytext + 1, NULL, 8);
+
+					check_escape_warning(yyscanner);
+					addlitchar(c, yyscanner);
+					if (c == '\0' || IS_HIGHBIT_SET(c))
+						yyextra->saw_non_ascii_ = true;
+				}
+	YY_BREAK
+case 40:
+YY_RULE_SETUP
+#line 477 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					unsigned char c = strtoul(yytext + 2, NULL, 16);
+
+					check_escape_warning(yyscanner);
+					addlitchar(c, yyscanner);
+					if (c == '\0' || IS_HIGHBIT_SET(c))
+						yyextra->saw_non_ascii_ = true;
+				}
+	YY_BREAK
+case 41:
+/* rule 41 can match eol */
+YY_RULE_SETUP
+#line 485 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* ignore */
+				}
+	YY_BREAK
+case 42:
+YY_RULE_SETUP
+#line 488 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* This is only needed for \ just before EOF */
+					addlitchar(yytext[0], yyscanner);
+				}
+	YY_BREAK
+case YY_STATE_EOF(xq):
+case YY_STATE_EOF(xe):
+case YY_STATE_EOF(xus):
+#line 492 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("unterminated quoted string"); }
+	YY_BREAK
+case 43:
+YY_RULE_SETUP
+#line 494 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					yyextra->dolqstart_ = strdup(yytext);
+					BEGIN(xdolq);
+					startlit();
+				}
+	YY_BREAK
+case 44:
+YY_RULE_SETUP
+#line 500 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					/* throw back all but the initial "$" */
+					yyless(1);
+					/* and treat it as {other} */
+					return yytext[0];
+				}
+	YY_BREAK
+case 45:
+YY_RULE_SETUP
+#line 507 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					if (strcmp(yytext, yyextra->dolqstart_) == 0)
+					{
+						free(yyextra->dolqstart_);
+						yyextra->dolqstart_ = NULL;
+						BEGIN(INITIAL);
+						yylval->str_ = litbufdup(yyscanner);
+						return SCONST;
+					}
+					else
+					{
+						/*
+						 * When we fail to match $...$ to dolqstart, transfer
+						 * the $... part to the output, but put back the final
+						 * $ for rescanning.  Consider $delim$...$junk$delim$
+						 */
+						addlit(yytext, yyleng - 1, yyscanner);
+						yyless(yyleng - 1);
+					}
+				}
+	YY_BREAK
+case 46:
+/* rule 46 can match eol */
+YY_RULE_SETUP
+#line 527 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlit(yytext, yyleng, yyscanner);
+				}
+	YY_BREAK
+case 47:
+YY_RULE_SETUP
+#line 530 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlit(yytext, yyleng, yyscanner);
+				}
+	YY_BREAK
+case 48:
+YY_RULE_SETUP
+#line 533 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* This is only needed for $ inside the quoted text */
+					addlitchar(yytext[0], yyscanner);
+				}
+	YY_BREAK
+case YY_STATE_EOF(xdolq):
+#line 537 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("unterminated dollar-quoted string"); }
+	YY_BREAK
+case 49:
+YY_RULE_SETUP
+#line 539 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					BEGIN(xd);
+					startlit();
+				}
+	YY_BREAK
+case 50:
+YY_RULE_SETUP
+#line 544 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					BEGIN(xui);
+					startlit();
+				}
+	YY_BREAK
+case 51:
+YY_RULE_SETUP
+#line 549 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					char	   *ident;
+
+					BEGIN(INITIAL);
+					if (yyextra->literallen_ == 0)
+						yyerror("zero-length delimited identifier");
+					ident = litbufdup(yyscanner);
+					if (yyextra->literallen_ >= NAMEDATALEN)
+						truncate_identifier(ident, yyextra->literallen_, true);
+					yylval->str_ = ident;
+					return IDENT;
+				}
+	YY_BREAK
+case 52:
+YY_RULE_SETUP
+#line 561 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					yyless(1);
+					/* xuiend state looks for possible UESCAPE */
+					BEGIN(xuiend);
+				}
+	YY_BREAK
+case 53:
+/* rule 53 can match eol */
+YY_RULE_SETUP
+#line 566 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* stay in xuiend state over whitespace */
+				}
+	YY_BREAK
+case YY_STATE_EOF(xuiend):
+#line 569 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 54:
+/* rule 54 can match eol */
+#line 571 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+case 55:
+/* rule 55 can match eol */
+YY_RULE_SETUP
+#line 571 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* no UESCAPE after the quote, throw back everything */
+					char	   *ident;
+					int			identlen;
+
+					yyless(0);
+
+					BEGIN(INITIAL);
+					if (yyextra->literallen_ == 0)
+						yyerror("zero-length delimited identifier");
+					ident = litbuf_udeescape('\\', yyscanner);
+					identlen = strlen(ident);
+					if (identlen >= NAMEDATALEN)
+						truncate_identifier(ident, identlen, true);
+					yylval->str_ = ident;
+					return IDENT;
+				}
+	YY_BREAK
+case 56:
+/* rule 56 can match eol */
+YY_RULE_SETUP
+#line 588 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* found UESCAPE after the end quote */
+					char	   *ident;
+					int			identlen;
+
+					BEGIN(INITIAL);
+					if (yyextra->literallen_ == 0)
+						yyerror("zero-length delimited identifier");
+					if (!check_uescapechar(yytext[yyleng - 2]))
+					{
+						SET_YYLLOC();
+						ADVANCE_YYLLOC(yyleng - 2);
+						yyerror("invalid Unicode escape character");
+					}
+					ident = litbuf_udeescape(yytext[yyleng - 2], yyscanner);
+					identlen = strlen(ident);
+					if (identlen >= NAMEDATALEN)
+						truncate_identifier(ident, identlen, true);
+					yylval->str_ = ident;
+					return IDENT;
+				}
+	YY_BREAK
+case 57:
+YY_RULE_SETUP
+#line 609 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlitchar('"', yyscanner);
+				}
+	YY_BREAK
+case 58:
+/* rule 58 can match eol */
+YY_RULE_SETUP
+#line 612 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					addlit(yytext, yyleng, yyscanner);
+				}
+	YY_BREAK
+case YY_STATE_EOF(xd):
+case YY_STATE_EOF(xui):
+#line 615 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{ yyerror("unterminated quoted identifier"); }
+	YY_BREAK
+case 59:
+YY_RULE_SETUP
+#line 617 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					char	   *ident;
+
+					SET_YYLLOC();
+					/* throw back all but the initial u/U */
+					yyless(1);
+					/* and treat it as {identifier} */
+					ident = downcase_truncate_identifier(yytext, yyleng, true);
+					yylval->str_ = ident;
+					return IDENT;
+				}
+	YY_BREAK
+case 60:
+YY_RULE_SETUP
+#line 629 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return TYPECAST;
+				}
+	YY_BREAK
+case 61:
+YY_RULE_SETUP
+#line 634 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return DOT_DOT;
+				}
+	YY_BREAK
+case 62:
+YY_RULE_SETUP
+#line 639 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return COLON_EQUALS;
+				}
+	YY_BREAK
+case 63:
+YY_RULE_SETUP
+#line 644 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return EQUALS_GREATER;
+				}
+	YY_BREAK
+case 64:
+YY_RULE_SETUP
+#line 649 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return LESS_EQUALS;
+				}
+	YY_BREAK
+case 65:
+YY_RULE_SETUP
+#line 654 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return GREATER_EQUALS;
+				}
+	YY_BREAK
+case 66:
+YY_RULE_SETUP
+#line 659 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* We accept both "<>" and "!=" as meaning NOT_EQUALS */
+					SET_YYLLOC();
+					return NOT_EQUALS;
+				}
+	YY_BREAK
+case 67:
+YY_RULE_SETUP
+#line 665 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* We accept both "<>" and "!=" as meaning NOT_EQUALS */
+					SET_YYLLOC();
+					return NOT_EQUALS;
+				}
+	YY_BREAK
+case 68:
+YY_RULE_SETUP
+#line 671 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return yytext[0];
+				}
+	YY_BREAK
+case 69:
+YY_RULE_SETUP
+#line 676 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/*
+					 * Check for embedded slash-star or dash-dash; those
+					 * are comment starts, so operator must stop there.
+					 * Note that slash-star or dash-dash at the first
+					 * character will match a prior rule, not this one.
+					 */
+					int			nchars = yyleng;
+					char	   *slashstar = strstr(yytext, "/*");
+					char	   *dashdash = strstr(yytext, "--");
+
+					if (slashstar && dashdash)
+					{
+						/* if both appear, take the first one */
+						if (slashstar > dashdash)
+							slashstar = dashdash;
+					}
+					else if (!slashstar)
+						slashstar = dashdash;
+					if (slashstar)
+						nchars = slashstar - yytext;
+
+					/*
+					 * For SQL compatibility, '+' and '-' cannot be the
+					 * last char of a multi-char operator unless the operator
+					 * contains chars that are not in SQL operators.
+					 * The idea is to lex '=-' as two operators, but not
+					 * to forbid operator names like '?-' that could not be
+					 * sequences of SQL operators.
+					 */
+					while (nchars > 1 &&
+						   (yytext[nchars - 1] == '+' ||
+							yytext[nchars - 1] == '-'))
+					{
+						int			ic;
+
+						for (ic = nchars - 2; ic >= 0; ic--)
+						{
+							if (strchr("~!@#^&|`?%", yytext[ic]))
+								break;
+						}
+						if (ic >= 0)
+							break; /* found a char that makes it OK */
+						nchars--; /* else remove the +/-, and check again */
+					}
+
+					SET_YYLLOC();
+
+					if (nchars < yyleng)
+					{
+						/* Strip the unwanted chars from the token */
+						yyless(nchars);
+						/*
+						 * If what we have left is only one char, and it's
+						 * one of the characters matching "self", then
+						 * return it as a character token the same way
+						 * that the "self" rule would have.
+						 */
+						if (nchars == 1 &&
+							strchr(",()[].;:+-*/%^<>=", yytext[0]))
+							return yytext[0];
+					}
+
+					/*
+					 * Complain if operator is too long.  Unlike the case
+					 * for identifiers, we make this an error not a notice-
+					 * and-truncate, because the odds are we are looking at
+					 * a syntactic mistake anyway.
+					 */
+					if (nchars >= NAMEDATALEN)
+						yyerror("operator too long");
+
+					yylval->str_ = strdup(yytext);
+					return Op;
+				}
+	YY_BREAK
+case 70:
+YY_RULE_SETUP
+#line 752 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					yylval->ival_ = atol(yytext + 1);
+					return PARAM;
+				}
+	YY_BREAK
+case 71:
+YY_RULE_SETUP
+#line 758 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return process_integer_literal(yytext, yylval);
+				}
+	YY_BREAK
+case 72:
+YY_RULE_SETUP
+#line 762 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					yylval->str_ = strdup(yytext);
+					return FCONST;
+				}
+	YY_BREAK
+case 73:
+YY_RULE_SETUP
+#line 767 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* throw back the .., and treat as integer */
+					yyless(yyleng - 2);
+					SET_YYLLOC();
+					return process_integer_literal(yytext, yylval);
+				}
+	YY_BREAK
+case 74:
+YY_RULE_SETUP
+#line 773 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					yylval->str_ = strdup(yytext);
+					return FCONST;
+				}
+	YY_BREAK
+case 75:
+YY_RULE_SETUP
+#line 778 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/*
+					 * throw back the [Ee], and treat as {decimal}.  Note
+					 * that it is possible the input is actually {integer},
+					 * but since this case will almost certainly lead to a
+					 * syntax error anyway, we don't bother to distinguish.
+					 */
+					yyless(yyleng - 1);
+					SET_YYLLOC();
+					yylval->str_ = strdup(yytext);
+					return FCONST;
+				}
+	YY_BREAK
+case 76:
+YY_RULE_SETUP
+#line 790 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					/* throw back the [Ee][+-], and proceed as above */
+					yyless(yyleng - 2);
+					SET_YYLLOC();
+					yylval->str_ = strdup(yytext);
+					return FCONST;
+				}
+	YY_BREAK
+case 77:
+YY_RULE_SETUP
+#line 799 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					Transformer::KeyWords::ScanKeyWord keyword;
+					char	   *ident;
+
+					SET_YYLLOC();
+
+					/* Is it a keyword? */
+					keyword = KeyWord::KeyWordLookup(yytext,
+												const_cast<Transformer::KeyWords::scan_keyword_t*>(yyextra->keywords_),
+												yyextra->keywords_num_);
+					if (keyword != NULL)
+					{
+						yylval->keyword_ = keyword->key_name_;
+						return keyword->value_;
+					}
+
+					/*
+					 * No.  Convert the identifier to lower case, and truncate
+					 * if necessary.
+					 */
+					ident = downcase_truncate_identifier(yytext, yyleng, true);
+					yylval->str_ = ident;
+					return IDENT;
+				}
+	YY_BREAK
+case 78:
+YY_RULE_SETUP
+#line 824 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					return yytext[0];
+				}
+	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-	yyterminate();
+#line 829 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+{
+					SET_YYLLOC();
+					yyterminate();
+				}
+	YY_BREAK
+case 79:
+YY_RULE_SETUP
+#line 834 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+YY_FATAL_ERROR( "flex scanner jammed" );
+	YY_BREAK
+#line 2185 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1092,7 +2473,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 11 )
+			if ( yy_current_state >= 290 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1121,51 +2502,13 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 11 )
+		if ( yy_current_state >= 290 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 10);
+	yy_is_jam = (yy_current_state == 289);
 
 	return yy_is_jam ? 0 : yy_current_state;
-}
-
-    static void yyunput (int c, register char * yy_bp , yyscan_t yyscanner)
-{
-	register char *yy_cp;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-
-    yy_cp = yyg->yy_c_buf_p;
-
-	/* undo effects of setting up yytext */
-	*yy_cp = yyg->yy_hold_char;
-
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		register int number_to_move = yyg->yy_n_chars + 2;
-		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		register char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
-
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
-
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
-
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
-
-	*--yy_cp = (char) c;
-
-	yyg->yytext_ptr = yy_bp;
-	yyg->yy_hold_char = *yy_cp;
-	yyg->yy_c_buf_p = yy_cp;
 }
 
 #ifndef YY_NO_INPUT
@@ -1953,39 +3296,476 @@ static int yy_flex_strlen (yyconst char * s , yyscan_t yyscanner)
 }
 #endif
 
-void *Trans_yyalloc (yy_size_t  size , yyscan_t yyscanner)
-{
-	return (void *) malloc( size );
-}
-
-void *Trans_yyrealloc  (void * ptr, yy_size_t  size , yyscan_t yyscanner)
-{
-	/* The cast to (char *) in the following accommodates both
-	 * implementations that use char* generic pointers, and those
-	 * that use void* generic pointers.  It works with the latter
-	 * because both ANSI C and C++ allow castless assignment from
-	 * any pointer type to void*, and deal with argument conversions
-	 * as though doing an assignment.
-	 */
-	return (void *) realloc( (char *) ptr, size );
-}
-
-void Trans_yyfree (void * ptr , yyscan_t yyscanner)
-{
-	free( (char *) ptr );	/* see Trans_yyrealloc() for (char *) cast */
-}
-
 #define YYTABLES_NAME "yytables"
 
-#line 47 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 834 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
 
 
-Trans_yyscan_t  init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const ScanKeyWord* keywords, int num_kw)
+#undef yyextra
+#define yyextra  (((struct yyguts_t *) yyscanner)->yyextra_r)
+
+/* Likewise for a couple of other things we need. */
+#undef yylloc
+#define yylloc	(((struct yyguts_t *) yyscanner)->yylloc_r)
+#undef yyleng
+#define yyleng	(((struct yyguts_t *) yyscanner)->yyleng_r)
+
+void
+Trans_yyerror(const char *message, Trans_yyscan_t yyscanner)
 {
-	Trans_yyscan_t retVal(NULL); 
-	printf ("in init_scanner functions...\n") ;
-	return retVal;
+    const char *loc = yyextra->scanbuffer_ + *yylloc;
+
+    if (*loc == YY_END_OF_BUFFER_CHAR)
+    {
+        //ereport(ERROR,
+        //        (errcode(ERRCODE_SYNTAX_ERROR),
+        /* translator: %s is typically the translation of "syntax error" */
+        //         errmsg("%s at end of input", _(message)),
+        //         lexer_errposition()));
+    }
+    else
+    {
+        //ereport(ERROR,
+        //        (errcode(ERRCODE_SYNTAX_ERROR),
+        /* translator: first %s is typically the translation of "syntax error" */
+        //         errmsg("%s at or near \"%s\"", _(message), loc),
+        //         lexer_errposition()));
+    }
+}
+
+int
+Trans_scanner_errposition(int location, Trans_yyscan_t yyscanner)
+{
+    int         pos;
+
+    if (location < 0)
+        return 0;               /* no-op if location is unknown */
+
+    /* Convert byte offset to character number */
+    pos = strlen(yyextra->scanbuffer_) + 1;
+    /* And pass it to the ereport mechanism */
+    return (pos);
+}
+
+Trans_yyscan_t  
+init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const ScanKeyWord keywords, int num_kw)
+{
+	size_t		slen = strlen(parseStr);
+	yyscan_t	scanner;
+
+	if (Trans_yylex_init(&scanner) != 0)
+		printf("error...\n");//elog(ERROR, "Trans_yylex_init() failed: %m");
+
+	Trans_yyset_extra(yyext, scanner);
+
+	yyext->keywords_ = KeyWord::getScanKeyWord();
+	yyext->keywords_num_ = KeyWord::getKeyWordsNumber() ;
+
+	yyext->backslash_quote_ = backslash_quote;
+	yyext->escape_string_warning_ = escape_string_warning;
+	yyext->standard_conforming_strings_ = standard_conforming_strings;
+
+	/*
+	 * Make a scan buffer with special termination needed by flex.
+	 */
+	yyext->scanbuffer_ = (char *) malloc(slen + 2);
+	yyext->scanbuffer_len_ = slen;
+	memcpy(yyext->scanbuffer_, parseStr, slen);
+	yyext->scanbuffer_[slen] = yyext->scanbuffer_[slen + 1] = YY_END_OF_BUFFER_CHAR;
+	Trans_yy_scan_buffer(yyext->scanbuffer_,slen + 2,scanner);
+
+	/* initialize literal buffer to a reasonable but expansible size */
+	yyext->literalalloc_ = 1024;
+	yyext->literalbuffer_ = (char *) malloc(yyext->literalalloc_);
+	yyext->literallen_ = 0;
+
+	return scanner;
+}
+
+void
+finish_scanner(Trans_yyscan_t yyscanner)
+{
+	if (yyextra->scanbuffer_len_ >= 8192)
+		free(yyextra->scanbuffer_);
+	if (yyextra->literalalloc_ >= 8192)
+		free(yyextra->literalbuffer_);
+	return ;
+}
+void 
+Trans_yyfree(void* ptr, Trans_yyscan_t yyscanner)
+{//here, we will use memory contxt to replace this.
+	if (ptr)
+		free(ptr) ;
+}
+void*
+Trans_yyalloc(yy_size_t bytes, Trans_yyscan_t scanner)
+{
+	return malloc (bytes) ;
+}
+void*
+Trans_yyrealloc(void* addr, yy_size_t bytes, Trans_yyscan_t scanner)
+{
+	if(addr)
+		return realloc(addr, bytes) ;
+	else
+    	return malloc (bytes) ;
+}
+static void
+check_escape_warning(Trans_yyscan_t yyscanner)
+{
+	if (yyextra->warn_on_first_escape_ && yyextra->escape_string_warning_)
+		printf ("error.\n") ;
+		//ereport(WARNING,
+		//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
+		//		 errmsg("nonstandard use of escape in a string literal"),
+		//errhint("Use the escape string syntax for escapes, e.g., E'\\r\\n'."),
+		//		 lexer_errposition()));
+	yyextra->warn_on_first_escape_ = false;		/* warn only once per string */
+}
+static void
+check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yyscanner)
+{
+	if (ychar == '\'')
+	{
+		if (yyextra->warn_on_first_escape_ && yyextra->escape_string_warning_)
+			printf ("error.\n");
+			//ereport(WARNING,
+			//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
+			//		 errmsg("nonstandard use of \\' in a string literal"),
+			//		 errhint("Use '' to write quotes in strings, or use the escape string syntax (E'...')."),
+			//		 lexer_errposition()));
+		yyextra->warn_on_first_escape_ = false;	/* warn only once per string */
+	}
+	else if (ychar == '\\')
+	{
+		if (yyextra->warn_on_first_escape_ && yyextra->escape_string_warning_)
+			printf ("error.\n");
+			//ereport(WARNING,
+			//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
+			//		 errmsg("nonstandard use of \\\\ in a string literal"),
+			//		 errhint("Use the escape string syntax for backslashes, e.g., E'\\\\'."),
+			//		 lexer_errposition()));
+		yyextra->warn_on_first_escape_ = false;	/* warn only once per string */
+	}
+	else
+		check_escape_warning(yyscanner);
+}
+
+static void
+addlit(char *ytext, int yleng, Trans_yyscan_t yyscanner)
+{
+	/* enlarge buffer if needed */
+	if ((yyextra->literallen_ + yleng) >= yyextra->literalalloc_)
+	{
+		do
+		{
+			yyextra->literalalloc_ *= 2;
+		} while ((yyextra->literallen_ + yleng) >= yyextra->literalalloc_);
+		yyextra->literalbuffer_ = (char *) realloc(yyextra->literalbuffer_,
+												yyextra->literalalloc_);
+	}
+	/* append new data */
+	memcpy(yyextra->literalbuffer_ + yyextra->literallen_, ytext, yleng);
+	yyextra->literallen_ += yleng;
+}
+
+
+static void
+addlitchar(unsigned char ychar, Trans_yyscan_t yyscanner)
+{
+	/* enlarge buffer if needed */
+	if ((yyextra->literallen_ + 1) >= yyextra->literalalloc_)
+	{
+		yyextra->literalalloc_ *= 2;
+		yyextra->literalbuffer_ = (char *) realloc(yyextra->literalbuffer_,
+												yyextra->literalalloc_);
+	}
+	/* append new data */
+	yyextra->literalbuffer_[yyextra->literallen_] = ychar;
+	yyextra->literallen_ += 1;
+}
+
+static char *
+litbufdup(Trans_yyscan_t yyscanner)
+{
+	int			llen = yyextra->literallen_;
+
+	char* new_addr = (char*) malloc(llen + 1);
+	memcpy(new_addr, yyextra->literalbuffer_, llen);
+	new_addr[llen] = '\0';
+	return new_addr;
+}
+
+static int
+process_integer_literal(const char *token, YYSTYPE *lval)
+{
+	long		val;
+	char	   *endptr;
+
+	errno = 0;
+	val = strtol(token, &endptr, 10);
+	if (*endptr != '\0' || errno == ERANGE
+#ifdef HAVE_LONG_INT_64
+	/* if long > 32 bits, check for overflow of int4 */
+		|| val != (long) ((int32) val)
+#endif
+		)
+	{
+		/* integer too large, treat it as a float */
+		lval->str_ = strdup(token);
+		return FCONST;
+	}
+	lval->ival_ = val;
+	return ICONST;
+}
+
+static unsigned int
+hexval(unsigned char c)
+{
+	if (c >= '0' && c <= '9')
+		return c - '0';
+	if (c >= 'a' && c <= 'f')
+		return c - 'a' + 0xA;
+	if (c >= 'A' && c <= 'F')
+		return c - 'A' + 0xA;
+	//elog(ERROR, "invalid hexadecimal digit");
+	return 0;					/* not reached */
+}
+
+static void
+check_unicode_value(unsigned int c, char *loc, Trans_yyscan_t yyscanner)
+{
+	//if (GetDatabaseEncoding() == PG_UTF8)
+	//	return;
+
+	if (c > 0x7F)
+	{
+		//ADVANCE_YYLLOC(loc - yyextra->literalbuf + 3);	/* 3 for U&" */
+		//yyerror("Unicode escape values cannot be used for code point values above 007F when the server encoding is not UTF8");
+	}
+}
+
+static bool
+is_utf16_surrogate_first(unsigned int c)
+{
+	return (c >= 0xD800 && c <= 0xDBFF);
+}
+
+static bool
+is_utf16_surrogate_second(unsigned int c)
+{
+	return (c >= 0xDC00 && c <= 0xDFFF);
+}
+
+static unsigned int
+surrogate_pair_to_codepoint(unsigned int first, unsigned int second)
+{
+	return ((first & 0x3FF) << 10) + 0x10000 + (second & 0x3FF);
+}
+
+static void
+addunicode(unsigned int c, Trans_yyscan_t yyscanner)
+{
+	char		buf[8];
+
+	if (c == 0 || c > 0x10FFFF)
+		yyerror("invalid Unicode escape value");
+	if (c > 0x7F)
+	{
+		//if (GetDatabaseEncoding() != PG_UTF8)
+		//	yyerror("Unicode escape values cannot be used for code point values above 007F when the server encoding is not UTF8");
+		yyextra->saw_non_ascii_ = true;
+	}
+	//unicode_to_utf8(c, (unsigned char *) buf);
+	addlit(buf, strlen(buf), yyscanner);
+}
+
+static char *
+litbuf_udeescape(unsigned char escape, Trans_yyscan_t yyscanner)
+{
+	char	   * new_addr;
+	char	   *litbuf,
+			   *in,
+			   *out;
+	unsigned int	pair_first = 0;
+
+	/* Make literalbuf null-terminated to simplify the scanning loop */
+	litbuf = yyextra->literalbuffer_;
+	litbuf[yyextra->literallen_] = '\0';
+
+	/*
+	 * This relies on the subtle assumption that a UTF-8 expansion cannot be
+	 * longer than its escaped representation.
+	 */
+	new_addr =(char*) malloc(yyextra->literallen_ + 1);
+
+	in = litbuf;
+	out = new_addr;
+	while (*in)
+	{
+		if (in[0] == escape)
+		{
+			if (in[1] == escape)
+			{
+				if (pair_first)
+				{
+					ADVANCE_YYLLOC(in - litbuf + 3);	/* 3 for U&" */
+					yyerror("invalid Unicode surrogate pair");
+				}
+				*out++ = escape;
+				in += 2;
+			}
+			else if (isxdigit((unsigned char) in[1]) &&
+					 isxdigit((unsigned char) in[2]) &&
+					 isxdigit((unsigned char) in[3]) &&
+					 isxdigit((unsigned char) in[4]))
+			{
+				unsigned int	unicode;
+
+				unicode = (hexval(in[1]) << 12) +
+					(hexval(in[2]) << 8) +
+					(hexval(in[3]) << 4) +
+					hexval(in[4]);
+				check_unicode_value(unicode, in, yyscanner);
+				if (pair_first)
+				{
+					if (is_utf16_surrogate_second(unicode))
+					{
+						unicode = surrogate_pair_to_codepoint(pair_first, unicode);
+						pair_first = 0;
+					}
+					else
+					{
+						ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
+						yyerror("invalid Unicode surrogate pair");
+					}
+				}
+				else if (is_utf16_surrogate_second(unicode))
+					yyerror("invalid Unicode surrogate pair");
+
+				if (is_utf16_surrogate_first(unicode))
+					pair_first = unicode;
+				else
+				{
+					//unicode_to_utf8(unicode, (unsigned char *) out);
+					out += strlen(out);
+				}
+				in += 5;
+			}
+			else if (in[1] == '+' &&
+					 isxdigit((unsigned char) in[2]) &&
+					 isxdigit((unsigned char) in[3]) &&
+					 isxdigit((unsigned char) in[4]) &&
+					 isxdigit((unsigned char) in[5]) &&
+					 isxdigit((unsigned char) in[6]) &&
+					 isxdigit((unsigned char) in[7]))
+			{
+				unsigned int	unicode;
+
+				unicode = (hexval(in[2]) << 20) +
+					(hexval(in[3]) << 16) +
+					(hexval(in[4]) << 12) +
+					(hexval(in[5]) << 8) +
+					(hexval(in[6]) << 4) +
+					hexval(in[7]);
+				check_unicode_value(unicode, in, yyscanner);
+				if (pair_first)
+				{
+					if (is_utf16_surrogate_second(unicode))
+					{
+						unicode = surrogate_pair_to_codepoint(pair_first, unicode);
+						pair_first = 0;
+					}
+					else
+					{
+						ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
+						yyerror("invalid Unicode surrogate pair");
+					}
+				}
+				else if (is_utf16_surrogate_second(unicode))
+					yyerror("invalid Unicode surrogate pair");
+
+				if (is_utf16_surrogate_first(unicode))
+					pair_first = unicode;
+				else
+				{
+					//unicode_to_utf8(unicode, (unsigned char *) out);
+					out += strlen(out);
+				}
+				in += 8;
+			}
+			else
+			{
+				ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
+				yyerror("invalid Unicode escape value");
+			}
+		}
+		else
+		{
+			if (pair_first)
+			{
+				ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
+				yyerror("invalid Unicode surrogate pair");
+			}
+			*out++ = *in++;
+		}
+	}
+
+	/* unfinished surrogate pair? */
+	if (pair_first)
+	{
+		ADVANCE_YYLLOC(in - litbuf + 3);				/* 3 for U&" */
+		yyerror("invalid Unicode surrogate pair");
+	}
+
+	*out = '\0';
+
+	/*
+	 * We could skip pg_verifymbstr if we didn't process any non-7-bit-ASCII
+	 * codes; but it's probably not worth the trouble, since this isn't likely
+	 * to be a performance-critical path.
+	 */
+	//pg_verifymbstr(new_addr, out - new_addr, false);
+	return new_addr;
+}
+static bool
+check_uescapechar(unsigned char escape)
+{
+	if (isxdigit(escape)
+		|| escape == '+'
+		|| escape == '\''
+		|| escape == '"'
+		|| scanner_isspace(escape))
+	{
+		return false;
+	}
+	else
+		return true;
+}
+
+static unsigned char
+unescape_single_char(unsigned char c, Trans_yyscan_t yyscanner)
+{
+	switch (c)
+	{
+		case 'b':
+			return '\b';
+		case 'f':
+			return '\f';
+		case 'n':
+			return '\n';
+		case 'r':
+			return '\r';
+		case 't':
+			return '\t';
+		default:
+			/* check for backslash followed by non-7-bit-ASCII */
+			if (c == '\0' || IS_HIGHBIT_SET(c))
+				yyextra->saw_non_ascii_ = true;
+
+			return c;
+	}
 }
 
 

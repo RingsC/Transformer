@@ -1,11 +1,12 @@
 /*********************
-*
+* A parser to generate a AST tree.
 * path:
 *	src/query/parser/parser.cpp
 */
 
-#include "parser/lex/scanner.h"
-#include "parser/parser.h"
+#include <parser/lex/scanner.h>
+#include <parser/parser.h>
+#include <parser/parserGramm.h>
 
 namespace Transformer{
 namespace ParserN{
@@ -21,20 +22,26 @@ Parser::~Parser()
 
 }
 
+int
+Parser::TransYY_yylex(YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner)
+{
+    return 0;
+}
+
 Transformer::Types::ASTNode* 
 Parser::raw_parser(const char* str)
 {
-	Trans_yyscan_t yyscanner;
-	base_yy_extra_type base_yy;	
+	Trans_yyscan_t lex_scanner;
+	TransYY_yy_extra_type bison_yy;	
 
-	yyscanner = init_scanner(str, &base_yy.trans_yy_extra_, KeyWord::getScanKeyWord(), 
+	lex_scanner = init_scanner(str, &bison_yy.trans_yy_extra_, KeyWord::getScanKeyWord(), 
 															KeyWord::getKeyWordsNumber());	
 	
-	base_yy.have_lookahead_ = false; 
+	bison_yy.have_lookahead_ = false; 
 	//do gramm parser.
 			
 
-	finish_scanner (yyscanner) ;	
+	finish_scanner (lex_scanner) ;	
 	return (Transformer::Types::ASTNode*) NULL; 
 }
 

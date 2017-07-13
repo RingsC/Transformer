@@ -1,10 +1,10 @@
 #add the directory to top
 
 #includes the sub-directory cmake files in.
-include(analyze/analyze.cmake)
-include(optimizer/optimizer.cmake)
 include(parser/parser.cmake)
+include(analyze/analyze.cmake)
 include(rewrite/rewrite.cmake)
+include(optimizer/optimizer.cmake)
 
 #lex.cmake included.
 include(${CMAKE_MODULE_PATH}/lex.cmake)
@@ -13,8 +13,10 @@ message(STATUS "The Lex file has been processed.")
 
 #bison.cmake included.
 include(${CMAKE_MODULE_PATH}/bison.cmake)
-RUN_BISON(${CMAKE_CURRENT_SOURCE_DIR}/parser/grammar.y ${CMAKE_CURRENT_SOURCE_DIR}/parser/grammar.cpp ${CMAKE_CURRENT_SOURCE_DIR}/parser/grammar.h TRANS)
-message(STATUS "The BISON file has been processed.")
+RUN_BISON(${CMAKE_CURRENT_SOURCE_DIR}/parser/grammar.y ${CMAKE_CURRENT_SOURCE_DIR}/parser/grammar.cpp ${CMAKE_CURRENT_SOURCE_DIR}/parser/grammar.h)
+message(STATUS "The BISON file has been processed. ${CMAKE_CURRENT_SOURCE_DIR}/../include/query/parser/grammar.h")
+
+
 
 #set the query files
 set(query

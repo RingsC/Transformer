@@ -1,7 +1,6 @@
 /*
 *  A new query engines for Transformer.
-*  Author :
-*  Date:
+*  path:query/parser/parser.h
 */
 
 #ifndef __PARSER_H__
@@ -10,7 +9,8 @@
 #include "types/types.h"
 #include "types/nodes.h"
 #include "system/system.h"
-
+#include <parser/lex/scanner.h>
+#include <../../src/query/parser/grammar.h>
 
 namespace Transformer{
 namespace ParserN{
@@ -20,6 +20,7 @@ public:
 	Parser () ;
 	~Parser() ;
 	virtual Transformer::Types::ASTNode* raw_parser(const char* str); 	
+	static int TransYY_yylex(YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner) ;
 } ;
 
 

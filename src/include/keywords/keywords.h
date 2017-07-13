@@ -22,9 +22,9 @@ typedef enum {
 
 struct scan_keyword_t
 {
-	const char* key_name; 
-	int16 value; 
-	KeyWordTypes catalog;
+	const char* key_name_; 
+	int16 value_; 
+	KeyWordTypes catalog_;
 } ;
 
 typedef struct scan_keyword_t* ScanKeyWord; 

@@ -25,20 +25,20 @@ typedef union Trans_YYSTYPE
 } Trans_YYSTYPE ;
 
 
-//for the core parser-scanner. 
+//for the scanner extra data. 
 typedef struct Trans_yy_extra_type {
 	char* 		scanbuffer_; 
 	size_t 		scanbuffer_len_;
 	
-	const struct ScanKeyWord_T* \
-				keywords_;
+	const struct Transformer::KeyWords::scan_keyword_t* \
+			 	keywords_;
 	int 		keywords_num_;
 	
 	int			backslash_quote_;
 	bool		escape_string_warning_;
 	bool		standard_conforming_strings_;
 
-	char *		literalbuf_;		/* palloc'd expandable buffer */
+	char *		literalbuffer_;		/* palloc'd expandable buffer */
 	int			literallen_;		/* actual current string length */
 	int			literalalloc_;	/* current allocated buffer size */	
 
@@ -54,29 +54,23 @@ typedef struct Trans_yy_extra_type {
 
 } Trans_yy_extra_type ;
 
-typedef struct base_yy_extra_type
+
+typedef enum
 {
-	Trans_yy_extra_type			trans_yy_extra_;
-	
-	bool		have_lookahead_;		 /* is lookahead info valid? */
-	int			lookahead_token_;		/* one-token lookahead */
-	Trans_YYSTYPE \
-				lookahead_yylval_;		/* yylval for lookahead token */
-	YYLTYPE		lookahead_yylloc_;		/* yylloc for lookahead token */
-	char*       lookahead_end_;			/* end of current token */
-	char		lookahead_hold_char_;	/* to be put back at *lookahead_end */ 
-
-	Transformer::Types::ASTNode*    parsetree_;				//final parse tree. 
-} base_yy_extra_type;
-
+	BACKSLASH_QUOTE_OFF,
+	BACKSLASH_QUOTE_ON,
+	BACKSLASH_QUOTE_SAFE_ENCODING
+}	BackslashQuoteType;
 
 /**************************************************************************************************************************/
 //for the scanner.
 extern Trans_yyscan_t  
 		init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const Transformer::KeyWords::ScanKeyWord keywords, int num_kw);
 extern void
-		finish_scanner(Trans_yyscan_t scanner); 		   
+		finish_scanner(Trans_yyscan_t yyscanner); 		   
 
 extern int Trans_yylex(Trans_YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner);
+extern int Trans_scanner_errposition(int location, Trans_yyscan_t yyscanner);
+extern void Trans_yyerror(const char *message, Trans_yyscan_t yyscanner);
 
 #endif //__SCANNNER_H__ 

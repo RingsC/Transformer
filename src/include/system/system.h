@@ -7,6 +7,8 @@
 #ifndef __SYSTEM_H__
 #define __SYSTEM_H__
 
+#include <assert.h>
+
 #if defined (_WIN32) || defined (__WIN32__)
 #define __UNDER_WINDOWS__
 #else
@@ -47,12 +49,10 @@
 #define ALIGN_TYPE(len,type) ((uintptr_t)((len) + ((type)-1))) &  ~((uintptr_)((type)-1))   
 #define ALIGN_TYPE_LOWER(len,type)  ((uintptr_t)(len)) & ~((uintptr_t)((type) -1)) 
 
-
-
 /**************THE ASSERTATION DEFINITIONS***************************************************/
 #define TRANS_ASSERT(cond) assert(cond)
 
-
+/**************THe typedef for types.********************************************************/
 //the typedef for types
 typedef char           uint8;
 typedef unsigned short uint16;
@@ -70,4 +70,16 @@ typedef long long      int128;
 #define NULL          ((void*) 0)
 #endif
 
+/******************************other things.**********************************************/
+#define HIGHBIT					(0x80)
+#define IS_HIGHBIT_SET(ch)		((unsigned char)(ch) & HIGHBIT)
+
+#define STATUS_OK				(0)
+#define STATUS_ERROR			(-1)
+#define STATUS_EOF				(-2)
+#define STATUS_FOUND			(1)
+#define STATUS_WAITING			(2)
+
+
+#define NAMEDATALEN 64
 #endif  //__SYSTEM_H__

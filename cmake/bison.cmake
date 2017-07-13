@@ -44,20 +44,20 @@ MACRO(COPY_BISON_OUTPUT input_cc input_h output_cc output_h)
   ENDIF()
 ENDMACRO()
 
+MACRO(COPY_BISON_HEADER input_h output_h)
+  #IF(EXISTS ${input_h} AND NOT EXISTS ${output_cc})
+    CONFIGURE_FILE(${input_h}  ${output_h})
+  #ENDIF()
+ENDMACRO()
 
 # Use bison to generate C++ and header file
-MACRO (RUN_BISON input_yy output_cc output_h name_prefix)
+MACRO (RUN_BISON input_yy output_cc output_h)
   IF(BISON_USABLE)
-    ADD_CUSTOM_COMMAND(
-      OUTPUT ${output_cc}
-             ${output_h}
-      COMMAND ${BISON_EXECUTABLE}
-       --name-prefix=${name_prefix}
-       --yacc
-       --output=${output_cc}
-       --defines=${output_h}
-        ${input_yy}
-        DEPENDS ${input_yy}
+	MESSAGE(STATUS "bison exexutable path: ${BISON_EXECUTABLE} yyfiles:${input_yy}")
+	ADD_CUSTOM_COMMAND(
+      	OUTPUT ${output_cc} ${output_h}
+      	COMMAND ${BISON_EXECUTABLE} --yacc --output=${output_cc} --defines=${output_h} ${input_yy}
+		DEPENDS ${input_yy}
 	)
   ELSE()
     # Bison is missing or not usable, e.g too old

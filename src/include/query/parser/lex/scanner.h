@@ -71,6 +71,5 @@ extern void
 
 extern int Trans_yylex(Trans_YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner);
 extern int Trans_scanner_errposition(int location, Trans_yyscan_t yyscanner);
-extern void Trans_yyerror(const char *message, Trans_yyscan_t yyscanner);
 
 #endif //__SCANNNER_H__ 

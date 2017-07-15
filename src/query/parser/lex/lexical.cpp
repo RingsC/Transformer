@@ -91,6 +91,18 @@ void Lex::lex_yyerror(const char *message, Trans_yyscan_t yyscanner, Trans_yy_ex
         //         lexer_errposition()));
     }
 }
+int 
+Lex::lex_scanner_errposition(int location, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr, YYLTYPE* lloc)
+{
+	int			pos;
+
+	if (location < 0)
+		return 0;				/* no-op if location is unknown */
+
+	return *(lloc);
+}
+
+
 
 LexHelper::LexHelper()
 {

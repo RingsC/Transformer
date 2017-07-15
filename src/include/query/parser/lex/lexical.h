@@ -35,6 +35,8 @@ public:
 	finish_scanner(Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr) ;
 
 	static void lex_yyerror(const char *message, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr, YYLTYPE* lloc);
+	static int lex_scanner_errposition(int location, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr, YYLTYPE* lloc);
+	
 } ;
 
 class TRANS_EXPORT LexHelper : public Transformer::Types::NonCopyable {
@@ -58,8 +60,6 @@ public:
 	static void check_escape_warning(Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr);
 	static void check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr);
 	static void check_unicode_value(unsigned int c, char *loc, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr) ;
-
-	
 
 } ;
 

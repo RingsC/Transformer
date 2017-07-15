@@ -26,32 +26,13 @@ using Transformer::KeyWords::KeyWord;
 #define YYSTYPE Trans_YYSTYPE
 #define SET_YYLLOC()  (*(yylloc) = yytext - yyextra->scanbuffer_)
 #define yyerror(errMsg)  Transformer::Lexical::Lex::lex_yyerror(errMsg, yyscanner, yyextra, yylloc)
-#define lexer_errposition()  Trrans_scanner_errposition(*(yylloc), yyscanner)
-#define ADVANCE_YYLLOC(delta)  ( *(yylloc) += (delta) )
-
+#define lexer_errposition()  Transformer::Lexical::Lex::lex_scanner_errposition (*(yylloc), yyscanner)
 /***********************************Global vars*********************************************************/
 int			backslash_quote = BACKSLASH_QUOTE_SAFE_ENCODING;
 bool		escape_string_warning = true;
 bool		standard_conforming_strings = true;
-
-
 #define startlit()	( yyextra->literallen_ = 0 )
 
-/********************************Start of use-defined functions***********************************************/
-static void addlit(char *ytext, int yleng, Trans_yyscan_t yyscanner);
-static void addlitchar(unsigned char ychar, Trans_yyscan_t yyscanner);
-static char *litbufdup(Trans_yyscan_t yyscanner);
-static char *litbuf_udeescape(unsigned char escape, Trans_yyscan_t yyscanner);
-static unsigned char unescape_single_char(unsigned char c, Trans_yyscan_t yyscanner);
-static int	process_integer_literal(const char *token, YYSTYPE *lval);
-static bool is_utf16_surrogate_first(unsigned int c);
-static bool is_utf16_surrogate_second(unsigned int c);
-static unsigned int surrogate_pair_to_codepoint(unsigned int first, unsigned int second);
-static void addunicode(unsigned int c, Trans_yyscan_t yyscanner);
-static bool check_uescapechar(unsigned char escape);
-static void check_escape_warning(Trans_yyscan_t yyscanner);
-static void check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yyscanner);
-/********************************End of use-defined functions***********************************************/
 %}
 
 %option reentrant
@@ -258,18 +239,18 @@ other			.
 					SET_YYLLOC();
 					BEGIN(xb);
 					startlit();
-					addlitchar('b', yyscanner);
+					Transformer::Lexical::LexHelper::addlitchar('b', yyscanner, yyextra);
 				}
 <xb>{quotestop}	|
 <xb>{quotefail} {
 					yyless(1);
 					BEGIN(INITIAL);
-					yylval->str_ = litbufdup(yyscanner);
+					yylval->str_ = Transformer::Lexical::LexHelper::litbufdup(yyscanner, yyextra);
 					return BCONST;
 				}
 <xh>{xhinside}	|
 <xb>{xbinside}	{
-					addlit(yytext, yyleng, yyscanner);
+					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 <xh>{quotecontinue}	|
 <xb>{quotecontinue}	{
@@ -287,13 +268,13 @@ other			.
 					SET_YYLLOC();
 					BEGIN(xh);
 					startlit();
-					addlitchar('x', yyscanner);
+					Transformer::Lexical::LexHelper::addlitchar('x', yyscanner, yyextra);
 				}
 <xh>{quotestop}	|
 <xh>{quotefail} {
 					yyless(1);
 					BEGIN(INITIAL);
-					yylval->str_ = litbufdup(yyscanner);
+					yylval->str_ = Transformer::Lexical::LexHelper::litbufdup(yyscanner, yyextra);
 					return XCONST;
 				}
 <xh><<EOF>>		{ yyerror("unterminated hexadecimal string literal"); }
@@ -366,7 +347,7 @@ other			.
 									   yyextra->literallen_,
 									   false);
 					*/
-					yylval->str_ = litbufdup(yyscanner);
+					yylval->str_ = Transformer::Lexical::LexHelper::litbufdup(yyscanner, yyextra);
 					return SCONST;
 				}
 <xus>{quotestop} |
@@ -385,55 +366,56 @@ other			.
 					/* no UESCAPE after the quote, throw back everything */
 					yyless(0);
 					BEGIN(INITIAL);
-					yylval->str_ = litbuf_udeescape('\\', yyscanner);
+					yylval->str_ = Transformer::Lexical::LexHelper::litbuf_udeescape('\\', yyscanner, yyextra, yylloc);
 					return SCONST;
 				}
 <xusend>{xustop2} {
 					/* found UESCAPE after the end quote */
 					BEGIN(INITIAL);
-					if (!check_uescapechar(yytext[yyleng - 2]))
+					if (!Transformer::Lexical::LexHelper::check_uescapechar(yytext[yyleng - 2], yyscanner, yyextra))
 					{
 						SET_YYLLOC();
-						ADVANCE_YYLLOC(yyleng - 2);
+						//ADVANCE_YYLLOC(yyleng - 2);
+						*(yylloc) +=(yyleng-2) ;
 						yyerror("invalid Unicode escape character");
 					}
-					yylval->str_ = litbuf_udeescape(yytext[yyleng - 2],
-												   yyscanner);
+					yylval->str_ = Transformer::Lexical::LexHelper::litbuf_udeescape(yytext[yyleng - 2],
+												   yyscanner, yyextra, yylloc);
 					return SCONST;
 				}
 <xq,xe,xus>{xqdouble} {
-					addlitchar('\'', yyscanner);
+					Transformer::Lexical::LexHelper::addlitchar('\'', yyscanner, yyextra);
 				}
 <xq,xus>{xqinside}  {
-					addlit(yytext, yyleng, yyscanner);
+					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 <xe>{xeinside}  {
-					addlit(yytext, yyleng, yyscanner);
+					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 <xe>{xeunicode} {
 					unsigned int c = strtoul(yytext + 2, NULL, 16);
 
-					check_escape_warning(yyscanner);
+					Transformer::Lexical::LexHelper::check_escape_warning(yyscanner, yyextra);
 
-					if (is_utf16_surrogate_first(c))
+					if (Transformer::Lexical::LexHelper::is_utf16_surrogate_first(c, yyscanner, yyextra))
 					{
 						yyextra->utf16_first_part_ = c;
 						BEGIN(xeu);
 					}
-					else if (is_utf16_surrogate_second(c))
+					else if (Transformer::Lexical::LexHelper::is_utf16_surrogate_second(c, yyscanner, yyextra))
 						yyerror("invalid Unicode surrogate pair");
 					else
-						addunicode(c, yyscanner);
+						Transformer::Lexical::LexHelper::addunicode(c, yyscanner, yyextra);
 				}
 <xeu>{xeunicode} {
 					unsigned int	c = strtoul(yytext + 2, NULL, 16);
 
-					if (!is_utf16_surrogate_second(c))
+					if (!Transformer::Lexical::LexHelper::is_utf16_surrogate_second(c, yyscanner, yyextra))
 						yyerror("invalid Unicode surrogate pair");
 
-					c = surrogate_pair_to_codepoint(yyextra->utf16_first_part_, c);
+					c = Transformer::Lexical::LexHelper::surrogate_pair_to_codepoint(yyextra->utf16_first_part_, c, yyscanner, yyextra);
 
-					addunicode(c, yyscanner);
+					Transformer::Lexical::LexHelper::addunicode(c, yyscanner, yyextra);
 
 					BEGIN(xe);
 				}
@@ -460,23 +442,23 @@ other			.
 							//		 errhint("Use '' to write quotes in strings. \\' is insecure in client-only encodings."),
 							//		 lexer_errposition()));
 					}
-					check_string_escape_warning(yytext[1], yyscanner);
-					addlitchar(unescape_single_char(yytext[1], yyscanner),
-							   yyscanner);
+					Transformer::Lexical::LexHelper::check_string_escape_warning(yytext[1], yyscanner, yyextra);
+					Transformer::Lexical::LexHelper::addlitchar(Transformer::Lexical::LexHelper::unescape_single_char(yytext[1], yyscanner, yyextra),
+							   yyscanner, yyextra);
 				}
 <xe>{xeoctesc}  {
 					unsigned char c = strtoul(yytext + 1, NULL, 8);
 
-					check_escape_warning(yyscanner);
-					addlitchar(c, yyscanner);
+					Transformer::Lexical::LexHelper::check_escape_warning(yyscanner, yyextra);
+					Transformer::Lexical::LexHelper::addlitchar(c, yyscanner, yyextra);
 					if (c == '\0' || IS_HIGHBIT_SET(c))
 						yyextra->saw_non_ascii_ = true;
 				}
 <xe>{xehexesc}  {
 					unsigned char c = strtoul(yytext + 2, NULL, 16);
 
-					check_escape_warning(yyscanner);
-					addlitchar(c, yyscanner);
+					Transformer::Lexical::LexHelper::check_escape_warning(yyscanner, yyextra);
+					Transformer::Lexical::LexHelper::addlitchar(c, yyscanner, yyextra);
 					if (c == '\0' || IS_HIGHBIT_SET(c))
 						yyextra->saw_non_ascii_ = true;
 				}
@@ -485,7 +467,7 @@ other			.
 				}
 <xe>.			{
 					/* This is only needed for \ just before EOF */
-					addlitchar(yytext[0], yyscanner);
+					Transformer::Lexical::LexHelper::addlitchar(yytext[0], yyscanner, yyextra);
 				}
 <xq,xe,xus><<EOF>>		{ yyerror("unterminated quoted string"); }
 
@@ -508,7 +490,7 @@ other			.
 						free(yyextra->dolqstart_);
 						yyextra->dolqstart_ = NULL;
 						BEGIN(INITIAL);
-						yylval->str_ = litbufdup(yyscanner);
+						yylval->str_ = Transformer::Lexical::LexHelper::litbufdup(yyscanner, yyextra);
 						return SCONST;
 					}
 					else
@@ -518,19 +500,19 @@ other			.
 						 * the $... part to the output, but put back the final
 						 * $ for rescanning.  Consider $delim$...$junk$delim$
 						 */
-						addlit(yytext, yyleng - 1, yyscanner);
+						Transformer::Lexical::LexHelper::addlit(yytext, yyleng - 1, yyscanner, yyextra);
 						yyless(yyleng - 1);
 					}
 				}
 <xdolq>{dolqinside} {
-					addlit(yytext, yyleng, yyscanner);
+					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 <xdolq>{dolqfailed} {
-					addlit(yytext, yyleng, yyscanner);
+					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 <xdolq>.		{
 					/* This is only needed for $ inside the quoted text */
-					addlitchar(yytext[0], yyscanner);
+					Transformer::Lexical::LexHelper::addlitchar(yytext[0], yyscanner, yyextra);
 				}
 <xdolq><<EOF>>	{ yyerror("unterminated dollar-quoted string"); }
 
@@ -550,7 +532,7 @@ other			.
 					BEGIN(INITIAL);
 					if (yyextra->literallen_ == 0)
 						yyerror("zero-length delimited identifier");
-					ident = litbufdup(yyscanner);
+					ident = Transformer::Lexical::LexHelper::litbufdup(yyscanner, yyextra);
 					if (yyextra->literallen_ >= NAMEDATALEN)
 						truncate_identifier(ident, yyextra->literallen_, true);
 					yylval->str_ = ident;
@@ -576,7 +558,7 @@ other			.
 					BEGIN(INITIAL);
 					if (yyextra->literallen_ == 0)
 						yyerror("zero-length delimited identifier");
-					ident = litbuf_udeescape('\\', yyscanner);
+					ident = Transformer::Lexical::LexHelper::litbuf_udeescape('\\', yyscanner, yyextra, yylloc);
 					identlen = strlen(ident);
 					if (identlen >= NAMEDATALEN)
 						truncate_identifier(ident, identlen, true);
@@ -591,13 +573,14 @@ other			.
 					BEGIN(INITIAL);
 					if (yyextra->literallen_ == 0)
 						yyerror("zero-length delimited identifier");
-					if (!check_uescapechar(yytext[yyleng - 2]))
+					if (!Transformer::Lexical::LexHelper::check_uescapechar(yytext[yyleng - 2], yyscanner, yyextra))
 					{
 						SET_YYLLOC();
-						ADVANCE_YYLLOC(yyleng - 2);
+						//ADVANCE_YYLLOC(yyleng - 2);
+						*(yylloc)+=(yyleng - 2);
 						yyerror("invalid Unicode escape character");
 					}
-					ident = litbuf_udeescape(yytext[yyleng - 2], yyscanner);
+					ident = Transformer::Lexical::LexHelper::litbuf_udeescape(yytext[yyleng - 2], yyscanner, yyextra, yylloc);
 					identlen = strlen(ident);
 					if (identlen >= NAMEDATALEN)
 						truncate_identifier(ident, identlen, true);
@@ -605,10 +588,10 @@ other			.
 					return IDENT;
 				}
 <xd,xui>{xddouble}	{
-					addlitchar('"', yyscanner);
+					Transformer::Lexical::LexHelper::addlitchar('"', yyscanner, yyextra);
 				}
 <xd,xui>{xdinside}	{
-					addlit(yytext, yyleng, yyscanner);
+					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 <xd,xui><<EOF>>		{ yyerror("unterminated quoted identifier"); }
 
@@ -755,7 +738,7 @@ other			.
 
 {integer}		{
 					SET_YYLLOC();
-					return process_integer_literal(yytext, yylval);
+					return Transformer::Lexical::LexHelper::process_integer_literal(yytext, yylval, yyscanner, yyextra);
 				}
 {decimal}		{
 					SET_YYLLOC();
@@ -766,7 +749,7 @@ other			.
 					/* throw back the .., and treat as integer */
 					yyless(yyleng - 2);
 					SET_YYLLOC();
-					return process_integer_literal(yytext, yylval);
+					return Transformer::Lexical::LexHelper::process_integer_literal(yytext, yylval, yyscanner, yyextra);
 				}
 {real}			{
 					SET_YYLLOC();
@@ -831,96 +814,6 @@ other			.
 
 %%
 
-#undef yyextra
-#define yyextra  (((struct yyguts_t *) yyscanner)->yyextra_r)
-
-/* Likewise for a couple of other things we need. */
-#undef yylloc
-#define yylloc	(((struct yyguts_t *) yyscanner)->yylloc_r)
-#undef yyleng
-#define yyleng	(((struct yyguts_t *) yyscanner)->yyleng_r)
-
-void
-Trans_yyerror(const char *message, Trans_yyscan_t yyscanner)
-{
-    const char *loc = yyextra->scanbuffer_ + *yylloc;
-
-    if (*loc == YY_END_OF_BUFFER_CHAR)
-    {
-        //ereport(ERROR,
-        //        (errcode(ERRCODE_SYNTAX_ERROR),
-        /* translator: %s is typically the translation of "syntax error" */
-        //         errmsg("%s at end of input", _(message)),
-        //         lexer_errposition()));
-    }
-    else
-    {
-        //ereport(ERROR,
-        //        (errcode(ERRCODE_SYNTAX_ERROR),
-        /* translator: first %s is typically the translation of "syntax error" */
-        //         errmsg("%s at or near \"%s\"", _(message), loc),
-        //         lexer_errposition()));
-    }
-}
-
-int
-Trans_scanner_errposition(int location, Trans_yyscan_t yyscanner)
-{
-    int         pos;
-
-    if (location < 0)
-        return 0;               /* no-op if location is unknown */
-
-    /* Convert byte offset to character number */
-    pos = strlen(yyextra->scanbuffer_) + 1;
-    /* And pass it to the ereport mechanism */
-    return (pos);
-}
-
-Trans_yyscan_t  
-init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const ScanKeyWord keywords, int num_kw)
-{
-	size_t		slen = strlen(parseStr);
-	yyscan_t	scanner;
-
-	if (yylex_init(&scanner) != 0)
-		printf("error...\n");//elog(ERROR, "yylex_init() failed: %m");
-
-	Trans_yyset_extra(yyext, scanner);
-
-	yyext->keywords_ = KeyWord::getScanKeyWord();
-	yyext->keywords_num_ = KeyWord::getKeyWordsNumber() ;
-
-	yyext->backslash_quote_ = backslash_quote;
-	yyext->escape_string_warning_ = escape_string_warning;
-	yyext->standard_conforming_strings_ = standard_conforming_strings;
-
-	/*
-	 * Make a scan buffer with special termination needed by flex.
-	 */
-	yyext->scanbuffer_ = (char *) malloc(slen + 2);
-	yyext->scanbuffer_len_ = slen;
-	memcpy(yyext->scanbuffer_, parseStr, slen);
-	yyext->scanbuffer_[slen] = yyext->scanbuffer_[slen + 1] = YY_END_OF_BUFFER_CHAR;
-	yy_scan_buffer(yyext->scanbuffer_, slen + 2, scanner);
-
-	/* initialize literal buffer to a reasonable but expansible size */
-	yyext->literalalloc_ = 1024;
-	yyext->literalbuffer_ = (char *) malloc(yyext->literalalloc_);
-	yyext->literallen_ = 0;
-
-	return scanner;
-}
-
-void
-finish_scanner(Trans_yyscan_t yyscanner)
-{
-	if (yyextra->scanbuffer_len_ >= 8192)
-		free(yyextra->scanbuffer_);
-	if (yyextra->literalalloc_ >= 8192)
-		free(yyextra->literalbuffer_);
-	return ;
-}
 void 
 Trans_yyfree(void* ptr, Trans_yyscan_t yyscanner)
 {//here, we will use memory contxt to replace this.
@@ -940,360 +833,3 @@ Trans_yyrealloc(void* addr, yy_size_t bytes, Trans_yyscan_t scanner)
 	else
     	return malloc (bytes) ;
 }
-static void
-check_escape_warning(Trans_yyscan_t yyscanner)
-{
-	if (yyextra->warn_on_first_escape_ && yyextra->escape_string_warning_)
-		printf ("error.\n") ;
-		//ereport(WARNING,
-		//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
-		//		 errmsg("nonstandard use of escape in a string literal"),
-		//errhint("Use the escape string syntax for escapes, e.g., E'\\r\\n'."),
-		//		 lexer_errposition()));
-	yyextra->warn_on_first_escape_ = false;		/* warn only once per string */
-}
-static void
-check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yyscanner)
-{
-	if (ychar == '\'')
-	{
-		if (yyextra->warn_on_first_escape_ && yyextra->escape_string_warning_)
-			printf ("error.\n");
-			//ereport(WARNING,
-			//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
-			//		 errmsg("nonstandard use of \\' in a string literal"),
-			//		 errhint("Use '' to write quotes in strings, or use the escape string syntax (E'...')."),
-			//		 lexer_errposition()));
-		yyextra->warn_on_first_escape_ = false;	/* warn only once per string */
-	}
-	else if (ychar == '\\')
-	{
-		if (yyextra->warn_on_first_escape_ && yyextra->escape_string_warning_)
-			printf ("error.\n");
-			//ereport(WARNING,
-			//		(errcode(ERRCODE_NONSTANDARD_USE_OF_ESCAPE_CHARACTER),
-			//		 errmsg("nonstandard use of \\\\ in a string literal"),
-			//		 errhint("Use the escape string syntax for backslashes, e.g., E'\\\\'."),
-			//		 lexer_errposition()));
-		yyextra->warn_on_first_escape_ = false;	/* warn only once per string */
-	}
-	else
-		check_escape_warning(yyscanner);
-}
-
-static void
-addlit(char *ytext, int yleng, Trans_yyscan_t yyscanner)
-{
-	/* enlarge buffer if needed */
-	if ((yyextra->literallen_ + yleng) >= yyextra->literalalloc_)
-	{
-		do
-		{
-			yyextra->literalalloc_ *= 2;
-		} while ((yyextra->literallen_ + yleng) >= yyextra->literalalloc_);
-		yyextra->literalbuffer_ = (char *) realloc(yyextra->literalbuffer_,
-												yyextra->literalalloc_);
-	}
-	/* append new data */
-	memcpy(yyextra->literalbuffer_ + yyextra->literallen_, ytext, yleng);
-	yyextra->literallen_ += yleng;
-}
-
-
-static void
-addlitchar(unsigned char ychar, Trans_yyscan_t yyscanner)
-{
-	/* enlarge buffer if needed */
-	if ((yyextra->literallen_ + 1) >= yyextra->literalalloc_)
-	{
-		yyextra->literalalloc_ *= 2;
-		yyextra->literalbuffer_ = (char *) realloc(yyextra->literalbuffer_,
-												yyextra->literalalloc_);
-	}
-	/* append new data */
-	yyextra->literalbuffer_[yyextra->literallen_] = ychar;
-	yyextra->literallen_ += 1;
-}
-
-static char *
-litbufdup(Trans_yyscan_t yyscanner)
-{
-	int			llen = yyextra->literallen_;
-
-	char* new_addr = (char*) malloc(llen + 1);
-	memcpy(new_addr, yyextra->literalbuffer_, llen);
-	new_addr[llen] = '\0';
-	return new_addr;
-}
-
-static int
-process_integer_literal(const char *token, YYSTYPE *lval)
-{
-	long		val;
-	char	   *endptr;
-
-	errno = 0;
-	val = strtol(token, &endptr, 10);
-	if (*endptr != '\0' || errno == ERANGE
-#ifdef HAVE_LONG_INT_64
-	/* if long > 32 bits, check for overflow of int4 */
-		|| val != (long) ((int32) val)
-#endif
-		)
-	{
-		/* integer too large, treat it as a float */
-		lval->str_ = strdup(token);
-		return FCONST;
-	}
-	lval->ival_ = val;
-	return ICONST;
-}
-
-static unsigned int
-hexval(unsigned char c)
-{
-	if (c >= '0' && c <= '9')
-		return c - '0';
-	if (c >= 'a' && c <= 'f')
-		return c - 'a' + 0xA;
-	if (c >= 'A' && c <= 'F')
-		return c - 'A' + 0xA;
-	//elog(ERROR, "invalid hexadecimal digit");
-	return 0;					/* not reached */
-}
-
-static void
-check_unicode_value(unsigned int c, char *loc, Trans_yyscan_t yyscanner)
-{
-	//if (GetDatabaseEncoding() == PG_UTF8)
-	//	return;
-
-	if (c > 0x7F)
-	{
-		//ADVANCE_YYLLOC(loc - yyextra->literalbuf + 3);	/* 3 for U&" */
-		//yyerror("Unicode escape values cannot be used for code point values above 007F when the server encoding is not UTF8");
-	}
-}
-
-static bool
-is_utf16_surrogate_first(unsigned int c)
-{
-	return (c >= 0xD800 && c <= 0xDBFF);
-}
-
-static bool
-is_utf16_surrogate_second(unsigned int c)
-{
-	return (c >= 0xDC00 && c <= 0xDFFF);
-}
-
-static unsigned int
-surrogate_pair_to_codepoint(unsigned int first, unsigned int second)
-{
-	return ((first & 0x3FF) << 10) + 0x10000 + (second & 0x3FF);
-}
-
-static void
-addunicode(unsigned int c, Trans_yyscan_t yyscanner)
-{
-	char		buf[8];
-
-	if (c == 0 || c > 0x10FFFF)
-		yyerror("invalid Unicode escape value");
-	if (c > 0x7F)
-	{
-		//if (GetDatabaseEncoding() != PG_UTF8)
-		//	yyerror("Unicode escape values cannot be used for code point values above 007F when the server encoding is not UTF8");
-		yyextra->saw_non_ascii_ = true;
-	}
-	//unicode_to_utf8(c, (unsigned char *) buf);
-	addlit(buf, strlen(buf), yyscanner);
-}
-
-static char *
-litbuf_udeescape(unsigned char escape, Trans_yyscan_t yyscanner)
-{
-	char	   * new_addr;
-	char	   *litbuf,
-			   *in,
-			   *out;
-	unsigned int	pair_first = 0;
-
-	/* Make literalbuf null-terminated to simplify the scanning loop */
-	litbuf = yyextra->literalbuffer_;
-	litbuf[yyextra->literallen_] = '\0';
-
-	/*
-	 * This relies on the subtle assumption that a UTF-8 expansion cannot be
-	 * longer than its escaped representation.
-	 */
-	new_addr =(char*) malloc(yyextra->literallen_ + 1);
-
-	in = litbuf;
-	out = new_addr;
-	while (*in)
-	{
-		if (in[0] == escape)
-		{
-			if (in[1] == escape)
-			{
-				if (pair_first)
-				{
-					ADVANCE_YYLLOC(in - litbuf + 3);	/* 3 for U&" */
-					yyerror("invalid Unicode surrogate pair");
-				}
-				*out++ = escape;
-				in += 2;
-			}
-			else if (isxdigit((unsigned char) in[1]) &&
-					 isxdigit((unsigned char) in[2]) &&
-					 isxdigit((unsigned char) in[3]) &&
-					 isxdigit((unsigned char) in[4]))
-			{
-				unsigned int	unicode;
-
-				unicode = (hexval(in[1]) << 12) +
-					(hexval(in[2]) << 8) +
-					(hexval(in[3]) << 4) +
-					hexval(in[4]);
-				check_unicode_value(unicode, in, yyscanner);
-				if (pair_first)
-				{
-					if (is_utf16_surrogate_second(unicode))
-					{
-						unicode = surrogate_pair_to_codepoint(pair_first, unicode);
-						pair_first = 0;
-					}
-					else
-					{
-						ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
-						yyerror("invalid Unicode surrogate pair");
-					}
-				}
-				else if (is_utf16_surrogate_second(unicode))
-					yyerror("invalid Unicode surrogate pair");
-
-				if (is_utf16_surrogate_first(unicode))
-					pair_first = unicode;
-				else
-				{
-					//unicode_to_utf8(unicode, (unsigned char *) out);
-					out += strlen(out);
-				}
-				in += 5;
-			}
-			else if (in[1] == '+' &&
-					 isxdigit((unsigned char) in[2]) &&
-					 isxdigit((unsigned char) in[3]) &&
-					 isxdigit((unsigned char) in[4]) &&
-					 isxdigit((unsigned char) in[5]) &&
-					 isxdigit((unsigned char) in[6]) &&
-					 isxdigit((unsigned char) in[7]))
-			{
-				unsigned int	unicode;
-
-				unicode = (hexval(in[2]) << 20) +
-					(hexval(in[3]) << 16) +
-					(hexval(in[4]) << 12) +
-					(hexval(in[5]) << 8) +
-					(hexval(in[6]) << 4) +
-					hexval(in[7]);
-				check_unicode_value(unicode, in, yyscanner);
-				if (pair_first)
-				{
-					if (is_utf16_surrogate_second(unicode))
-					{
-						unicode = surrogate_pair_to_codepoint(pair_first, unicode);
-						pair_first = 0;
-					}
-					else
-					{
-						ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
-						yyerror("invalid Unicode surrogate pair");
-					}
-				}
-				else if (is_utf16_surrogate_second(unicode))
-					yyerror("invalid Unicode surrogate pair");
-
-				if (is_utf16_surrogate_first(unicode))
-					pair_first = unicode;
-				else
-				{
-					//unicode_to_utf8(unicode, (unsigned char *) out);
-					out += strlen(out);
-				}
-				in += 8;
-			}
-			else
-			{
-				ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
-				yyerror("invalid Unicode escape value");
-			}
-		}
-		else
-		{
-			if (pair_first)
-			{
-				ADVANCE_YYLLOC(in - litbuf + 3);		/* 3 for U&" */
-				yyerror("invalid Unicode surrogate pair");
-			}
-			*out++ = *in++;
-		}
-	}
-
-	/* unfinished surrogate pair? */
-	if (pair_first)
-	{
-		ADVANCE_YYLLOC(in - litbuf + 3);				/* 3 for U&" */
-		yyerror("invalid Unicode surrogate pair");
-	}
-
-	*out = '\0';
-
-	/*
-	 * We could skip pg_verifymbstr if we didn't process any non-7-bit-ASCII
-	 * codes; but it's probably not worth the trouble, since this isn't likely
-	 * to be a performance-critical path.
-	 */
-	//pg_verifymbstr(new_addr, out - new_addr, false);
-	return new_addr;
-}
-static bool
-check_uescapechar(unsigned char escape)
-{
-	if (isxdigit(escape)
-		|| escape == '+'
-		|| escape == '\''
-		|| escape == '"'
-		|| scanner_isspace(escape))
-	{
-		return false;
-	}
-	else
-		return true;
-}
-
-static unsigned char
-unescape_single_char(unsigned char c, Trans_yyscan_t yyscanner)
-{
-	switch (c)
-	{
-		case 'b':
-			return '\b';
-		case 'f':
-			return '\f';
-		case 'n':
-			return '\n';
-		case 'r':
-			return '\r';
-		case 't':
-			return '\t';
-		default:
-			/* check for backslash followed by non-7-bit-ASCII */
-			if (c == '\0' || IS_HIGHBIT_SET(c))
-				yyextra->saw_non_ascii_ = true;
-
-			return c;
-	}
-}
-

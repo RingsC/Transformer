@@ -96,11 +96,9 @@ stmt:	{}
 static void
 TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner, const char *msg)
 {
-	parser_yyerror(msg);
 }
 static void
 base_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner, const char *msg)
 {
-	parser_yyerror(msg);
 }
 

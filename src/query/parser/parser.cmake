@@ -6,7 +6,7 @@ set(parser
 set(parser_header_files
 	../include/query/parser/parser.h
 	../include/query/parser/helper.h
-	#../include/query/parse/grammar.h	
+	#../include/query/parse/grammar.h
 	../include/query/parser/parserGramm.h
 )
 
@@ -23,11 +23,13 @@ set(lex_dir
 #lex Header files -> lex
 set(lex_header_files
 	../include/query/parser/lex/scanner.h
-	
+	../include/query/parser/lex/lexical.h
+	#../include/query/parser/lex/scanner_lex.h
 )
 #lex Source files -> lex
 set(lex_source_files
 	parser/lex/scanner.cpp
+	parser/lex/lexical.cpp
 )
 
 set(lex_dir

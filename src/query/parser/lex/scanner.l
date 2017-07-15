@@ -13,6 +13,7 @@
 #include <parser/lex/scanner.h>
 #include <keywords/keywords.h>
 #include <parser/parserGramm.h>
+#include <lex/lexical.h>
 
 using Transformer::KeyWords::ScanKeyWord;
 using Transformer::KeyWords::KeyWord;
@@ -23,13 +24,9 @@ using Transformer::KeyWords::KeyWord;
 /**************************The Re-Definition of yy-objects.**********************************************/
 //To redefine the TTTYPE, etc.
 #define YYSTYPE Trans_YYSTYPE
-#define YY_EXTRA_TYPE Trans_yy_extra_type *
 #define SET_YYLLOC()  (*(yylloc) = yytext - yyextra->scanbuffer_)
-
-#define yyerror(errMsg)  Trans_yyerror(errMsg, yyscanner)
+#define yyerror(errMsg)  Transformer::Lexical::Lex::lex_yyerror(errMsg, yyscanner, yyextra, yylloc)
 #define lexer_errposition()  Trrans_scanner_errposition(*(yylloc), yyscanner)
-
-
 #define ADVANCE_YYLLOC(delta)  ( *(yylloc) += (delta) )
 
 /***********************************Global vars*********************************************************/
@@ -50,7 +47,7 @@ static int	process_integer_literal(const char *token, YYSTYPE *lval);
 static bool is_utf16_surrogate_first(unsigned int c);
 static bool is_utf16_surrogate_second(unsigned int c);
 static unsigned int surrogate_pair_to_codepoint(unsigned int first, unsigned int second);
-static void addunicode(unsigned int c, yyscan_t yyscanner);
+static void addunicode(unsigned int c, Trans_yyscan_t yyscanner);
 static bool check_uescapechar(unsigned char escape);
 static void check_escape_warning(Trans_yyscan_t yyscanner);
 static void check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yyscanner);
@@ -71,6 +68,7 @@ static void check_string_escape_warning(unsigned char ychar, Trans_yyscan_t yysc
 %option nodefault
 %option 8bit
 %option prefix="Trans_yy"
+%option extra-type="Trans_yy_extra_type *"
 
 /*************************************Start of definitions.**********************************************************/
 /*the definition of some xb,etc. */

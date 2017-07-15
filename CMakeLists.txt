@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 project(Transformer)
 enable_language(CXX)
 
+message(STATUS "PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 if (COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
     cmake_policy(SET CMP0005 NEW)

@@ -26,4 +26,6 @@ typedef struct TransYY_yy_extra_type
     Transformer::Types::ASTNode*    parsetree_;             //final parse tree.
 } TransYY_yy_extra_type;
 
+extern int	TransYY_yyparse(Trans_yyscan_t yyscanner);
+
 #endif  //__PARSERGRAMM_H__

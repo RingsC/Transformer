@@ -10,7 +10,6 @@
 #include <keywords/keywords.h>
 
 #include <parser/parser.h>
-
 #include <parser/lex/scanner.h>
 #include <parser/parserGramm.h>
 
@@ -39,27 +38,31 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 %name-prefix="TransYY_yy"
 %lex-param		{Trans_yyscan_t yyscanner}
 %parse-param 	{Trans_yyscan_t yyscanner}
+/*or using  as following, but for explicity we use the first type.
+*using lex-param and parse-param explicitly.
+*%param {Trans_yyscan_t yyscanner}
+*/
 
 %union{
 	/*The type of bison*/
-	Trans_YYSTYPE	Tras_YYSTYPE;
+	Trans_YYSTYPE	_trans_yystype_;
 	
-	int 			ival_;
-	char* 			str_;
-	const char* 	keyword_;
-	bool			boolean;
+	int 			_ival_;
+	char* 			_str_;
+	const char* 	_keyword_;
+	bool			_boolean_;
 	
-	Transformer::Types::ASTNode*		astNode;
+	Transformer::Types::ASTNode*		_astNode_;
 }
 
 
-%type<astNode>	stmtblock stmtmulti	stmt
-%token <str>	IDENT FCONST SCONST BCONST XCONST Op
-%token <ival>	ICONST PARAM
+%type<_astNode_>	stmtblock stmtmulti	stmt
+%token <_str_>	IDENT FCONST SCONST BCONST XCONST Op
+%token <_ival_>	ICONST PARAM
 %token			TYPECAST DOT_DOT COLON_EQUALS EQUALS_GREATER
 %token			LESS_EQUALS GREATER_EQUALS NOT_EQUALS
 
-
+%token<_keyword_> NOT NULLS_P WITH BETWEEN IN_P LIKE ILIKE SIMILAR NOT_LA FIRST_P LAST_P NULLS_LA TIME ORDINALITY WITH_LA
 
 %%
 stmtblock:	stmtmulti

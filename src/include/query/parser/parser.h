@@ -11,6 +11,7 @@
 #include "system/system.h"
 #include <parser/lex/scanner.h>
 #include <../../src/query/parser/grammar.h>
+#include <parser/parserGramm.h>
 
 namespace Transformer{
 namespace ParserN{
@@ -20,6 +21,8 @@ public:
 	Parser () ;
 	~Parser() ;
 	virtual Transformer::Types::ASTNode* raw_parser(const char* str); 	
+    virtual void init_parser(TransYY_yy_extra_type* yy_extra_data) ;
+
 	static int TransYY_yylex(YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner) ;
 } ;
 

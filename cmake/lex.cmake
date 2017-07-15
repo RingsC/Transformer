@@ -49,11 +49,11 @@ ENDMACRO()
 
 
 # Use lex/flex to generate C++ and header file
-MACRO (RUN_LEX input_lex output_cc) 
+MACRO (RUN_LEX input_lex output_cc output_h) 
   IF(LEX_USABLE)
     ADD_CUSTOM_COMMAND(
       OUTPUT ${output_cc}
-      COMMAND ${LEX_EXECUTABLE} --outfile=${output_cc} 	${input_lex}
+      COMMAND ${LEX_EXECUTABLE} --outfile=${output_cc} --header-file=${output_h}	${input_lex}
       DEPENDS ${input_lex}
 	)
   ELSE()

@@ -21,7 +21,4 @@ set(gpu
 	${gpu_dir}
 )
 
-source_group("gpu"						FILES ${gpu_base})
-source_group("gpu//include"				FILES ${gpu_header_files})
-source_group("gpu//source"				FILES ${gpu_source_files})
 

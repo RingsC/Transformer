@@ -32,6 +32,21 @@ set(execution
 	${execution_dir}
 )
 
+source_group(""			FILES ${execution_dir})
+
+source_group("\\gpu"  			FILES ${gpu_base})
+source_group("\\gpu\\include"  	FILES ${gpu_header_files})
+source_group("\\gpu\\source"  	FILES ${gpu_source_files})
+
+source_group("\\llvm" 				FILES ${llmv_base})
+source_group("\\llvm\\include"  	FILES ${llvm_header_files})
+source_group("\\llvm\\source"  		FILES ${llvm_source_files})
+
+source_group("\\simd" 				FILES ${simd_base})
+source_group("\\simd\\include"  	FILES ${simd_header_files})
+source_group("\\simd\\source"  		FILES ${simd_source_files})
+
+
 #compiling the library of Query.
 add_library(Executor SHARED ${execution})
 #set(Executor_DEPENDENCY utils common)

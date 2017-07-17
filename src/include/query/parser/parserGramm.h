@@ -6,7 +6,7 @@
 
 #include <types/nodes.h>
 #include <parser/lex/scanner.h>
-#include <../../query/parser/grammar.h>
+#include <parser/grammar.h>
 
 //for the bision
 #define TransYY_yyget_extra(yyscanner) (*((TransYY_yy_extra_type **) (yyscanner)))

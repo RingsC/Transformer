@@ -10,7 +10,7 @@
 #include "types/nodes.h"
 #include "system/system.h"
 #include <parser/lex/scanner.h>
-#include <../../src/query/parser/grammar.h>
+#include <parser/grammar.h>
 #include <parser/parserGramm.h>
 
 namespace Transformer{

@@ -38,7 +38,6 @@ set(execution
 	${execution_dir}
 )
 
-
 #compiling the library of Query.
 add_library(Executor SHARED ${execution})
 #set(Executor_DEPENDENCY utils common)

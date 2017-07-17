@@ -26,7 +26,7 @@ set(llvm
 	${llvm_dir}
 )
 
-source_group("llvm"                      FILES ${llvm})
+source_group("llvm"                      FILES ${llvm_base})
 source_group("llvm//include"             FILES ${llvm_header_files})
 source_group("llvm//source"              FILES ${llvm_source_files})
 

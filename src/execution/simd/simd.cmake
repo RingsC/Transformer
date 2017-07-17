@@ -20,7 +20,7 @@ set(simd
 	${simd_dir}
 )
 
-source_group("simd"					FILES ${simd})
+source_group("simd"					FILES ${simd_base})
 source_group("simd/include"			FILES ${simd_header_files})
 source_group("simd/source"			FILES ${simd_source_files})
 

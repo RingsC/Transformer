@@ -5,7 +5,7 @@
 #define __PARSERGRAMM_H__
 
 #include <types/nodes.h>
-#include <parser/lex/scanner.h>
+#include <parser/lex/scannerGramm.h>
 #include <parser/grammar.h>
 
 //for the bision

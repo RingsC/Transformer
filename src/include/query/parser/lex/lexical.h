@@ -7,7 +7,7 @@
 
 #include <system/system.h>
 #include <types/types.h>
-#include <lex/scanner.h>
+#include <lex/scannerGramm.h>
 #include <keywords/keywords.h>
 
 namespace Transformer{

@@ -4,7 +4,7 @@
 *	src/query/parser/parser.cpp
 */
 
-#include <parser/lex/scanner.h>
+#include <parser/lex/scannerGramm.h>
 #include <parser/parser.h>
 #include <parser/parserGramm.h>
 

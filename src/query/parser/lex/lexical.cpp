@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <lex/lexical.h>
-#include <lex/scanner_lex.h>
+#include <lex/scanner.h>
 #include <parser/parserGramm.h>
 #include <parser/helper.h>
 

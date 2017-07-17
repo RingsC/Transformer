@@ -10,7 +10,7 @@
 #include <memory>
 
 #include <parser/helper.h>
-#include <parser/lex/scanner.h>
+#include <parser/lex/scannerGramm.h>
 #include <keywords/keywords.h>
 #include <parser/parserGramm.h>
 #include <lex/lexical.h>

@@ -19,7 +19,7 @@ set(parser_source_files
 
 #lex Header files -> lex
 set(lex_header_files
-	../include/query/parser/lex/scanner.h
+	../include/query/parser/lex/scannerGramm.h
 	../include/query/parser/lex/lexical.h
 	#../include/query/parser/lex/scanner_lex.h
 )

@@ -8,5 +8,4 @@ add_subdirectory(query)
 add_subdirectory(system)
 add_subdirectory(types)
 add_subdirectory(utils)
-
-
+add_subdirectory(svr)

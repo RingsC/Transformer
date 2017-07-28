@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "parser.h"
 
-using Transformer::Parser::Parser;
+using Transformer::ParserN::Parser;
 int main (int argc, char* argv[])
 {
 	if (argc < 0) return -1;

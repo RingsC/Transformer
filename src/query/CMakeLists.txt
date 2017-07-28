@@ -5,6 +5,8 @@ include(parser/parser.cmake)
 include(analyze/analyze.cmake)
 include(rewrite/rewrite.cmake)
 include(optimizer/optimizer.cmake)
+include(misc/misc.cmake)
+
 
 #lex.cmake included.
 #this is import notice: the header files in :include/query/parse/lex/scanner.h is NOT auto-generated file. it's use for lex scanner.
@@ -27,6 +29,7 @@ set(query
 	${parser}
 	${rewrite}
 	${analyze}
+	${misc}
 )
 
 #the libs which is neeed by Query when we built Query dynamic library.

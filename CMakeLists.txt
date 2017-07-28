@@ -118,6 +118,7 @@ include_directories(
 		${include_dir}/include/query/optimzier/path
 		${include_dir}/include/query/optimizer/plan
         ${include_dir}/include/query/parser
+		#{include_dir}/include/query/misc
         ${include_dir}/include/query/parser/lex
 		${include_dir}/include/execution
 		${include_dir}/include/execution/gpu

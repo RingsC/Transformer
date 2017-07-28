@@ -7,11 +7,13 @@
 #include <parser/lex/scannerGramm.h>
 #include <parser/parser.h>
 #include <parser/parserGramm.h>
+#include <parser/lex/lexical.h>
 
 namespace Transformer{
 namespace ParserN{
 
 using namespace Transformer::KeyWords ;
+using namespace Transformer::Lexical; 
 
 Parser::Parser()
 {
@@ -149,7 +151,7 @@ Parser::raw_parser(const char* str)
 	Trans_yyscan_t lex_scanner;
 	TransYY_yy_extra_type bison_yy;	
 
-	lex_scanner = init_scanner(str, &bison_yy.trans_yy_extra_, KeyWord::getScanKeyWord(), 
+	lex_scanner = Lex::init_scanner(str, &bison_yy.trans_yy_extra_, KeyWord::getScanKeyWord(), 
 															KeyWord::getKeyWordsNumber());	
 	
 	bison_yy.have_lookahead_ = false; 
@@ -157,7 +159,7 @@ Parser::raw_parser(const char* str)
 	init_parser(&bison_yy);
 	int yyresult = TransYY_yyparse(lex_scanner);	
 	
-	finish_scanner (lex_scanner) ;	
+	Lex::finish_scanner (lex_scanner, &bison_yy.trans_yy_extra_) ;	
 	return (Transformer::Types::ASTNode*) NULL; 
 }
 

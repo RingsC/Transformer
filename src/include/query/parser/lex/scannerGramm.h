@@ -63,11 +63,6 @@ typedef enum
 }	BackslashQuoteType;
 
 /**************************************************************************************************************************/
-//for the scanner.
-extern Trans_yyscan_t  
-		init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const Transformer::KeyWords::ScanKeyWord keywords, int num_kw);
-extern void
-		finish_scanner(Trans_yyscan_t yyscanner); 		   
 
 extern int Trans_yylex(Trans_YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner);
 extern int Trans_scanner_errposition(int location, Trans_yyscan_t yyscanner);

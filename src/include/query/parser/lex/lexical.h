@@ -20,10 +20,6 @@ using Transformer::KeyWords::ScanKeyWord ;
 using Transformer::KeyWords::KeyWord;
 
 extern int Trans_yylex_init(Trans_yyscan_t* ptr_yy_globals );
-extern int backslash_quote ;
-extern bool escape_string_warning ;
-extern bool standard_conforming_strings;
-
 
 class TRANS_EXPORT Lex : public Transformer::Types::NonCopyable {
 public:
@@ -36,7 +32,10 @@ public:
 
 	static void lex_yyerror(const char *message, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr, YYLTYPE* lloc);
 	static int lex_scanner_errposition(int location, Trans_yyscan_t yyscanner, Trans_yy_extra_type* yyextr, YYLTYPE* lloc);
-	
+
+	static int backslash_quote  ;
+	static bool escape_string_warning ;
+	static bool standard_conforming_strings ;	
 } ;
 
 class TRANS_EXPORT LexHelper : public Transformer::Types::NonCopyable {

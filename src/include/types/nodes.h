@@ -51,11 +51,47 @@ public:
 	virtual void optimize ()=0;
 } ;
 
+
+/*USED FOR INDICATES THE PHRASE OF SQL PROCESSING*/
+typedef enum SQLPhrase{
+	UNTOUCHED = 0,
+	/*FOR ANALYZE*/
+	BEFORE_ANALYZE ,
+	IN_ANALYZE,
+	AFTER_ANALYZEA,
+		
+	/*FOR REWRITEING*/
+	BEFORE_REWRITE,
+	IN_REWRITE,
+	AFTER_REWRITE,
+
+	/*FOR*/
+	BEFORE_PLANNING,
+	IN_PLANNING,
+	AFTER_PLANNING,
+
+	RESERVED	
+} SQLPhrase;
+
 class TRANS_EXPORT SqlStmt : public ASTNode {
 public:
 	SqlStmt ();
+	explicit SqlStmt (ASTNode* parent) ;
 	~SqlStmt () ;
+private:
+	SQLPhrase phrase_ ;
+	ASTNode* parent_; 
 } ;
+
+class TRANS_EXPORT SelectStmt : public SqlStmt { 
+public:
+	SelectStmt ();
+	explicit SelectStmt (ASTNode*) ;
+	~SelectStmt(); 
+private:
+	
+};
+
 
 //The definit of executable experssion clause.
 class TRANS_EXPORT Expr : public ASTNode {

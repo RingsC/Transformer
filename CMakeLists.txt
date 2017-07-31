@@ -110,7 +110,6 @@ set(include_dir
 include_directories(
         ${include_dir}/include
         ${include_dir}/include/common
-        ${include_dir}/include/keywords
         ${include_dir}/include/memory
         ${include_dir}/include/query
         ${include_dir}/include/query/optimizer
@@ -120,6 +119,7 @@ include_directories(
         ${include_dir}/include/query/parser
 		#{include_dir}/include/query/misc
         ${include_dir}/include/query/parser/lex
+        ${include_dir}/include/query/parser/keywords
 		${include_dir}/include/execution
 		${include_dir}/include/execution/gpu
 		${include_dir}/include/execution/llvm

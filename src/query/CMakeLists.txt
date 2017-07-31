@@ -6,7 +6,8 @@ include(analyze/analyze.cmake)
 include(rewrite/rewrite.cmake)
 include(optimizer/optimizer.cmake)
 include(misc/misc.cmake)
-
+#we do not create a types dynamic library just inlined into query module. so that we use relative path, ".." to find where the cmake file located in.
+include(../types/CMakeLists.txt)
 
 #lex.cmake included.
 #this is import notice: the header files in :include/query/parse/lex/scanner.h is NOT auto-generated file. it's use for lex scanner.
@@ -30,15 +31,17 @@ set(query
 	${rewrite}
 	${analyze}
 	${misc}
+	${types}
 )
 
 #the libs which is neeed by Query when we built Query dynamic library.
-#set(query_DEPENDENCY
-#)
+set(query_DEPENDENCY
+	Common
+)
 
 add_library(Query SHARED ${query})
-#add_dependencies(Query ${query_DEPENDENCY})
-#target_link_libraries(Query ${Query_DEPENDENCY})
+add_dependencies(Query ${query_DEPENDENCY})
+target_link_libraries(Query ${Query_DEPENDENCY})
 
 install(TARGETS Query
 	RUNTIME DESTINATION bin

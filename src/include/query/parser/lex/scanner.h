@@ -16,17 +16,19 @@
 
 #include <parser/helper.h>
 #include <parser/lex/scannerGramm.h>
-#include <keywords/keywords.h>
+#include <parser/keywords/keywords.h>
 #include <parser/parserGramm.h>
 #include <lex/lexical.h>
 
-using Transformer::KeyWords::ScanKeyWord;
-using Transformer::KeyWords::KeyWord;
+using Transformer::ParserN::ScanKeyWord;
+using Transformer::ParserN::KeyWord;
+using Transformer::ParserN::scan_keyword_ptr ;
+
 /************************************End of verbatim codes.**********************************************/
 
 
 
-#line 30 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
+#line 32 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -369,9 +371,9 @@ extern int Trans_yylex \
 #undef YY_DECL
 #endif
 
-#line 815 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 817 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
 
-#line 376 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
+#line 378 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
 #undef Trans_yyIN_HEADER
 #endif /* Trans_yyHEADER_H */

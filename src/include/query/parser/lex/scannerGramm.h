@@ -3,18 +3,19 @@
 *
 *
 *	path:
-*	include/query/parser/lex/scanner.h
+*	include/query/parser/lex/scannGramm.h
 */
-#ifndef __SCANNER_H__
-#define __SCANNER_H__
+#ifndef __SCANNER_GRAMM_H__
+#define __SCANNER_GRAMM_H__
 
 #include <cstddef>
-#include "types/types.h"
-#include "types/nodes.h"
-#include "keywords/keywords.h"
+#include <types/types.h>
+#include <types/nodes.h>
+#include <keywords/keywords.h>
 
 #define YYLTYPE int 
 typedef void* Trans_yyscan_t ; 
+
 
 //saving the tokens.
 typedef union Trans_YYSTYPE	
@@ -30,8 +31,7 @@ typedef struct Trans_yy_extra_type {
 	char* 		scanbuffer_; 
 	size_t 		scanbuffer_len_;
 	
-	const struct Transformer::KeyWords::scan_keyword_t* \
-			 	keywords_;
+	const struct Transformer::ParserN::scan_keyword_t* keywords_;
 	int 		keywords_num_;
 	
 	int			backslash_quote_;
@@ -67,4 +67,4 @@ typedef enum
 extern int Trans_yylex(Trans_YYSTYPE *lvalp, YYLTYPE *llocp, Trans_yyscan_t yyscanner);
 extern int Trans_scanner_errposition(int location, Trans_yyscan_t yyscanner);
 
-#endif //__SCANNNER_H__ 
+#endif //__SCANNNER_GRAMM_H__ 

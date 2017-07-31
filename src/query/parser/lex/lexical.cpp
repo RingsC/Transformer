@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+
 #include <lex/lexical.h>
 #include <lex/scanner.h>
 #include <parser/parserGramm.h>
@@ -31,7 +32,7 @@ Lex::init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const ScanK
     size_t      slen = strlen(parseStr);
     yyscan_t    scanner;
 
-    if (Trans_yylex_init(&scanner) != 0)
+    if (::Trans_yylex_init(&scanner) != 0)
         printf("error...\n");//elog(ERROR, "yylex_init() failed: %m");
 
     Trans_yyset_extra(yyext, scanner);
@@ -39,9 +40,9 @@ Lex::init_scanner (const char* parseStr, Trans_yy_extra_type* yyext, const ScanK
     yyext->keywords_ = KeyWord::getScanKeyWord();
     yyext->keywords_num_ = KeyWord::getKeyWordsNumber() ;
 
-    yyext->backslash_quote_ = backslash_quote;
-    yyext->escape_string_warning_ = escape_string_warning;
-    yyext->standard_conforming_strings_ = standard_conforming_strings;
+    yyext->backslash_quote_ = BACKSLASH_QUOTE_SAFE_ENCODING;
+    yyext->escape_string_warning_ = true;
+    yyext->standard_conforming_strings_ = true;
 
     /*
      * Make a scan buffer with special termination needed by flex.

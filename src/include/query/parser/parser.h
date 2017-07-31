@@ -6,9 +6,9 @@
 #ifndef __PARSER_H__
 #define __PARSER_H__
 
-#include "types/types.h"
-#include "types/nodes.h"
-#include "system/system.h"
+#include <types/types.h>
+#include <types/nodes.h>
+#include <system/system.h>
 #include <parser/lex/scannerGramm.h>
 #include <parser/grammar.h>
 #include <parser/parserGramm.h>

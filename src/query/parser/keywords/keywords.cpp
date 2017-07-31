@@ -1,25 +1,27 @@
 /**
-* the keywords.
+* the keywords definition.
+* path: query/parser/keywords/keywords.cpp
 */
 
-#include "keywords.h"
+#include <keywords/keywords.h>
+#include <parser/parserGramm.h>
 
 namespace Transformer {
-namespace Keywords{
+namespace ParserN{
 
-KeyWord::scanKeyWordsList_[] ={
+scan_keyword_t KeyWord::scanKeyWordsList_[] ={
 	TRANS_KEYWORD("abort",ABORT_P, UNRESERVED_KEYWORD),
 	TRANS_KEYWORD("absolute",ABSOLUTE_P,UNRESERVED_KEYWORD)
-}
+};
 
 ScanKeyWord
 KeyWord::KeyWordLookup (const char* keyword, const ScanKeyWord kewords_list, int number_keywords )
 {
-	ScanKeyWord key ;
+	ScanKeyWord key(NULL) ;
 	return key;
 
 }
 
 
-}//Keywords.
+}//ParserN.
 }//Transformer 

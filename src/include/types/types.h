@@ -1,16 +1,15 @@
 /*****************
-the type here 
+the type definition here 
+path:include/types/types.h
 *******************/
 
 #ifndef __TYPES_H__
 #define __TYPES_H__
 
-#include "system/system.h"
-
 namespace Transformer {
 namespace Types {
 
-class  NonCopyable{
+class  NonCopyable {
 public:
 	NonCopyable ();
 	~NonCopyable ();

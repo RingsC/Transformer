@@ -11,12 +11,14 @@
 
 #include <parser/helper.h>
 #include <parser/lex/scannerGramm.h>
-#include <keywords/keywords.h>
+#include <parser/keywords/keywords.h>
 #include <parser/parserGramm.h>
 #include <lex/lexical.h>
 
-using Transformer::KeyWords::ScanKeyWord;
-using Transformer::KeyWords::KeyWord;
+using Transformer::ParserN::ScanKeyWord;
+using Transformer::ParserN::KeyWord;
+using Transformer::ParserN::scan_keyword_ptr ;
+
 /************************************End of verbatim codes.**********************************************/
 }
 
@@ -284,13 +286,13 @@ other			.
 					 * We will pass this along as a normal character string,
 					 * but preceded with an internally-generated "NCHAR".
 					 */
-					Transformer::KeyWords::ScanKeyWord keyword;
+					ScanKeyWord keyword;
 
 					SET_YYLLOC();
 					yyless(1);	/* eat only 'n' this time */
 
 					keyword = KeyWord::KeyWordLookup("nchar",
-												const_cast<Transformer::KeyWords::scan_keyword_t*>(yyextra->keywords_),
+												const_cast<scan_keyword_ptr>(yyextra->keywords_),
 												yyextra->keywords_num_);
 					if (keyword != NULL)
 					{
@@ -778,14 +780,14 @@ other			.
 
 
 {identifier}	{
-					Transformer::KeyWords::ScanKeyWord keyword;
+					ScanKeyWord keyword;
 					char	   *ident;
 
 					SET_YYLLOC();
 
 					/* Is it a keyword? */
 					keyword = KeyWord::KeyWordLookup(yytext,
-												const_cast<Transformer::KeyWords::scan_keyword_t*>(yyextra->keywords_),
+												const_cast<scan_keyword_ptr>(yyextra->keywords_),
 												yyextra->keywords_num_);
 					if (keyword != NULL)
 					{

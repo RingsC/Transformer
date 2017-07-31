@@ -4,15 +4,13 @@
 *
 ******************************************************************************/
 #include <parser/helper.h>
-#include <system/system.h>
-#include <types/types.h>
 #include <types/nodes.h>
-#include <keywords/keywords.h>
+
+#include <parser/lex/scannerGramm.h>
+#include <parser/lex/scanner.h>
 
 #include <parser/parser.h>
-#include <parser/lex/scanner.h>
 #include <parser/parserGramm.h>
-
 
 #define YYLLOC_DEFAULT(Current, Rhs, N) \
 	do { \
@@ -65,7 +63,7 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 %token			LESS_EQUALS GREATER_EQUALS NOT_EQUALS
 
 %token<_keyword_> NOT NULLS_P WITH BETWEEN IN_P LIKE ILIKE SIMILAR NOT_LA FIRST_P LAST_P NULLS_LA TIME ORDINALITY WITH_LA
-					SELECT AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER 
+					SELECT AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER ABSOLUTE_P ABORT_P
 
 %%
 stmtblock:	stmtmulti

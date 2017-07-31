@@ -16,8 +16,9 @@ namespace Lexical {
 
 #define YY_END_OF_BUFFER_CHAR 0
 
-using Transformer::KeyWords::ScanKeyWord ;
-using Transformer::KeyWords::KeyWord;
+using Transformer::ParserN::ScanKeyWord ;
+using Transformer::ParserN::KeyWord;
+using Transformer::Types::NonCopyable ;
 
 extern int Trans_yylex_init(Trans_yyscan_t* ptr_yy_globals );
 

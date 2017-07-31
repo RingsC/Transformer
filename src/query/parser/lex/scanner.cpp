@@ -12,17 +12,19 @@
 
 #include <parser/helper.h>
 #include <parser/lex/scannerGramm.h>
-#include <keywords/keywords.h>
+#include <parser/keywords/keywords.h>
 #include <parser/parserGramm.h>
 #include <lex/lexical.h>
 
-using Transformer::KeyWords::ScanKeyWord;
-using Transformer::KeyWords::KeyWord;
+using Transformer::ParserN::ScanKeyWord;
+using Transformer::ParserN::KeyWord;
+using Transformer::ParserN::scan_keyword_ptr ;
+
 /************************************End of verbatim codes.**********************************************/
 
 
 
-#line 26 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 28 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -824,7 +826,7 @@ static yyconst flex_int16_t yy_chk[1202] =
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
-#line 24 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 26 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 /**************************The Re-Definition of yy-objects.**********************************************/
 //To redefine the TTTYPE, etc.
 #define YYSTYPE Trans_YYSTYPE
@@ -878,7 +880,7 @@ bool		standard_conforming_strings = true;
 /*somethings about Unicode, definitions. */
 /*C-style comment definitions.*/
 /*************************************End of definitions.**********************************************************/
-#line 882 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 884 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
 #define INITIAL 0
 #define xb 1
@@ -1127,9 +1129,9 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 191 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 193 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
-#line 1133 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 1135 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
     yylval = yylval_param;
 
@@ -1219,14 +1221,14 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 192 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 194 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 196 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 198 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* Set location in case of syntax error in comment */
 					SET_YYLLOC();
@@ -1238,7 +1240,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 205 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 207 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					(yyextra->xcdepth_)++;
 					/* Put back any characters past slash-star; see above */
@@ -1247,7 +1249,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 211 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 213 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					if (yyextra->xcdepth_ <= 0)
 						BEGIN(INITIAL);
@@ -1258,32 +1260,32 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 218 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 220 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 222 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 224 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 226 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 228 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xc):
-#line 230 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 232 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated /* comment"); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 232 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 234 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* Binary bit type.
 					 * At some point we should simply pass the string
@@ -1299,11 +1301,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
-#line 245 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 247 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 245 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 247 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					BEGIN(INITIAL);
@@ -1313,33 +1315,33 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
-#line 252 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 254 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 252 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 254 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
-#line 256 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 258 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 256 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 258 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xb):
-#line 259 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 261 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated bit string literal"); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 261 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 263 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* Hexadecimal bit type.
 					 * At some point we should simply pass the string
@@ -1355,11 +1357,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
-#line 274 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 276 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 274 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 276 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					BEGIN(INITIAL);
@@ -1368,24 +1370,24 @@ YY_RULE_SETUP
 				}
 	YY_BREAK
 case YY_STATE_EOF(xh):
-#line 280 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 282 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated hexadecimal string literal"); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 282 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 284 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* National character.
 					 * We will pass this along as a normal character string,
 					 * but preceded with an internally-generated "NCHAR".
 					 */
-					Transformer::KeyWords::ScanKeyWord keyword;
+					ScanKeyWord keyword;
 
 					SET_YYLLOC();
 					yyless(1);	/* eat only 'n' this time */
 
 					keyword = KeyWord::KeyWordLookup("nchar",
-												const_cast<Transformer::KeyWords::scan_keyword_t*>(yyextra->keywords_),
+												const_cast<scan_keyword_ptr>(yyextra->keywords_),
 												yyextra->keywords_num_);
 					if (keyword != NULL)
 					{
@@ -1402,7 +1404,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 308 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 310 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyextra->warn_on_first_escape_ = true;
 					yyextra->saw_non_ascii_ = false;
@@ -1416,7 +1418,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 318 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 320 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyextra->warn_on_first_escape_ = false;
 					yyextra->saw_non_ascii_ = false;
@@ -1427,7 +1429,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 325 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 327 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					if (!yyextra->standard_conforming_strings_)
@@ -1442,11 +1444,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
-#line 337 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 339 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 337 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 339 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					BEGIN(INITIAL);
@@ -1466,11 +1468,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
-#line 354 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 356 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 354 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 356 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* throw back all but the quote */
 					yyless(1);
@@ -1481,20 +1483,20 @@ YY_RULE_SETUP
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 360 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 362 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* stay in xusend state over whitespace */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xusend):
-#line 363 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 365 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 27:
 /* rule 27 can match eol */
-#line 365 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 367 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 365 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 367 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* no UESCAPE after the quote, throw back everything */
 					yyless(0);
@@ -1506,7 +1508,7 @@ YY_RULE_SETUP
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 372 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 374 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* found UESCAPE after the end quote */
 					BEGIN(INITIAL);
@@ -1524,7 +1526,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 386 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 388 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlitchar('\'', yyscanner, yyextra);
 				}
@@ -1532,7 +1534,7 @@ YY_RULE_SETUP
 case 31:
 /* rule 31 can match eol */
 YY_RULE_SETUP
-#line 389 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 391 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
@@ -1540,14 +1542,14 @@ YY_RULE_SETUP
 case 32:
 /* rule 32 can match eol */
 YY_RULE_SETUP
-#line 392 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 394 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 395 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 397 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned int c = strtoul(yytext + 2, NULL, 16);
 
@@ -1566,7 +1568,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 410 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 412 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned int	c = strtoul(yytext + 2, NULL, 16);
 
@@ -1582,22 +1584,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 422 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 424 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("invalid Unicode surrogate pair"); }
 	YY_BREAK
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 423 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 425 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("invalid Unicode surrogate pair"); }
 	YY_BREAK
 case YY_STATE_EOF(xeu):
-#line 424 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 426 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("invalid Unicode surrogate pair"); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 425 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 427 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					//ereport(ERROR,
 					//		(errcode(ERRCODE_INVALID_ESCAPE_SEQUENCE),
@@ -1609,7 +1611,7 @@ YY_RULE_SETUP
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 432 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 434 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					if (yytext[1] == '\'')
 					{
@@ -1630,7 +1632,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 449 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 451 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned char c = strtoul(yytext + 1, NULL, 8);
 
@@ -1642,7 +1644,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 457 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 459 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned char c = strtoul(yytext + 2, NULL, 16);
 
@@ -1655,14 +1657,14 @@ YY_RULE_SETUP
 case 41:
 /* rule 41 can match eol */
 YY_RULE_SETUP
-#line 465 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 467 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 468 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 470 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* This is only needed for \ just before EOF */
 					Transformer::Lexical::LexHelper::addlitchar(yytext[0], yyscanner, yyextra);
@@ -1671,12 +1673,12 @@ YY_RULE_SETUP
 case YY_STATE_EOF(xq):
 case YY_STATE_EOF(xe):
 case YY_STATE_EOF(xus):
-#line 472 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 474 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated quoted string"); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 474 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 476 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yyextra->dolqstart_ = strdup(yytext);
@@ -1686,7 +1688,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 480 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 482 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					/* throw back all but the initial "$" */
@@ -1697,7 +1699,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 487 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 489 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					if (strcmp(yytext, yyextra->dolqstart_) == 0)
 					{
@@ -1722,33 +1724,33 @@ YY_RULE_SETUP
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 507 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 509 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 510 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 512 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 513 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 515 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* This is only needed for $ inside the quoted text */
 					Transformer::Lexical::LexHelper::addlitchar(yytext[0], yyscanner, yyextra);
 				}
 	YY_BREAK
 case YY_STATE_EOF(xdolq):
-#line 517 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 519 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated dollar-quoted string"); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 519 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 521 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					BEGIN(xd);
@@ -1757,7 +1759,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 524 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 526 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					BEGIN(xui);
@@ -1766,7 +1768,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 529 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 531 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					char	   *ident;
 
@@ -1782,7 +1784,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 541 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 543 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					/* xuiend state looks for possible UESCAPE */
@@ -1792,20 +1794,20 @@ YY_RULE_SETUP
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 546 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 548 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* stay in xuiend state over whitespace */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xuiend):
-#line 549 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 551 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 54:
 /* rule 54 can match eol */
-#line 551 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 553 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 case 55:
 /* rule 55 can match eol */
 YY_RULE_SETUP
-#line 551 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 553 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* no UESCAPE after the quote, throw back everything */
 					char	   *ident;
@@ -1827,7 +1829,7 @@ YY_RULE_SETUP
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
-#line 568 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 570 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* found UESCAPE after the end quote */
 					char	   *ident;
@@ -1853,7 +1855,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 590 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 592 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlitchar('"', yyscanner, yyextra);
 				}
@@ -1861,19 +1863,19 @@ YY_RULE_SETUP
 case 58:
 /* rule 58 can match eol */
 YY_RULE_SETUP
-#line 593 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 595 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case YY_STATE_EOF(xd):
 case YY_STATE_EOF(xui):
-#line 596 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 598 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated quoted identifier"); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 598 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 600 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					char	   *ident;
 
@@ -1888,7 +1890,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 610 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 612 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return TYPECAST;
@@ -1896,7 +1898,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 615 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 617 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return DOT_DOT;
@@ -1904,7 +1906,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 620 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 622 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return COLON_EQUALS;
@@ -1912,7 +1914,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 625 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 627 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return EQUALS_GREATER;
@@ -1920,7 +1922,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 630 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 632 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return LESS_EQUALS;
@@ -1928,7 +1930,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 635 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 637 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return GREATER_EQUALS;
@@ -1936,7 +1938,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 640 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 642 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* We accept both "<>" and "!=" as meaning NOT_EQUALS */
 					SET_YYLLOC();
@@ -1945,7 +1947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 646 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 648 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* We accept both "<>" and "!=" as meaning NOT_EQUALS */
 					SET_YYLLOC();
@@ -1954,7 +1956,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 652 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 654 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return yytext[0];
@@ -1962,7 +1964,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 657 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 659 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/*
 					 * Check for embedded slash-star or dash-dash; those
@@ -2041,7 +2043,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 733 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 735 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yylval->ival_ = atol(yytext + 1);
@@ -2050,7 +2052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 739 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 741 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return Transformer::Lexical::LexHelper::process_integer_literal(yytext, yylval, yyscanner, yyextra);
@@ -2058,7 +2060,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 743 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 745 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yylval->str_ = strdup(yytext);
@@ -2067,7 +2069,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 748 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 750 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* throw back the .., and treat as integer */
 					yyless(yyleng - 2);
@@ -2077,7 +2079,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 754 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 756 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yylval->str_ = strdup(yytext);
@@ -2086,7 +2088,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 759 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 761 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/*
 					 * throw back the [Ee], and treat as {decimal}.  Note
@@ -2102,7 +2104,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 771 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 773 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* throw back the [Ee][+-], and proceed as above */
 					yyless(yyleng - 2);
@@ -2113,16 +2115,16 @@ YY_RULE_SETUP
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 780 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 782 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
-					Transformer::KeyWords::ScanKeyWord keyword;
+					ScanKeyWord keyword;
 					char	   *ident;
 
 					SET_YYLLOC();
 
 					/* Is it a keyword? */
 					keyword = KeyWord::KeyWordLookup(yytext,
-												const_cast<Transformer::KeyWords::scan_keyword_t*>(yyextra->keywords_),
+												const_cast<scan_keyword_ptr>(yyextra->keywords_),
 												yyextra->keywords_num_);
 					if (keyword != NULL)
 					{
@@ -2141,14 +2143,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 805 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 807 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return yytext[0];
 				}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 810 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 812 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yyterminate();
@@ -2156,10 +2158,10 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 815 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 817 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 2163 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 2165 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -3276,7 +3278,7 @@ static int yy_flex_strlen (yyconst char * s , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 815 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 817 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
 
 
 

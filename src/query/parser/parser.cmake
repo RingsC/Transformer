@@ -29,6 +29,14 @@ set(lex_source_files
 	parser/lex/lexical.cpp
 )
 
+#keywords list files->keywords
+set(keywords_header_files
+	../include/query/parser/keywords/keywords.h
+)
+set(keywords_source_files
+	parser/keywords/keywords.cpp
+)
+
 #set the parser source/header files.
 set(parser
 	${parser}
@@ -36,6 +44,8 @@ set(parser
 	${parser_header_files}
 	${lex_source_files}
 	${lex_header_files}
+	${keywords_header_files}
+	${keywords_source_files}
 )
 
 

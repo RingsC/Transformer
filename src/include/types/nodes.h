@@ -2,15 +2,16 @@
 * the raw syntax tree nodes definition. In this file we give the definitions of AST
 * elements. SELECT clause, WHERE clause,etc.
 *********************************************************************************/
-#ifndef __NODES_H__
-#define __NODES_H__
+#ifndef __NODES_TYPES_H__
+#define __NODES_TYPES_H__
 
-#include "types/types.h"
+#include <types/types.h>
+#include <system/system.h>
 
 namespace Transformer{
 namespace Types{
 
-class TRANS_EXPORT ASTNode :public NonCopyable {
+class TRANS_EXPORT  ASTNode : public NonCopyable {
 public:
 	typedef enum node_type_t {
 		NODE_TYPE_NONE =0,
@@ -46,9 +47,8 @@ public:
 
 	NodeType nodeType_;
 public:
-	ASTNode() ;
-	~ASTNode(); 
-	virtual void optimize ()=0;
+	ASTNode() {}
+	~ASTNode() {}
 } ;
 
 
@@ -73,33 +73,53 @@ typedef enum SQLPhrase{
 	RESERVED	
 } SQLPhrase;
 
+typedef enum SQLStmtType {
+	STMT_UNKNOWN_TYPE=0,
+	STMT_SELECT_TYPE,
+	STMT_INSERT_TYPE,
+	STMT_UPDATE_TYPE,
+	
+
+	STMT_RESERVED_TYPE
+} SQLStmtType ;
+
 class TRANS_EXPORT SqlStmt : public ASTNode {
 public:
-	SqlStmt ();
-	explicit SqlStmt (ASTNode* parent) ;
-	~SqlStmt () ;
+	SqlStmt (){}
+	explicit SqlStmt (ASTNode* parent) {}
+	~SqlStmt () {}
+
+	virtual void optimize () = 0;
 private:
 	SQLPhrase phrase_ ;
+	SQLStmtType type_;
 	ASTNode* parent_; 
 } ;
 
 class TRANS_EXPORT SelectStmt : public SqlStmt { 
 public:
 	SelectStmt ();
-	explicit SelectStmt (ASTNode*) ;
+	explicit SelectStmt (const ASTNode*) ;
+	explicit SelectStmt (const SelectStmt* parent);
 	~SelectStmt(); 
+
+	virtual void optimize () ;
+private: 
+	
 private:
 	
 };
 
 
 //The definit of executable experssion clause.
-class TRANS_EXPORT Expr : public ASTNode {
+class TRANS_EXPORT Expr : public SqlStmt {
 public:
-	Expr ()  {}
-	~Expr() {}
+	Expr () ; 
+	~Expr() ;
+
+	virtual void optimize () ;
 };
 
 }//Types
 }//Tansformer.
-#endif //__NODES_H__
+#endif //__NODES_TYPES_H__

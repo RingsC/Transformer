@@ -26,4 +26,3 @@ Release
 .vs
 grammar.cpp
 grammar.h
-build_cmake/

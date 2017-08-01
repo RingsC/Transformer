@@ -8,6 +8,7 @@
 #include <parser/parser.h>
 #include <parser/parserGramm.h>
 #include <parser/lex/lexical.h>
+#include <parser/grammar.h>
 
 namespace Transformer{
 namespace ParserN{
@@ -151,9 +152,10 @@ Parser::raw_parser(const char* str)
 	TransYY_yy_extra_type bison_yy;	
 
 	lex_scanner = Lex::init_scanner(str, &bison_yy.trans_yy_extra_, KeyWord::getScanKeyWord(), 
-															KeyWord::getKeyWordsNumber());	
-	
+															KeyWord::getKeyWordsNumber());		
 	bison_yy.have_lookahead_ = false; 
+
+
 	//do gramm parser.
 	init_parser(&bison_yy);
 	int yyresult = TransYY_yyparse(lex_scanner);	

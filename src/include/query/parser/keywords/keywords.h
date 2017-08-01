@@ -36,7 +36,7 @@ class TRANS_EXPORT KeyWord
 public:
 	KeyWord () {}
 	~KeyWord () {} 
-	static ScanKeyWord KeyWordLookup(const char* keyword, const ScanKeyWord kewords_list, int number_keywords);
+	static ScanKeyWord KeyWordLookup(const char* keyword, const ScanKeyWord keywords_list, int number_keywords);
 	static uint16 getKeyWordsNumber () { return sizeof(KeyWord::scanKeyWordsList_)/sizeof(KeyWord::scanKeyWordsList_[0]) ;}
 	static ScanKeyWord getScanKeyWord () { return scanKeyWordsList_;} 
 private:

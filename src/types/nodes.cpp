@@ -9,12 +9,15 @@ namespace Transformer{
 namespace Types{
 
 
-SelectStmt::SelectStmt(): SqlStmt()
+SelectStmt::SelectStmt() : SqlStmt()
 {
 
 }
 
-SelectStmt::SelectStmt(const SelectStmt* parent)
+SelectStmt::SelectStmt(ASTNode* parent) : SqlStmt(parent)
+{
+}
+SelectStmt::SelectStmt(SelectStmt* parent) : SqlStmt(parent)
 {
 
 }
@@ -27,7 +30,7 @@ void SelectStmt::optimize ()
 {
 }
 
-TargetEntry::TargetEntry()
+TargetEntry::TargetEntry()  
 {}
 
 TargetEntry::~TargetEntry()
@@ -79,6 +82,13 @@ GroupByStmt::~GroupByStmt()
 {}
 
 void GroupByStmt::optimize()
+{}
+
+OrderByStmt::OrderByStmt()
+{}
+OrderByStmt::~OrderByStmt()
+{}
+void OrderByStmt::optimize()
 {}
 
 Function::Function()

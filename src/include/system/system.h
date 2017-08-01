@@ -65,6 +65,7 @@ typedef short          int16;
 typedef int            int32;
 typedef long           int64;
 typedef long long      int128;
+typedef bool		   BOOL;
 
 #ifndef NULL
 #define NULL          ((void*) 0)

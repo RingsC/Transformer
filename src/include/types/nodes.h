@@ -99,18 +99,6 @@ private:
 	ASTNode* parent_; 
 } ;
 
-class TRANS_EXPORT SelectStmt : public SqlStmt { 
-public:
-	SelectStmt ();
-	explicit SelectStmt (const ASTNode*);
-	explicit SelectStmt (const SelectStmt* parent);
-	~SelectStmt(); 
-
-	virtual void optimize ();
-	
-private:
-	
-};
 
 class TRANS_EXPORT TargetEntry : public SqlStmt {
 public:
@@ -126,8 +114,13 @@ public:
 	~TargetList ();
 
 	virtual void optimize (); 
+private:
+	TargetEntry* entries_;
 } ;
 
+class TRANS_EXPORT IntoStmt : public SqlStmt {
+
+} ;
 class TRANS_EXPORT FromStmt : public SqlStmt {
 public:
 	FromStmt ();
@@ -170,6 +163,14 @@ public:
 	~GroupByStmt ();
 
 	virtual void optimize (); 
+};
+
+class TRANS_EXPORT OrderByStmt : public AggregateStmt {
+public:
+	OrderByStmt();
+	~OrderByStmt();
+
+	virtual void optimize();
 };
 
 class TRANS_EXPORT Function : public SqlStmt {
@@ -236,7 +237,49 @@ public:
 } ;
 
 
+class TRANS_EXPORT SelectStmt : public SqlStmt { 
+public:
+	SelectStmt ();
+	explicit SelectStmt (ASTNode* parent);
+	explicit SelectStmt (SelectStmt* parent);
+	~SelectStmt(); 
 
+	virtual void optimize ();
+	
+	virtual inline BOOL haveGroupByStmt ()const { return (groupByStmt_)? true : false ;} 
+	virtual inline BOOL haveHavingStmt () const { return (havingStmt_)? true : false;}
+	virtual inline BOOL haveOrderByStmt () const {return (orderByStmt_)? true : false;}	
+
+	virtual inline void setTargetList (TargetList* targetList) { targetList_ = targetList; }
+	virtual inline TargetList* getTargetList () const { return targetList_;}
+
+	virtual inline void setIntoStmt(IntoStmt* intoStmt) {intoStmt_ = intoStmt;}
+	virtual inline IntoStmt* getIntoStmt() const {return intoStmt_;}
+	
+	virtual inline void setFromStmt(FromStmt* fromStmt) { fromStmt_= fromStmt; }
+	virtual inline FromStmt* getFromStmt () const { return fromStmt_;}
+
+	virtual inline void setWhereStmt (WhereStmt* whereStmt) { whereStmt_ = whereStmt;}
+	virtual inline WhereStmt* getWhereStmt () const {return whereStmt_;}
+
+	virtual inline void setGroupByStmt(GroupByStmt* groupByStmt) { groupByStmt_ = groupByStmt;}
+	virtual inline GroupByStmt* getGroupByStmt () const {return groupByStmt_ ;}
+
+	virtual inline void setHavingStmt(HavingStmt* havingStmt) { havingStmt_ = havingStmt;}
+	virtual inline HavingStmt* getHavingStmt ()	const {return havingStmt_;}
+
+	virtual inline void setOderByStmt(OrderByStmt* orderByStmt) {orderByStmt_ = orderByStmt;}
+	virtual inline OrderByStmt* getOrderByStmt () const {return orderByStmt_;}
+private:
+	TargetList*     targetList_;
+	IntoStmt* 		intoStmt_;
+	FromStmt*       fromStmt_; 
+	WhereStmt*      whereStmt_; 
+	
+	GroupByStmt* 	groupByStmt_;
+	HavingStmt*     havingStmt_;
+	OrderByStmt*    orderByStmt_;		
+};
 
 
 

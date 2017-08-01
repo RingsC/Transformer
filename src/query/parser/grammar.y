@@ -24,9 +24,10 @@
 
 static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 						 const char *msg);
-
+#if defined yylex
 #undef yylex 
 #define yylex Transformer::ParserN::Parser::TransYY_yylex
+#endif
 %}
 
 %define api.pure
@@ -54,7 +55,7 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 }
 
 
-%type<_astNode_>	select_clause simple_select select_no_parens
+%type<_astNode_>	select_clause simple_select select_no_parens select_with_parens
 %type<_astNode_>	stmtblock stmtmulti	stmt SelectStmt
 
 %token <_str_>	IDENT FCONST SCONST BCONST XCONST Op
@@ -97,6 +98,12 @@ stmt:
 
 /*The SelectStmt definition*/
 SelectStmt: select_no_parens			%prec UMINUS
+			| select_with_parens		%prec UMINUS
+			;
+
+select_with_parens:
+			'(' select_no_parens ')'				{ $$ = $2; }
+			| '(' select_with_parens ')'			{ $$ = $2; }
 		;
 
 select_no_parens:
@@ -111,19 +118,8 @@ select_clause:
 simple_select:
 			SELECT 
 				{
-					/*
-					SelectStmt *n = makeNode(SelectStmt);
-					n->targetList = $3;
-					n->intoClause = $4;
-					n->fromClause = $5;
-					n->whereClause = $6;
-					n->groupClause = $7;
-					n->havingClause = $8;
-					n->windowClause = $9;
-					$$ = (Node *)n;
-					*/
-
-					$$ = NULL; 
+					Transformer::Types::SelectStmt* select = new Transformer::Types::SelectStmt ();
+					$$ = select; 
 				}
 
 

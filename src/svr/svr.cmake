@@ -37,5 +37,5 @@ else(MSVC)
 	target_link_libraries(Transformer Query Executor)
 endif(MSVC)
 install(TARGETS Transformer 
-	RUNTIME DESTINATION server/bin
+	RUNTIME DESTINATION bin
 	COMPONENT core)

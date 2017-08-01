@@ -24,5 +24,7 @@ Debug
 release
 Release
 .vs
+
+#the auto-generated files.
 grammar.cpp
 grammar.h

@@ -9,10 +9,11 @@ namespace Transformer{
 namespace Types{
 
 
-SelectStmt::SelectStmt()
+SelectStmt::SelectStmt(): SqlStmt()
 {
 
 }
+
 SelectStmt::SelectStmt(const SelectStmt* parent)
 {
 
@@ -26,6 +27,86 @@ void SelectStmt::optimize ()
 {
 }
 
+TargetEntry::TargetEntry()
+{}
+
+TargetEntry::~TargetEntry()
+{}
+
+void TargetEntry::optimize()
+{}
+
+FromStmt::FromStmt()
+{}
+
+FromStmt::~FromStmt()
+{}
+
+void FromStmt::optimize()
+{}
+
+WhereStmt::WhereStmt()
+{}
+
+WhereStmt::~WhereStmt()
+{}
+
+void WhereStmt::optimize()
+{}
+
+AggregateStmt::AggregateStmt()
+{}
+
+AggregateStmt::~AggregateStmt()
+{}
+
+void AggregateStmt::optimize()
+{}
+
+HavingStmt::HavingStmt()
+{}
+
+HavingStmt::~HavingStmt()
+{}
+
+void HavingStmt::optimize()
+{}
+
+GroupByStmt::GroupByStmt()
+{}
+
+GroupByStmt::~GroupByStmt()
+{}
+
+void GroupByStmt::optimize()
+{}
+
+Function::Function()
+{}
+
+Function::~Function()
+{}
+
+void Function::optimize()
+{}
+
+Sum::Sum()
+{}
+
+Sum::~Sum()
+{}
+
+void Sum::optimize()
+{}
+
+Avg::Avg()
+{
+}
+Avg::~Avg()
+{}
+void Avg::optimize()
+{}
+
 Expr::Expr()
 {
 }
@@ -38,6 +119,33 @@ void Expr::optimize()
 {
 }
 
+
+And::And()
+{}
+And::~And()
+{}
+
+void And::optimize()
+{}
+
+Expr* And::reverse()
+{
+	return (Expr*) NULL; 
+}
+
+Or::Or()
+{}
+
+Or::~Or()
+{}
+
+void Or::optimize ()
+{}
+
+Expr* Or::reverse()
+{
+	return (Expr*)NULL;
+}
 
 
 

@@ -54,27 +54,28 @@ public:
 
 /*USED FOR INDICATES THE PHRASE OF SQL PROCESSING*/
 typedef enum SQLPhrase{
-	UNTOUCHED = 0,
+	SQLPHRASE_UNTOUCHED = 0,
 	/*FOR ANALYZE*/
-	BEFORE_ANALYZE ,
-	IN_ANALYZE,
-	AFTER_ANALYZEA,
+	SQLPHRASE_BEFORE_ANALYZE ,
+	SQLPHRASE_IN_ANALYZE,
+	SQLPHRASE_AFTER_ANALYZEA,
 		
 	/*FOR REWRITEING*/
-	BEFORE_REWRITE,
-	IN_REWRITE,
-	AFTER_REWRITE,
+	SQLPHRASE_BEFORE_REWRITE,
+	SQLPHRASE_IN_REWRITE,
+	SQLPHRASE_AFTER_REWRITE,
 
 	/*FOR*/
-	BEFORE_PLANNING,
-	IN_PLANNING,
-	AFTER_PLANNING,
+	SQLPHRASE_BEFORE_PLANNING,
+	SQLPHRASE_IN_PLANNING,
+	SQLPHRASE_AFTER_PLANNING,
 
-	RESERVED	
+	SQLPHRASE_RESERVED	
 } SQLPhrase;
 
 typedef enum SQLStmtType {
 	STMT_UNKNOWN_TYPE=0,
+	STMT_SQL_TYPE,
 	STMT_SELECT_TYPE,
 	STMT_INSERT_TYPE,
 	STMT_UPDATE_TYPE,
@@ -85,9 +86,11 @@ typedef enum SQLStmtType {
 
 class TRANS_EXPORT SqlStmt : public ASTNode {
 public:
-	SqlStmt (){}
-	explicit SqlStmt (ASTNode* parent) {}
-	~SqlStmt () {}
+	SqlStmt (): phrase_(SQLPHRASE_UNTOUCHED), type_(STMT_SQL_TYPE), parent_((ASTNode*)NULL){
+
+	}
+	explicit SqlStmt (ASTNode* parent):phrase_(SQLPHRASE_UNTOUCHED), type_(STMT_SQL_TYPE),parent_(parent) {}
+	virtual ~SqlStmt () {}
 
 	virtual void optimize () = 0;
 private:
@@ -99,16 +102,110 @@ private:
 class TRANS_EXPORT SelectStmt : public SqlStmt { 
 public:
 	SelectStmt ();
-	explicit SelectStmt (const ASTNode*) ;
+	explicit SelectStmt (const ASTNode*);
 	explicit SelectStmt (const SelectStmt* parent);
 	~SelectStmt(); 
 
-	virtual void optimize () ;
-private: 
+	virtual void optimize ();
 	
 private:
 	
 };
+
+class TRANS_EXPORT TargetEntry : public SqlStmt {
+public:
+	TargetEntry();
+	~TargetEntry ();
+	
+	virtual void optimize () ;
+} ;
+
+class TRANS_EXPORT TargetList : public SqlStmt {
+public:
+	TargetList ();
+	~TargetList ();
+
+	virtual void optimize (); 
+} ;
+
+class TRANS_EXPORT FromStmt : public SqlStmt {
+public:
+	FromStmt ();
+	~FromStmt ();
+	
+	virtual void optimize ();
+} ;
+
+
+class Expr; 
+class TRANS_EXPORT WhereStmt : public SqlStmt {
+public:
+	WhereStmt () ;
+	~WhereStmt (); 
+	
+	virtual void optimize ();
+private:
+	Expr* expr_ ;
+} ;
+
+class TRANS_EXPORT AggregateStmt : public SqlStmt {
+public:
+	AggregateStmt() ;
+	~AggregateStmt ();
+
+	virtual void optimize ();
+} ;
+
+class TRANS_EXPORT HavingStmt : public AggregateStmt {
+public:
+	HavingStmt();
+	~HavingStmt();
+
+	virtual void optimize ();	
+} ;
+
+class TRANS_EXPORT GroupByStmt : public AggregateStmt {
+public:
+	GroupByStmt ();
+	~GroupByStmt ();
+
+	virtual void optimize (); 
+};
+
+class TRANS_EXPORT Function : public SqlStmt {
+public:
+	Function ();
+	~Function ();
+
+	virtual void optimize ();
+} ;
+
+
+class TRANS_EXPORT Sum : public Function {
+public:
+	Sum(); 
+	~Sum ();
+
+	virtual void optimize();
+} ;
+
+class TRANS_EXPORT Avg : public Function {
+public:
+	Avg ();
+	~Avg (); 
+	
+	virtual void optimize();
+};
+
+/*
+class TRANS_EXPORT Operator : public SqlStmt {
+public:
+	Operator ();
+	~Operator ();
+
+	virtual void optimize ();
+};
+*/
 
 
 //The definit of executable experssion clause.
@@ -119,6 +216,29 @@ public:
 
 	virtual void optimize () ;
 };
+
+class TRANS_EXPORT And : public Expr {
+public:
+	And () ;
+	~And () ;
+	virtual Expr* reverse ();
+
+	virtual void optimize ();
+} ;
+
+class TRANS_EXPORT Or : public Expr {
+public:
+	Or();
+	~Or();
+	
+	virtual Expr* reverse ();
+	virtual void optimize (); 
+} ;
+
+
+
+
+
 
 }//Types
 }//Tansformer.

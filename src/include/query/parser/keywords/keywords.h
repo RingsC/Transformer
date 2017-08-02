@@ -40,7 +40,7 @@ public:
 	static uint16 getKeyWordsNumber () { return sizeof(KeyWord::scanKeyWordsList_)/sizeof(KeyWord::scanKeyWordsList_[0]) ;}
 	static ScanKeyWord getScanKeyWord () { return scanKeyWordsList_;} 
 private:
-	static const uint32 MAX_KEYWORDS_NUMBER= 1024;
+	static const uint32 MAX_KEYWORDS_NUMBER= 512;
 	static scan_keyword_t scanKeyWordsList_ [MAX_KEYWORDS_NUMBER]; 
 } ;	
 

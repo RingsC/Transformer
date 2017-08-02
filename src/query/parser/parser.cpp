@@ -161,7 +161,7 @@ Parser::raw_parser(const char* str)
 	int yyresult = TransYY_yyparse(lex_scanner);	
 	
 	Lex::finish_scanner (lex_scanner, &bison_yy.trans_yy_extra_) ;	
-	return (Transformer::Types::ASTNode*) NULL; 
+	return bison_yy.parsetree_; 
 }
 
 }//ParserN.

@@ -51,6 +51,10 @@ KeyWord::KeyWordLookup (const char* keyword, const ScanKeyWord keywords_list, in
 		int			difference;
 
 		middle = low + (high - low) / 2;
+		if (!middle->key_name_){
+			high = middle - 1;
+			continue; 
+		}
 		difference = strcmp(middle->key_name_, word);
 		if (difference == 0)
 			return middle;

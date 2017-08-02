@@ -52,11 +52,21 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 	bool			_boolean_;
 	
 	Transformer::Types::ASTNode*		_astNode_;
+	Transformer::Types::TargetList*     _targetList_;
+	Transformer::Types::TableEntryList* _tableList_;
+	Transformer::Types::FromStmt* 	    _fromStmt_;
 }
 
 
 %type<_astNode_>	select_clause simple_select select_no_parens select_with_parens
 %type<_astNode_>	stmtblock stmtmulti	stmt SelectStmt
+%type<_astNode_>    target_entry table_entry
+
+%type<_targetList_> target_list_opt target_list_stmt
+
+%type<_tableList_> from_list 
+%type<_fromStmt_>  from_stmt 
+
 
 %token <_str_>	IDENT FCONST SCONST BCONST XCONST Op
 %token <_ival_>	ICONST PARAM
@@ -64,8 +74,9 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 %token			LESS_EQUALS GREATER_EQUALS NOT_EQUALS
 
 %token<_keyword_> NOT NULLS_P WITH BETWEEN IN_P LIKE ILIKE SIMILAR NOT_LA FIRST_P LAST_P NULLS_LA TIME ORDINALITY WITH_LA
-					SELECT AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER ABSOLUTE_P ABORT_P
-
+					AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER ABSOLUTE_P ABORT_P
+%token<_keyword_> SELECT FROM WHERE 
+				
 %%
 stmtblock:	stmtmulti
 			{
@@ -74,26 +85,15 @@ stmtblock:	stmtmulti
 		;
 stmtmulti:	stmtmulti ';' stmt
 				{
-					if ($1 != NULL)
-					{
-						/* update length of previous stmt */
-						//updateRawStmtEnd(llast_node(RawStmt, $1), @2);
-					}
-					if ($3 != NULL)
-						$$ = $1; //lappend($1, makeRawStmt($3, @2 + 1));
-					else
 						$$ = $1;
 				}
 			| stmt
 				{
-					if ($1 != NULL)
-						$$ = NULL; //list_make1(makeRawStmt($1, 0));
-					else
-						$$ = NULL;
+						$$ = $1;
 				}
 		;	
 stmt: 
-		SelectStmt
+		SelectStmt 
 		|/*empty*/ { $$ = NULL;}
 
 /*The SelectStmt definition*/
@@ -109,21 +109,88 @@ select_with_parens:
 select_no_parens:
 			select_clause 
 			{
-					//do somethings.
 					$$ = $1;
 			}
+			;
 select_clause:
 			simple_select							{ $$ = $1; }
-		;
+			;
 simple_select:
-			SELECT 
-				{
-					Transformer::Types::SelectStmt* select = new Transformer::Types::SelectStmt ();
-					$$ = select; 
-				}
+			SELECT target_list_opt from_stmt 		{
+														Transformer::Types::SelectStmt* select = new Transformer::Types::SelectStmt ();
+														select->setTargetList ($2);
+														select->setFromStmt($3);
+														$$ = select; 
+													}
+			;
+target_list_opt: target_list_stmt					{$$ = $1;}
+			|/*empty*/								{$$ = (Transformer::Types::TargetList*)NULL;}	
+			;
+	
+target_list_stmt:
+				target_list_stmt ',' target_entry	{
+														Transformer::Types::TargetList* target(NULL); 
+														if ($1) {
+															target = $1; 
+															target->mergeEntries ($3) ;
+														} else {
+															target = new Transformer::Types::TargetList () ;
+															target->addEntry ($3) ;
+														}
+														$$ = target; 
+													}	
+				| target_entry						{
+														Transformer::Types::TargetList* target = new Transformer::Types::TargetList (); 
+														target->addEntry ($1) ;	
+														$$ = target; 	
+													}
+				;
+target_entry:	IDENT								{
+														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ($1);
+														$$ = targetEntry;	
+													}
+				|	'*'								{
+														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ("*");
+														$$ = targetEntry;	
+													}
+				;
+				
+from_stmt:	FROM from_list							{
+														Transformer::Types::FromStmt* from = new Transformer::Types::FromStmt(); 
+														from->setTableEntryList ($2);	
+														$$ = from; 	
+													}
+			|/**/									{
+														$$ = NULL ; 
+													}
+			;
 
+
+from_list:	from_list ',' table_entry				{
+														Transformer::Types::TableEntryList* tableList = NULL;
+														if ($1) {	
+															tableList = $1; 
+														} else 
+															tableList = new Transformer::Types::TableEntryList ();
+														tableList->addTableEntry($3) ;
+														$$ = tableList; 		
+													}
+			| table_entry							{
+														Transformer::Types::TableEntryList* tableList = new Transformer::Types::TableEntryList ();
+														tableList->addTableEntry ($1);
+														$$ = tableList; 
+													}
+			;
+table_entry : IDENT									{
+														Transformer::Types::TableEntry* table = new Transformer::Types::TableEntry ($1) ;
+														$$ = table; 
+													}
+			;
 
 %%
+/*
+	the error report. 
+*/
 static void
 TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner, const char *msg)
 {

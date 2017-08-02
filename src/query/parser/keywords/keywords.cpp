@@ -12,7 +12,9 @@ namespace Transformer {
 namespace ParserN{
 
 scan_keyword_t KeyWord::scanKeyWordsList_[] ={
-	TRANS_KEYWORD("select",SELECT,RESERVED_KEYWORD)
+	TRANS_KEYWORD("from",FROM,RESERVED_KEYWORD),
+	TRANS_KEYWORD("select",SELECT,RESERVED_KEYWORD),
+	TRANS_KEYWORD("where",WHERE,RESERVED_KEYWORD)
 };
 
 ScanKeyWord

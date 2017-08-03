@@ -128,10 +128,20 @@ public:
 	explicit SqlStmt (NodeType type) : ASTNode(type),  phrase_(SQLPHRASE_UNTOUCHED), type_(STMT_SQL_TYPE), parent_((ASTNode*)NULL){
 
 	}
-	explicit SqlStmt (ASTNode* parent):ASTNode(NODE_TYPE_SQL), phrase_(SQLPHRASE_UNTOUCHED), type_(STMT_SQL_TYPE),parent_(parent) {}
+	explicit SqlStmt (ASTNode* parent):ASTNode(NODE_TYPE_SQL), phrase_(SQLPHRASE_UNTOUCHED), type_(STMT_SQL_TYPE),parent_(parent) {
+	
+	}
+	
+	
 	virtual ~SqlStmt () {}
 
 	virtual void optimize () = 0;
+	virtual const char* toString() = 0;
+
+	virtual ASTNode* getParent() const {return parent_;}
+
+	SQLPhrase getSQLPhrase() const { return phrase_;}
+	SQLStmtType getSQLStmtType () const { return type_;}
 private:
 	SQLPhrase phrase_ ;
 	SQLStmtType type_;
@@ -147,7 +157,7 @@ public:
 	~PlaceHolder();
 	
 	virtual void optimize();
-	virtual string toString();	
+	virtual const char* toString();	
 } ;
 
 class TRANS_EXPORT TargetEntry : public SqlStmt {
@@ -158,6 +168,7 @@ public:
 	
 	virtual void optimize () ;
 	virtual const char* getTargetName () const { return targetName_;}
+	virtual const char* toString(); 
 private:
 	static const uint16 max_targetName_length= 128;
 	char targetName_[max_targetName_length];
@@ -176,7 +187,7 @@ public:
 	virtual void mergeEntries(TargetList* targetList) ;
 
 	virtual uint32 getEntryNum () const { return entries_.size();};
-
+	virtual const char* toString ();
 private: //Here, we will use the a vector to store entries.
 	vector<TargetList*> entries_;	
 } ;
@@ -188,7 +199,8 @@ public:
 	~TableEntry ();
 	
 	virtual void optimize();	
-	const char* getName () const { return name_;}
+	virtual const char* getName () const { return name_;}
+	virtual const char* toString ();
 private:
 	//The length of table name will be read from conf in future.
 	static const uint32 max_length_table_name= 128; 
@@ -209,12 +221,18 @@ public:
 	virtual uint32 getTableNum () const { return tables_.size();}	
 
 	virtual void optimize();
+	virtual const char* toString();
 private:
 	list<TableEntry*> tables_;
 };
 
 class TRANS_EXPORT IntoStmt : public SqlStmt {
+public:
+	IntoStmt ();
+	~IntoStmt();
 
+	virtual void optimize();
+	virtual const char* toString();
 } ;
 class TRANS_EXPORT FromStmt : public SqlStmt {
 public:
@@ -224,6 +242,7 @@ public:
 	virtual void setTableEntryList (TableEntryList* tables);
 	virtual void setTableEntryList (ASTNode* tables);
 	virtual void optimize ();
+	virtual const char* toString();
 private:
 	TableEntryList* tables__;	
 } ;
@@ -234,8 +253,12 @@ class TRANS_EXPORT WhereStmt : public SqlStmt {
 public:
 	WhereStmt () ;
 	~WhereStmt (); 
-	
+		
 	virtual void optimize ();
+	virtual void setExpr (Expr* expr) { expr_ =  expr;}
+	virtual Expr* getExpr () const {return expr_;}
+
+	virtual const char* toString();
 private:
 	Expr* expr_ ;
 } ;
@@ -246,6 +269,7 @@ public:
 	~AggregateStmt ();
 
 	virtual void optimize ();
+	virtual const char* toString();
 protected:
 	explicit AggregateStmt(NodeType type);
 } ;
@@ -256,6 +280,7 @@ public:
 	~HavingStmt();
 
 	virtual void optimize ();	
+	virtual const char* toString();
 } ;
 
 class TRANS_EXPORT GroupByStmt : public AggregateStmt {
@@ -264,6 +289,7 @@ public:
 	~GroupByStmt ();
 
 	virtual void optimize (); 
+	virtual const char* toString();
 };
 
 class TRANS_EXPORT OrderByStmt : public AggregateStmt {
@@ -272,13 +298,16 @@ public:
 	~OrderByStmt();
 
 	virtual void optimize();
+	virtual const char* toString();
 };
 
 class TRANS_EXPORT Function : public SqlStmt {
 public:
 	Function ();
 	~Function ();
+	
 	virtual void optimize ();
+	virtual const char* toString();
 protected:
 	explicit Function(NodeType type) ;
 } ;
@@ -290,6 +319,7 @@ public:
 	~Sum ();
 
 	virtual void optimize();
+	virtual const char* toString();
 } ;
 
 class TRANS_EXPORT Avg : public Function {
@@ -298,6 +328,7 @@ public:
 	~Avg (); 
 	
 	virtual void optimize();
+	virtual const char* toString();
 };
 
 /*
@@ -307,6 +338,7 @@ public:
 	~Operator ();
 
 	virtual void optimize ();
+	virtual const char* toString();
 };
 */
 
@@ -317,7 +349,8 @@ public:
 	Expr () ; 
 	~Expr() ;
 
-	virtual void optimize () ;
+	virtual void optimize ();
+	virtual const char* toString();
 protected:
 	explicit Expr(NodeType type);
 };
@@ -326,8 +359,11 @@ class TRANS_EXPORT And : public Expr {
 public:
 	And () ;
 	~And () ;
+	
 	virtual Expr* reverse ();
 	virtual void optimize ();
+	virtual const char* toString();
+	
 } ;
 
 class TRANS_EXPORT Or : public Expr {
@@ -337,6 +373,7 @@ public:
 	
 	virtual Expr* reverse ();
 	virtual void optimize (); 
+	virtual const char* toString();
 } ;
 
 
@@ -373,6 +410,8 @@ public:
 
 	virtual inline void setOderByStmt(OrderByStmt* orderByStmt) {orderByStmt_ = orderByStmt;}
 	virtual inline OrderByStmt* getOrderByStmt () const {return orderByStmt_;}
+
+	virtual const char* toString();
 private:
 	TargetList*     targetList_;
 	IntoStmt* 		intoStmt_;
@@ -382,9 +421,9 @@ private:
 	GroupByStmt* 	groupByStmt_;
 	HavingStmt*     havingStmt_;
 	OrderByStmt*    orderByStmt_;		
+
+	ASTNode* 		parent_;
 };
-
-
 
 }//Types
 }//Tansformer.

@@ -55,6 +55,7 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 	Transformer::Types::TargetList*     _targetList_;
 	Transformer::Types::TableEntryList* _tableList_;
 	Transformer::Types::FromStmt* 	    _fromStmt_;
+	Transformer::Types::WhereStmt*      _whereStmt_;
 }
 
 
@@ -66,7 +67,7 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 
 %type<_tableList_> from_list 
 %type<_fromStmt_>  from_stmt 
-
+%type<_whereStmt_> where_stmt
 
 %token <_str_>	IDENT FCONST SCONST BCONST XCONST Op
 %token <_ival_>	ICONST PARAM
@@ -79,47 +80,49 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 				
 %%
 stmtblock:	stmtmulti
-			{
-				TransYY_yyget_extra(yyscanner)->parsetree_ = $1;
-			}
-		;
+													{
+														TransYY_yyget_extra(yyscanner)->parsetree_ = $1;
+													}
+			;
 stmtmulti:	stmtmulti ';' stmt
-				{
-						$$ = $1;
-				}
+													{
+														$$ = $1;
+													}
 			| stmt
-				{
-						$$ = $1;
-				}
-		;	
+													{
+														$$ = $1;
+													}
+			;	
 stmt: 
-		SelectStmt 
-		|/*empty*/ { $$ = NULL;}
+			SelectStmt 
+			|/*empty*/ 								{ $$ = NULL;}
 
 /*The SelectStmt definition*/
-SelectStmt: select_no_parens			%prec UMINUS
-			| select_with_parens		%prec UMINUS
+SelectStmt: select_no_parens						%prec UMINUS
+			| select_with_parens					%prec UMINUS
 			;
 
 select_with_parens:
 			'(' select_no_parens ')'				{ $$ = $2; }
 			| '(' select_with_parens ')'			{ $$ = $2; }
-		;
+			;
 
 select_no_parens:
 			select_clause 
-			{
-					$$ = $1;
-			}
+													{
+														$$ = $1;
+													}
 			;
 select_clause:
 			simple_select							{ $$ = $1; }
 			;
 simple_select:
-			SELECT target_list_opt from_stmt 		{
+			SELECT target_list_opt from_stmt where_stmt		
+													{
 														Transformer::Types::SelectStmt* select = new Transformer::Types::SelectStmt ();
 														select->setTargetList ($2);
 														select->setFromStmt($3);
+														select->setWhereStmt($4);
 														$$ = select; 
 													}
 			;
@@ -128,7 +131,7 @@ target_list_opt: target_list_stmt					{$$ = $1;}
 			;
 	
 target_list_stmt:
-				target_list_stmt ',' target_entry	{
+			target_list_stmt ',' target_entry		{
 														Transformer::Types::TargetList* target(NULL); 
 														if ($1) {
 															target = $1; 
@@ -139,21 +142,22 @@ target_list_stmt:
 														}
 														$$ = target; 
 													}	
-				| target_entry						{
+			| target_entry							{
 														Transformer::Types::TargetList* target = new Transformer::Types::TargetList (); 
 														target->addEntry ($1) ;	
 														$$ = target; 	
 													}
 				;
-target_entry:	IDENT								{
+target_entry:	
+			IDENT									{
 														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ($1);
 														$$ = targetEntry;	
 													}
-				|	'*'								{
+			|	'*'									{
 														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ("*");
 														$$ = targetEntry;	
 													}
-				;
+			;
 				
 from_stmt:	FROM from_list							{
 														Transformer::Types::FromStmt* from = new Transformer::Types::FromStmt(); 
@@ -187,6 +191,13 @@ table_entry : IDENT									{
 													}
 			;
 
+where_stmt : WHERE IDENT
+													{
+														Transformer::Types::WhereStmt* where = new Transformer::Types::WhereStmt (); 
+														$$ = where; 				
+													}
+			|/*without where stmt*/					{ $$ = NULL ;}
+			;
 %%
 /*
 	the error report. 

@@ -28,3 +28,6 @@ Release
 #the auto-generated files.
 grammar.cpp
 grammar.h
+
+#the swap file.
+*.swp

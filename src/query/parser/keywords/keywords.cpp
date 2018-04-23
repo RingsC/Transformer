@@ -11,8 +11,14 @@
 namespace Transformer {
 namespace ParserN{
 
+//notice, pls keep the keywords order as alphabetically.
 scan_keyword_t KeyWord::scanKeyWordsList_[] ={
+	TRANS_KEYWORD("by",BY,RESERVED_KEYWORD),
 	TRANS_KEYWORD("from",FROM,RESERVED_KEYWORD),
+	TRANS_KEYWORD("group",GROUP,RESERVED_KEYWORD),
+	TRANS_KEYWORD("having",HAVING,RESERVED_KEYWORD),
+	TRANS_KEYWORD("limit",LIMIT,RESERVED_KEYWORD),
+	TRANS_KEYWORD("order",ORDER,RESERVED_KEYWORD),
 	TRANS_KEYWORD("select",SELECT,RESERVED_KEYWORD),
 	TRANS_KEYWORD("where",WHERE,RESERVED_KEYWORD)
 };

@@ -3,6 +3,7 @@
 *     the SQL grammay part.
 *
 ******************************************************************************/
+
 #include <parser/helper.h>
 #include <types/nodes.h>
 
@@ -56,6 +57,8 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 	Transformer::Types::TableEntryList* _tableList_;
 	Transformer::Types::FromStmt* 	    _fromStmt_;
 	Transformer::Types::WhereStmt*      _whereStmt_;
+	Transformer::Types::Expr			_expr_;
+	Transformer::Types::AggrateStmt*    _aggrStmt_;
 }
 
 
@@ -68,6 +71,7 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 %type<_tableList_> from_list 
 %type<_fromStmt_>  from_stmt 
 %type<_whereStmt_> where_stmt
+%type <_aggrStmt_> aggr_stmt groupby_stmt having_Stmt orderby_stmt limit_stmt 
 
 %token <_str_>	IDENT FCONST SCONST BCONST XCONST Op
 %token <_ival_>	ICONST PARAM
@@ -76,7 +80,7 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 
 %token<_keyword_> NOT NULLS_P WITH BETWEEN IN_P LIKE ILIKE SIMILAR NOT_LA FIRST_P LAST_P NULLS_LA TIME ORDINALITY WITH_LA
 					AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER ABSOLUTE_P ABORT_P
-%token<_keyword_> SELECT FROM WHERE 
+%token<_keyword_> SELECT FROM WHERE ORDER BY HAVING GROUP LIMIT 
 				
 %%
 stmtblock:	stmtmulti
@@ -117,8 +121,8 @@ select_clause:
 			simple_select							{ $$ = $1; }
 			;
 simple_select:
-			SELECT target_list_opt from_stmt where_stmt		
-													{
+			SELECT target_list_opt from_stmt where_stmt aggr_stmt		
+													{ //the new operator, it will be replaced by new memory allocator placement.
 														Transformer::Types::SelectStmt* select = new Transformer::Types::SelectStmt ();
 														select->setTargetList ($2);
 														select->setFromStmt($3);
@@ -189,15 +193,27 @@ table_entry : IDENT									{
 														Transformer::Types::TableEntry* table = new Transformer::Types::TableEntry ($1) ;
 														$$ = table; 
 													}
+			| IDENT '.' IDENT						{ //format:database.table
+
+													}
+			| IDENT '.' IDENT '.' IDENT 			{//format: schema.database.table
+														
+													}
 			;
 
-where_stmt : WHERE IDENT
+where_stmt : WHERE condition_stmt 
 													{
 														Transformer::Types::WhereStmt* where = new Transformer::Types::WhereStmt (); 
 														$$ = where; 				
 													}
 			|/*without where stmt*/					{ $$ = NULL ;}
 			;
+condition_stmt: 									{ $$ = NULL; }
+
+groupby_stmt: GROUP BY IDENT						{
+															
+													} 
+				
 %%
 /*
 	the error report. 

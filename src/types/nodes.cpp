@@ -36,6 +36,9 @@ const char*  SelectStmt::toString()
 {
 	return NULL; 	
 }
+void SelectStmt::release()
+{
+}
 
 TargetEntry::TargetEntry() : SqlStmt (NODE_TYPE_TARGETENTRY)
 {}
@@ -54,6 +57,9 @@ const char* TargetEntry::toString()
 {
 	return NULL;
 }
+void TargetEntry::release()
+{
+}
 
 TargetList::TargetList():SqlStmt (NODE_TYPE_TARGETENTRY_LIST)
 {}
@@ -61,6 +67,10 @@ TargetList::~TargetList()
 {}
 void TargetList::optimize()
 {}
+void TargetList::release()
+{
+}
+
 void TargetList::addEntry (TargetEntry* entry) 
 {
 }
@@ -76,6 +86,9 @@ void TargetList::mergeEntries (ASTNode* target)
 const char* TargetList::toString()
 {
 	return NULL;
+}
+void TargetList::release()
+{
 }
 
 TableEntry::TableEntry():SqlStmt (NODE_TYPE_TABLEENTRY)
@@ -95,6 +108,10 @@ const char* TableEntry::toString()
 {
 	return NULL;
 }
+void TableEntry::release()
+{
+}
+
 TableEntryList::TableEntryList():SqlStmt (NODE_TYPE_TABLEENTRY_LIST)
 {
 }
@@ -120,6 +137,10 @@ const char* TableEntryList::toString()
 {
 	return NULL;
 }
+void TableEntryList::release()
+{
+}
+
 FromStmt::FromStmt():SqlStmt (NODE_TYPE_FROM_STMT)
 {
 }
@@ -136,18 +157,27 @@ void FromStmt::setTableEntryList (TableEntryList* tables)
 {
 }
 void FromStmt::setTableEntryList (ASTNode* tables)
-{}
+{
+}
 
 const char* FromStmt::toString()
 {
 	return NULL;
 }
+void FromStmt::release()
+{
+}
 
 WhereStmt::WhereStmt(): SqlStmt (NODE_TYPE_WHERE_STMT)
-{}
+{
+}
+WhereStmt::WhereStmt(Expr* expr): expr_(expr), SqlStmt (NODE_TYPE_WHERE_STMT)
+{
+}
 
 WhereStmt::~WhereStmt()
-{}
+{
+}
 
 void WhereStmt::optimize()
 {}
@@ -155,6 +185,10 @@ const char* WhereStmt::toString()
 {
 	return NULL;
 }
+void WhereStmt::release()
+{
+}
+
 AggregateStmt::AggregateStmt() : SqlStmt (NODE_TYPE_AGGREGATE_STMT)
 {}
 AggregateStmt::AggregateStmt(NodeType type) : SqlStmt (type)
@@ -168,6 +202,10 @@ const char* AggregateStmt::toString()
 {
 	return NULL;
 }
+void AggregateStmt::release()
+{
+
+}
 HavingStmt::HavingStmt() : AggregateStmt(NODE_TYPE_HAVING_STMT)
 {}
 
@@ -180,12 +218,18 @@ const char* HavingStmt::toString()
 {
 	return NULL;
 }
+void HavingStmt::release()
+{
+}
 
 GroupByStmt::GroupByStmt() : AggregateStmt(NODE_TYPE_GROUPBY_STMT)
-{}
+{
+}
 
 GroupByStmt::~GroupByStmt()
-{}
+{
+
+}
 
 void GroupByStmt::optimize()
 {}
@@ -193,7 +237,9 @@ const char* GroupByStmt::toString()
 {
 	return NULL;
 }
-
+void GroupByStmt::release()
+{
+}
 OrderByStmt::OrderByStmt() : AggregateStmt (NODE_TYPE_ORDERBY_STMT)
 {}
 OrderByStmt::~OrderByStmt()
@@ -204,7 +250,9 @@ const char* OrderByStmt::toString()
 {
 	return NULL;
 }
-
+void OrderByStmt::release()
+{
+}
 Function::Function() : SqlStmt(NODE_TYPE_FUNCTION)
 {
 }
@@ -221,6 +269,10 @@ const char* Function::toString()
 {
 	return NULL;
 }
+void Function::release()
+{
+}
+
 Sum::Sum() : Function (NODE_TYPE_FUNCTION_SUM) 
 {}
 
@@ -232,6 +284,9 @@ void Sum::optimize()
 const char* Sum::toString()
 {
 	return NULL;
+}
+void Sum::release()
+{
 }
 
 Avg::Avg() : Function(NODE_TYPE_FUNCTION_AVG)
@@ -245,6 +300,10 @@ const char* Avg::toString()
 {
 	return NULL;
 }
+void Avg::release()
+{
+}
+
 Expr::Expr() : SqlStmt(NODE_TYPE_EXPR)
 {
 }
@@ -261,6 +320,9 @@ void Expr::optimize()
 const char* Expr::toString()
 {
 	return NULL;
+}
+void Expr::release()
+{
 }
 
 And::And() : Expr(NODE_TYPE_EXPR_AND)
@@ -279,6 +341,9 @@ const char* And::toString()
 {
 	return NULL;
 }
+void And::release()
+{
+}
 
 Or::Or() : Expr(NODE_TYPE_EXPR_OR)
 {}
@@ -296,7 +361,9 @@ const char* Or::toString()
 {
 	return NULL;
 }
-
+void Or::release()
+{
+}
 
 }//namespace Types
 }//namespace Tranformer.

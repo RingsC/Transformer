@@ -8,7 +8,7 @@ We hope that we can build up a new powerfull DB as Transformer does.
 Initialy, The code here is only the framework of the project. We will commit the rest of that in future. 
 
 
-In future, we want to run the query engine on cloud platform as a service, Query As a Service. The user just only input the sql or some kind of query input specification,
+In future, we want to run the query engine on cloud platform as a service, Query As a Service. The users just only input the sql or some kind of query input specifications,
 
 then the service will produce or ouput the query plan specification or execution plan specification. What you need to do is to specify the storage engine interfaces, 
 or access methods.

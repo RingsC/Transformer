@@ -45,9 +45,9 @@ TargetEntry::TargetEntry() : SqlStmt (NODE_TYPE_TARGETENTRY)
 
 TargetEntry::~TargetEntry()
 {}
-TargetEntry::TargetEntry(const char* targetName):SqlStmt (NODE_TYPE_TARGETENTRY)
+TargetEntry::TargetEntry(const char* targetName, int table_length):SqlStmt (NODE_TYPE_TARGETENTRY)
 {
-	strncpy(targetName_, targetName, strlen(targetName));
+   strncpy(targetName_, targetName, table_length);
 }
 
 void TargetEntry::optimize()
@@ -67,9 +67,6 @@ TargetList::~TargetList()
 {}
 void TargetList::optimize()
 {}
-void TargetList::release()
-{
-}
 
 void TargetList::addEntry (TargetEntry* entry) 
 {
@@ -88,15 +85,13 @@ const char* TargetList::toString()
 	return NULL;
 }
 void TargetList::release()
-{
-}
-
+{}
 TableEntry::TableEntry():SqlStmt (NODE_TYPE_TABLEENTRY)
 {
 }
-TableEntry::TableEntry(const char* name):SqlStmt (NODE_TYPE_TABLEENTRY)
+TableEntry::TableEntry(const char* name, int table_length):SqlStmt (NODE_TYPE_TABLEENTRY)
 {
-	strncpy(name_, name, strlen(name)) ;
+	strncpy(name_, name, table_length) ;
 }
 TableEntry::~TableEntry()
 {
@@ -171,7 +166,7 @@ void FromStmt::release()
 WhereStmt::WhereStmt(): SqlStmt (NODE_TYPE_WHERE_STMT)
 {
 }
-WhereStmt::WhereStmt(Expr* expr): expr_(expr), SqlStmt (NODE_TYPE_WHERE_STMT)
+WhereStmt::WhereStmt(Expr* expr): SqlStmt (NODE_TYPE_WHERE_STMT), expr_(expr)
 {
 }
 

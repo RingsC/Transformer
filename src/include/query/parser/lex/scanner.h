@@ -2,8 +2,7 @@
 #define Trans_yyHEADER_H 1
 #define Trans_yyIN_HEADER 1
 
-#line 6 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
-#line 2 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 6 "/home/leehao/Transformer/src/include/query/parser/lex/scanner.h"
 /************************************Start of verbatim codes.**********************************************/
 /*	
 	path:src/query/parser/lex/scanner.l
@@ -26,9 +25,7 @@ using Transformer::ParserN::scan_keyword_ptr ;
 
 /************************************End of verbatim codes.**********************************************/
 
-
-
-#line 32 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
+#line 29 "/home/leehao/Transformer/src/include/query/parser/lex/scanner.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -36,8 +33,8 @@ using Transformer::ParserN::scan_keyword_ptr ;
 
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
-#define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 35
+#define YY_FLEX_MINOR_VERSION 6
+#define YY_FLEX_SUBMINOR_VERSION 1
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -82,7 +79,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -113,27 +109,17 @@ typedef unsigned int flex_uint32_t;
 #define UINT32_MAX             (4294967295U)
 #endif
 
+#endif /* ! C99 */
+
 #endif /* ! FLEXINT_H */
 
-#ifdef __cplusplus
-
-/* The "const" storage-class-modifier is valid. */
-#define YY_USE_CONST
-
-#else	/* ! __cplusplus */
-
-/* C99 requires __STDC__ to be defined as 1. */
-#if defined (__STDC__)
-
-#define YY_USE_CONST
-
-#endif	/* defined (__STDC__) */
-#endif	/* ! __cplusplus */
-
-#ifdef YY_USE_CONST
+/* TODO: this is always defined, so inline it */
 #define yyconst const
+
+#if defined(__GNUC__) && __GNUC__ >= 3
+#define yynoreturn __attribute__((__noreturn__))
 #else
-#define yyconst
+#define yynoreturn
 #endif
 
 /* An opaque pointer. */
@@ -155,7 +141,15 @@ typedef void* yyscan_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 #ifndef YY_TYPEDEF_YY_BUFFER_STATE
@@ -180,7 +174,7 @@ struct yy_buffer_state
 	/* Size of input buffer in bytes, not including room for EOB
 	 * characters.
 	 */
-	yy_size_t yy_buf_size;
+	int yy_buf_size;
 
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
@@ -237,7 +231,7 @@ void Trans_yyfree (void * ,yyscan_t yyscanner );
 
 /* Begin user sect3 */
 
-#define Trans_yywrap(n) 1
+#define Trans_yywrap(yyscanner) (/*CONSTCOND*/1)
 #define YY_SKIP_YYWRAP
 
 #define yytext_ptr yytext_r
@@ -288,19 +282,23 @@ void Trans_yyset_extra (YY_EXTRA_TYPE user_defined ,yyscan_t yyscanner );
 
 FILE *Trans_yyget_in (yyscan_t yyscanner );
 
-void Trans_yyset_in  (FILE * in_str ,yyscan_t yyscanner );
+void Trans_yyset_in  (FILE * _in_str ,yyscan_t yyscanner );
 
 FILE *Trans_yyget_out (yyscan_t yyscanner );
 
-void Trans_yyset_out  (FILE * out_str ,yyscan_t yyscanner );
+void Trans_yyset_out  (FILE * _out_str ,yyscan_t yyscanner );
 
-int Trans_yyget_leng (yyscan_t yyscanner );
+			int Trans_yyget_leng (yyscan_t yyscanner );
 
 char *Trans_yyget_text (yyscan_t yyscanner );
 
 int Trans_yyget_lineno (yyscan_t yyscanner );
 
-void Trans_yyset_lineno (int line_number ,yyscan_t yyscanner );
+void Trans_yyset_lineno (int _line_number ,yyscan_t yyscanner );
+
+int Trans_yyget_column  (yyscan_t yyscanner );
+
+void Trans_yyset_column (int _column_no ,yyscan_t yyscanner );
 
 YYSTYPE * Trans_yyget_lval (yyscan_t yyscanner );
 
@@ -336,7 +334,12 @@ static int yy_flex_strlen (yyconst char * ,yyscan_t yyscanner);
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Number of entries by which start-condition stack grows. */
@@ -371,9 +374,9 @@ extern int Trans_yylex \
 #undef YY_DECL
 #endif
 
-#line 817 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 817 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 
 
-#line 378 "/home/homli/work/Transformer/src/include/query/parser/lex/scanner.h"
+#line 381 "/home/leehao/Transformer/src/include/query/parser/lex/scanner.h"
 #undef Trans_yyIN_HEADER
 #endif /* Trans_yyHEADER_H */

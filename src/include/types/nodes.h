@@ -22,25 +22,25 @@ using std::list;
 
 class TRANS_EXPORT  ASTNode : public NonCopyable {
 public:
-	typedef enum node_type_t {
-		NODE_TYPE_NONE =0,
-		NODE_TYPE_SQL,
+   typedef enum node_type_t {
+     NODE_TYPE_NONE =0,
+     NODE_TYPE_SQL,
 
-		NODE_TYPE_TARGETENTRY,
-		NODE_TYPE_TARGETENTRY_LIST,
+     NODE_TYPE_TARGETENTRY,
+     NODE_TYPE_TARGETENTRY_LIST,
+     
+     NODE_TYPE_TABLEENTRY,
+     NODE_TYPE_TABLEENTRY_LIST,	
 
-		NODE_TYPE_TABLEENTRY,
-		NODE_TYPE_TABLEENTRY_LIST,	
+     NODE_TYPE_SELECT_STMT, 
+     NODE_TYPE_TARGETLIST_STMT,
+     NODE_TYPE_FROM_STMT, 
+     NODE_TYPE_WHERE_STMT, 
 
-		NODE_TYPE_SELECT_STMT, 
-		NODE_TYPE_TARGETLIST_STMT,
-		NODE_TYPE_FROM_STMT, 
-		NODE_TYPE_WHERE_STMT, 
-
-		NODE_TYPE_AGGREGATE_STMT,
-		NODE_TYPE_HAVING_STMT,
-		NODE_TYPE_GROUPBY_STMT, 
-		NODE_TYPE_ORDERBY_STMT,
+     NODE_TYPE_AGGREGATE_STMT,
+     NODE_TYPE_HAVING_STMT,
+     NODE_TYPE_GROUPBY_STMT, 
+     NODE_TYPE_ORDERBY_STMT,
 
 		NODE_TYPE_JOIN_STMT,
 		NODE_TYPE_JOIN_MERGE,
@@ -167,7 +167,7 @@ public:
 class TRANS_EXPORT TargetEntry : public SqlStmt {
 public:
 	TargetEntry();
-	TargetEntry(const char* targetName) ;
+	TargetEntry(const char* targetName, int table_length) ;
 	virtual ~TargetEntry ();
 	
 	virtual void optimize () ;
@@ -201,7 +201,7 @@ private: //Here, we will use the a vector to store entries.
 class TRANS_EXPORT TableEntry : public SqlStmt {
 public:
 	TableEntry ();
-	TableEntry (const char* tableName) ;
+	TableEntry (const char* tableName, int table_length);
 	virtual ~TableEntry ();
 	
 	virtual void optimize();	
@@ -445,7 +445,7 @@ public:
 	virtual const char* toString();
 private:
 	TargetList*     targetList_;
-	IntoStmt* 		intoStmt_;
+	IntoStmt* 	intoStmt_;
 	FromStmt*       fromStmt_; 
 	WhereStmt*      whereStmt_; 
 	
@@ -453,7 +453,7 @@ private:
 	HavingStmt*     havingStmt_;
 	OrderByStmt*    orderByStmt_;		
 
-	ASTNode* 		parent_;
+	ASTNode* 	parent_;
 };
 
 }//Types

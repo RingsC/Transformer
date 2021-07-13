@@ -1,5 +1,4 @@
-#line 2 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
-#line 2 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 2 "/home/leehao/Transformer/src/query/parser/lex/scanner.cpp"
 /************************************Start of verbatim codes.**********************************************/
 /*	
 	path:src/query/parser/lex/scanner.l
@@ -22,9 +21,7 @@ using Transformer::ParserN::scan_keyword_ptr ;
 
 /************************************End of verbatim codes.**********************************************/
 
-
-
-#line 28 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 25 "/home/leehao/Transformer/src/query/parser/lex/scanner.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -32,8 +29,8 @@ using Transformer::ParserN::scan_keyword_ptr ;
 
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
-#define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 35
+#define YY_FLEX_MINOR_VERSION 6
+#define YY_FLEX_SUBMINOR_VERSION 1
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -78,7 +75,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -109,27 +105,17 @@ typedef unsigned int flex_uint32_t;
 #define UINT32_MAX             (4294967295U)
 #endif
 
+#endif /* ! C99 */
+
 #endif /* ! FLEXINT_H */
 
-#ifdef __cplusplus
-
-/* The "const" storage-class-modifier is valid. */
-#define YY_USE_CONST
-
-#else	/* ! __cplusplus */
-
-/* C99 requires __STDC__ to be defined as 1. */
-#if defined (__STDC__)
-
-#define YY_USE_CONST
-
-#endif	/* defined (__STDC__) */
-#endif	/* ! __cplusplus */
-
-#ifdef YY_USE_CONST
+/* TODO: this is always defined, so inline it */
 #define yyconst const
+
+#if defined(__GNUC__) && __GNUC__ >= 3
+#define yynoreturn __attribute__((__noreturn__))
 #else
-#define yyconst
+#define yynoreturn
 #endif
 
 /* Returned upon end-of-file. */
@@ -182,7 +168,15 @@ typedef void* yyscan_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -194,18 +188,24 @@ typedef void* yyscan_t;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
 #define EOB_ACT_CONTINUE_SCAN 0
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
 
     #define YY_LESS_LINENO(n)
+    #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
 	do \
 		{ \
 		/* Undo effects of setting up yytext. */ \
-        int yyless_macro_arg = (n); \
+        yy_size_t yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
 		*yy_cp = yyg->yy_hold_char; \
 		YY_RESTORE_YY_MORE_OFFSET \
@@ -215,11 +215,6 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 	while ( 0 )
 
 #define unput(c) yyunput( c, yyg->yytext_ptr , yyscanner )
-
-#ifndef YY_TYPEDEF_YY_SIZE_T
-#define YY_TYPEDEF_YY_SIZE_T
-typedef size_t yy_size_t;
-#endif
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
@@ -233,7 +228,7 @@ struct yy_buffer_state
 	/* Size of input buffer in bytes, not including room for EOB
 	 * characters.
 	 */
-	yy_size_t yy_buf_size;
+	int yy_buf_size;
 
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
@@ -349,7 +344,7 @@ void Trans_yyfree (void * ,yyscan_t yyscanner );
 
 /* Begin user sect3 */
 
-#define Trans_yywrap(n) 1
+#define Trans_yywrap(yyscanner) (/*CONSTCOND*/1)
 #define YY_SKIP_YYWRAP
 
 typedef unsigned char YY_CHAR;
@@ -361,14 +356,14 @@ typedef int yy_state_type;
 static yy_state_type yy_get_previous_state (yyscan_t yyscanner );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  ,yyscan_t yyscanner);
 static int yy_get_next_buffer (yyscan_t yyscanner );
-static void yy_fatal_error (yyconst char msg[] ,yyscan_t yyscanner );
+static void yynoreturn yy_fatal_error (yyconst char* msg ,yyscan_t yyscanner );
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
  */
 #define YY_DO_BEFORE_ACTION \
 	yyg->yytext_ptr = yy_bp; \
-	yyleng = (size_t) (yy_cp - yy_bp); \
+	yyleng = (int) (yy_cp - yy_bp); \
 	yyg->yy_hold_char = *yy_cp; \
 	*yy_cp = '\0'; \
 	yyg->yy_c_buf_p = yy_cp;
@@ -417,7 +412,7 @@ static yyconst flex_int16_t yy_accept[290] =
        28,   28,   28,   28,   55,   55,   28,   28,    0
     } ;
 
-static yyconst flex_int32_t yy_ec[256] =
+static yyconst YY_CHAR yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    2,    4,    1,    1,    1,    1,    1,    1,    1,
@@ -449,7 +444,7 @@ static yyconst flex_int32_t yy_ec[256] =
        29,   29,   29,   29,   29
     } ;
 
-static yyconst flex_int32_t yy_meta[38] =
+static yyconst YY_CHAR yy_meta[38] =
     {   0,
         1,    1,    2,    2,    3,    4,    3,    5,    3,    3,
         6,    1,    7,    3,    3,    1,    7,    8,    8,    1,
@@ -457,7 +452,7 @@ static yyconst flex_int32_t yy_meta[38] =
        10,   10,   10,   10,   11,   10,   10
     } ;
 
-static yyconst flex_int16_t yy_base[357] =
+static yyconst flex_uint16_t yy_base[357] =
     {   0,
         0,    0,  404,  403,   33,   52,  395,  394,  376,  375,
        41,   42,  362,  361,   55,   75,  353,  352,   82,  117,
@@ -543,7 +538,7 @@ static yyconst flex_int16_t yy_def[357] =
       289,  289,  289,  289,  289,  289
     } ;
 
-static yyconst flex_int16_t yy_nxt[1202] =
+static yyconst flex_uint16_t yy_nxt[1202] =
     {   0,
        28,   29,   30,   29,   31,   32,   33,   34,   35,   33,
        36,   37,   35,   35,   38,   39,   40,   41,   41,   42,
@@ -824,9 +819,9 @@ static yyconst flex_int16_t yy_chk[1202] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 1 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 
-#line 26 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 26 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 /**************************The Re-Definition of yy-objects.**********************************************/
 //To redefine the TTTYPE, etc.
 #define YYSTYPE Trans_YYSTYPE
@@ -880,7 +875,7 @@ bool		standard_conforming_strings = true;
 /*somethings about Unicode, definitions. */
 /*C-style comment definitions.*/
 /*************************************End of definitions.**********************************************************/
-#line 884 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 879 "/home/leehao/Transformer/src/query/parser/lex/scanner.cpp"
 
 #define INITIAL 0
 #define xb 1
@@ -971,19 +966,23 @@ void Trans_yyset_extra (YY_EXTRA_TYPE user_defined ,yyscan_t yyscanner );
 
 FILE *Trans_yyget_in (yyscan_t yyscanner );
 
-void Trans_yyset_in  (FILE * in_str ,yyscan_t yyscanner );
+void Trans_yyset_in  (FILE * _in_str ,yyscan_t yyscanner );
 
 FILE *Trans_yyget_out (yyscan_t yyscanner );
 
-void Trans_yyset_out  (FILE * out_str ,yyscan_t yyscanner );
+void Trans_yyset_out  (FILE * _out_str ,yyscan_t yyscanner );
 
-int Trans_yyget_leng (yyscan_t yyscanner );
+			int Trans_yyget_leng (yyscan_t yyscanner );
 
 char *Trans_yyget_text (yyscan_t yyscanner );
 
 int Trans_yyget_lineno (yyscan_t yyscanner );
 
-void Trans_yyset_lineno (int line_number ,yyscan_t yyscanner );
+void Trans_yyset_lineno (int _line_number ,yyscan_t yyscanner );
+
+int Trans_yyget_column  (yyscan_t yyscanner );
+
+void Trans_yyset_column (int _column_no ,yyscan_t yyscanner );
 
 YYSTYPE * Trans_yyget_lval (yyscan_t yyscanner );
 
@@ -1003,6 +1002,10 @@ extern "C" int Trans_yywrap (yyscan_t yyscanner );
 #else
 extern int Trans_yywrap (yyscan_t yyscanner );
 #endif
+#endif
+
+#ifndef YY_NO_UNPUT
+    
 #endif
 
 #ifndef yytext_ptr
@@ -1025,7 +1028,12 @@ static int input (yyscan_t yyscanner );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -1033,7 +1041,7 @@ static int input (yyscan_t yyscanner );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
+#define ECHO do { if (fwrite( yytext, (size_t) yyleng, 1, yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -1044,7 +1052,7 @@ static int input (yyscan_t yyscanner );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		unsigned n; \
+		int n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1057,7 +1065,7 @@ static int input (yyscan_t yyscanner );
 	else \
 		{ \
 		errno=0; \
-		while ( (result = fread(buf, 1, max_size, yyin))==0 && ferror(yyin)) \
+		while ( (result = (int) fread(buf, 1, (yy_size_t) max_size, yyin)) == 0 && ferror(yyin)) \
 			{ \
 			if( errno != EINTR) \
 				{ \
@@ -1114,7 +1122,7 @@ extern int Trans_yylex \
 
 /* Code executed at the end of each rule. */
 #ifndef YY_BREAK
-#define YY_BREAK break;
+#define YY_BREAK /*LINTED*/break;
 #endif
 
 #define YY_RULE_SETUP \
@@ -1124,14 +1132,10 @@ extern int Trans_yylex \
  */
 YY_DECL
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp, *yy_bp;
-	register int yy_act;
+	yy_state_type yy_current_state;
+	char *yy_cp, *yy_bp;
+	int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-
-#line 193 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
-
-#line 1135 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
 
     yylval = yylval_param;
 
@@ -1163,7 +1167,12 @@ YY_DECL
 		Trans_yy_load_buffer_state(yyscanner );
 		}
 
-	while ( 1 )		/* loops until end-of-file is reached */
+	{
+#line 193 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
+
+#line 1174 "/home/leehao/Transformer/src/query/parser/lex/scanner.cpp"
+
+	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
 		yy_cp = yyg->yy_c_buf_p;
 
@@ -1179,7 +1188,7 @@ YY_DECL
 yy_match:
 		do
 			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
+			YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
 			if ( yy_accept[yy_current_state] )
 				{
 				yyg->yy_last_accepting_state = yy_current_state;
@@ -1191,7 +1200,7 @@ yy_match:
 				if ( yy_current_state >= 290 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
-			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+			yy_current_state = yy_nxt[yy_base[yy_current_state] + (flex_int16_t) yy_c];
 			++yy_cp;
 			}
 		while ( yy_base[yy_current_state] != 1164 );
@@ -1221,14 +1230,14 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 194 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 194 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 198 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 198 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* Set location in case of syntax error in comment */
 					SET_YYLLOC();
@@ -1240,7 +1249,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 207 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 207 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					(yyextra->xcdepth_)++;
 					/* Put back any characters past slash-star; see above */
@@ -1249,7 +1258,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 213 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 213 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					if (yyextra->xcdepth_ <= 0)
 						BEGIN(INITIAL);
@@ -1260,32 +1269,32 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 220 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 220 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 224 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 224 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 228 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 228 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xc):
-#line 232 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 232 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated /* comment"); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 234 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 234 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* Binary bit type.
 					 * At some point we should simply pass the string
@@ -1301,11 +1310,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
-#line 247 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 247 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 247 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 247 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					BEGIN(INITIAL);
@@ -1315,33 +1324,33 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
-#line 254 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 254 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 254 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 254 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
-#line 258 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 258 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 258 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 258 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xb):
-#line 261 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 261 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated bit string literal"); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 263 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 263 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* Hexadecimal bit type.
 					 * At some point we should simply pass the string
@@ -1357,11 +1366,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
-#line 276 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 276 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 276 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 276 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					BEGIN(INITIAL);
@@ -1370,12 +1379,12 @@ YY_RULE_SETUP
 				}
 	YY_BREAK
 case YY_STATE_EOF(xh):
-#line 282 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 282 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated hexadecimal string literal"); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 284 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 284 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* National character.
 					 * We will pass this along as a normal character string,
@@ -1404,7 +1413,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 310 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 310 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyextra->warn_on_first_escape_ = true;
 					yyextra->saw_non_ascii_ = false;
@@ -1418,7 +1427,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 320 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 320 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyextra->warn_on_first_escape_ = false;
 					yyextra->saw_non_ascii_ = false;
@@ -1429,7 +1438,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 327 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 327 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					if (!yyextra->standard_conforming_strings_)
@@ -1444,11 +1453,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
-#line 339 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 339 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 339 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 339 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					BEGIN(INITIAL);
@@ -1468,11 +1477,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
-#line 356 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 356 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 356 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 356 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* throw back all but the quote */
 					yyless(1);
@@ -1483,20 +1492,20 @@ YY_RULE_SETUP
 case 26:
 /* rule 26 can match eol */
 YY_RULE_SETUP
-#line 362 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 362 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* stay in xusend state over whitespace */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xusend):
-#line 365 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 365 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 27:
 /* rule 27 can match eol */
-#line 367 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 367 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 367 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 367 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* no UESCAPE after the quote, throw back everything */
 					yyless(0);
@@ -1508,7 +1517,7 @@ YY_RULE_SETUP
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 374 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 374 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* found UESCAPE after the end quote */
 					BEGIN(INITIAL);
@@ -1526,7 +1535,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 388 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 388 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlitchar('\'', yyscanner, yyextra);
 				}
@@ -1534,7 +1543,7 @@ YY_RULE_SETUP
 case 31:
 /* rule 31 can match eol */
 YY_RULE_SETUP
-#line 391 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 391 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
@@ -1542,14 +1551,14 @@ YY_RULE_SETUP
 case 32:
 /* rule 32 can match eol */
 YY_RULE_SETUP
-#line 394 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 394 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 397 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 397 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned int c = strtoul(yytext + 2, NULL, 16);
 
@@ -1568,7 +1577,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 412 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 412 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned int	c = strtoul(yytext + 2, NULL, 16);
 
@@ -1584,22 +1593,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 424 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 424 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("invalid Unicode surrogate pair"); }
 	YY_BREAK
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 425 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 425 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("invalid Unicode surrogate pair"); }
 	YY_BREAK
 case YY_STATE_EOF(xeu):
-#line 426 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 426 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("invalid Unicode surrogate pair"); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 427 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 427 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					//ereport(ERROR,
 					//		(errcode(ERRCODE_INVALID_ESCAPE_SEQUENCE),
@@ -1611,7 +1620,7 @@ YY_RULE_SETUP
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 434 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 434 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					if (yytext[1] == '\'')
 					{
@@ -1632,7 +1641,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 451 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 451 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned char c = strtoul(yytext + 1, NULL, 8);
 
@@ -1644,7 +1653,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 459 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 459 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					unsigned char c = strtoul(yytext + 2, NULL, 16);
 
@@ -1657,14 +1666,14 @@ YY_RULE_SETUP
 case 41:
 /* rule 41 can match eol */
 YY_RULE_SETUP
-#line 467 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 467 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* ignore */
 				}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 470 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 470 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* This is only needed for \ just before EOF */
 					Transformer::Lexical::LexHelper::addlitchar(yytext[0], yyscanner, yyextra);
@@ -1673,12 +1682,12 @@ YY_RULE_SETUP
 case YY_STATE_EOF(xq):
 case YY_STATE_EOF(xe):
 case YY_STATE_EOF(xus):
-#line 474 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 474 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated quoted string"); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 476 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 476 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yyextra->dolqstart_ = strdup(yytext);
@@ -1688,7 +1697,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 482 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 482 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					/* throw back all but the initial "$" */
@@ -1699,7 +1708,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 489 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 489 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					if (strcmp(yytext, yyextra->dolqstart_) == 0)
 					{
@@ -1724,33 +1733,33 @@ YY_RULE_SETUP
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 509 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 509 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 512 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 512 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 515 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 515 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* This is only needed for $ inside the quoted text */
 					Transformer::Lexical::LexHelper::addlitchar(yytext[0], yyscanner, yyextra);
 				}
 	YY_BREAK
 case YY_STATE_EOF(xdolq):
-#line 519 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 519 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated dollar-quoted string"); }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 521 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 521 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					BEGIN(xd);
@@ -1759,7 +1768,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 526 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 526 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					BEGIN(xui);
@@ -1768,7 +1777,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 531 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 531 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					char	   *ident;
 
@@ -1784,7 +1793,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 543 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 543 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					yyless(1);
 					/* xuiend state looks for possible UESCAPE */
@@ -1794,20 +1803,20 @@ YY_RULE_SETUP
 case 53:
 /* rule 53 can match eol */
 YY_RULE_SETUP
-#line 548 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 548 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* stay in xuiend state over whitespace */
 				}
 	YY_BREAK
 case YY_STATE_EOF(xuiend):
-#line 551 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 551 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 54:
 /* rule 54 can match eol */
-#line 553 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 553 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 case 55:
 /* rule 55 can match eol */
 YY_RULE_SETUP
-#line 553 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 553 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* no UESCAPE after the quote, throw back everything */
 					char	   *ident;
@@ -1829,7 +1838,7 @@ YY_RULE_SETUP
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
-#line 570 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 570 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* found UESCAPE after the end quote */
 					char	   *ident;
@@ -1855,7 +1864,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 592 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 592 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlitchar('"', yyscanner, yyextra);
 				}
@@ -1863,19 +1872,19 @@ YY_RULE_SETUP
 case 58:
 /* rule 58 can match eol */
 YY_RULE_SETUP
-#line 595 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 595 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					Transformer::Lexical::LexHelper::addlit(yytext, yyleng, yyscanner, yyextra);
 				}
 	YY_BREAK
 case YY_STATE_EOF(xd):
 case YY_STATE_EOF(xui):
-#line 598 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 598 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 { yyerror("unterminated quoted identifier"); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 600 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 600 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					char	   *ident;
 
@@ -1890,7 +1899,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 612 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 612 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return TYPECAST;
@@ -1898,7 +1907,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 617 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 617 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return DOT_DOT;
@@ -1906,7 +1915,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 622 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 622 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return COLON_EQUALS;
@@ -1914,7 +1923,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 627 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 627 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return EQUALS_GREATER;
@@ -1922,7 +1931,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 632 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 632 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return LESS_EQUALS;
@@ -1930,7 +1939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 637 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 637 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return GREATER_EQUALS;
@@ -1938,7 +1947,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 642 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 642 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* We accept both "<>" and "!=" as meaning NOT_EQUALS */
 					SET_YYLLOC();
@@ -1947,7 +1956,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 648 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 648 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* We accept both "<>" and "!=" as meaning NOT_EQUALS */
 					SET_YYLLOC();
@@ -1956,7 +1965,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 654 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 654 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return yytext[0];
@@ -1964,7 +1973,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 659 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 659 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/*
 					 * Check for embedded slash-star or dash-dash; those
@@ -2043,7 +2052,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 735 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 735 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yylval->ival_ = atol(yytext + 1);
@@ -2052,7 +2061,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 741 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 741 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return Transformer::Lexical::LexHelper::process_integer_literal(yytext, yylval, yyscanner, yyextra);
@@ -2060,7 +2069,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 745 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 745 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yylval->str_ = strdup(yytext);
@@ -2069,7 +2078,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 750 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 750 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* throw back the .., and treat as integer */
 					yyless(yyleng - 2);
@@ -2079,7 +2088,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 756 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 756 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yylval->str_ = strdup(yytext);
@@ -2088,7 +2097,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 761 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 761 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/*
 					 * throw back the [Ee], and treat as {decimal}.  Note
@@ -2104,7 +2113,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 773 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 773 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					/* throw back the [Ee][+-], and proceed as above */
 					yyless(yyleng - 2);
@@ -2115,7 +2124,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 782 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 782 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					ScanKeyWord keyword;
 					char	   *ident;
@@ -2143,14 +2152,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 807 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 807 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					return yytext[0];
 				}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 812 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 812 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 {
 					SET_YYLLOC();
 					yyterminate();
@@ -2158,10 +2167,10 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 817 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 817 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 2165 "/home/homli/work/Transformer/src/query/parser/lex/scanner.cpp"
+#line 2174 "/home/leehao/Transformer/src/query/parser/lex/scanner.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2290,6 +2299,7 @@ YY_FATAL_ERROR( "flex scanner jammed" );
 			"fatal flex scanner internal error--no action found" );
 	} /* end of action switch */
 		} /* end of scanning one token */
+	} /* end of user's declarations */
 } /* end of Trans_yylex */
 
 /* yy_get_next_buffer - try to read in a new buffer
@@ -2302,9 +2312,9 @@ YY_FATAL_ERROR( "flex scanner jammed" );
 static int yy_get_next_buffer (yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-	register char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
-	register char *source = yyg->yytext_ptr;
-	register int number_to_move, i;
+	char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
+	char *source = yyg->yytext_ptr;
+	yy_size_t number_to_move, i;
 	int ret_val;
 
 	if ( yyg->yy_c_buf_p > &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars + 1] )
@@ -2333,7 +2343,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	/* Try to read more data. */
 
 	/* First move last chars to start of buffer. */
-	number_to_move = (int) (yyg->yy_c_buf_p - yyg->yytext_ptr) - 1;
+	number_to_move = (yy_size_t) (yyg->yy_c_buf_p - yyg->yytext_ptr) - 1;
 
 	for ( i = 0; i < number_to_move; ++i )
 		*(dest++) = *(source++);
@@ -2353,7 +2363,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 			{ /* Not enough room in the buffer - grow it. */
 
 			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
+			YY_BUFFER_STATE b = YY_CURRENT_BUFFER_LVALUE;
 
 			int yy_c_buf_p_offset =
 				(int) (yyg->yy_c_buf_p - b->yy_ch_buf);
@@ -2369,11 +2379,11 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 
 				b->yy_ch_buf = (char *)
 					/* Include room in for 2 EOB chars. */
-					Trans_yyrealloc((void *) b->yy_ch_buf,b->yy_buf_size + 2 ,yyscanner );
+					Trans_yyrealloc((void *) b->yy_ch_buf,(yy_size_t) (b->yy_buf_size + 2) ,yyscanner );
 				}
 			else
 				/* Can't grow it, we don't own it. */
-				b->yy_ch_buf = 0;
+				b->yy_ch_buf = NULL;
 
 			if ( ! b->yy_ch_buf )
 				YY_FATAL_ERROR(
@@ -2391,7 +2401,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 
 		/* Read in more data. */
 		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
-			yyg->yy_n_chars, (size_t) num_to_read );
+			yyg->yy_n_chars, num_to_read );
 
 		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
 		}
@@ -2415,10 +2425,10 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
 
-	if ((yy_size_t) (yyg->yy_n_chars + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+	if ((int) (yyg->yy_n_chars + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
-		yy_size_t new_size = yyg->yy_n_chars + number_to_move + (yyg->yy_n_chars >> 1);
-		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) Trans_yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size ,yyscanner );
+		int new_size = yyg->yy_n_chars + number_to_move + (yyg->yy_n_chars >> 1);
+		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) Trans_yyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,(yy_size_t) new_size ,yyscanner );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
 			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
 	}
@@ -2436,15 +2446,15 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 
     static yy_state_type yy_get_previous_state (yyscan_t yyscanner)
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp;
+	yy_state_type yy_current_state;
+	char *yy_cp;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
 	yy_current_state = yyg->yy_start;
 
 	for ( yy_cp = yyg->yytext_ptr + YY_MORE_ADJ; yy_cp < yyg->yy_c_buf_p; ++yy_cp )
 		{
-		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
+		YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
 		if ( yy_accept[yy_current_state] )
 			{
 			yyg->yy_last_accepting_state = yy_current_state;
@@ -2456,7 +2466,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 			if ( yy_current_state >= 290 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
-		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+		yy_current_state = yy_nxt[yy_base[yy_current_state] + (flex_int16_t) yy_c];
 		}
 
 	return yy_current_state;
@@ -2469,11 +2479,11 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
  */
     static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state , yyscan_t yyscanner)
 {
-	register int yy_is_jam;
+	int yy_is_jam;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner; /* This var may be unused depending upon options. */
-	register char *yy_cp = yyg->yy_c_buf_p;
+	char *yy_cp = yyg->yy_c_buf_p;
 
-	register YY_CHAR yy_c = 1;
+	YY_CHAR yy_c = 1;
 	if ( yy_accept[yy_current_state] )
 		{
 		yyg->yy_last_accepting_state = yy_current_state;
@@ -2485,11 +2495,16 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 		if ( yy_current_state >= 290 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
-	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+	yy_current_state = yy_nxt[yy_base[yy_current_state] + (flex_int16_t) yy_c];
 	yy_is_jam = (yy_current_state == 289);
 
+	(void)yyg;
 	return yy_is_jam ? 0 : yy_current_state;
 }
+
+#ifndef YY_NO_UNPUT
+
+#endif
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
@@ -2540,7 +2555,7 @@ static int yy_get_next_buffer (yyscan_t yyscanner)
 				case EOB_ACT_END_OF_FILE:
 					{
 					if ( Trans_yywrap(yyscanner ) )
-						return EOF;
+						return 0;
 
 					if ( ! yyg->yy_did_buffer_switch_on_eof )
 						YY_NEW_FILE;
@@ -2649,7 +2664,7 @@ static void Trans_yy_load_buffer_state  (yyscan_t yyscanner)
 	/* yy_ch_buf has to be 2 characters longer than the size given because
 	 * we need to put in 2 end-of-buffer characters.
 	 */
-	b->yy_ch_buf = (char *) Trans_yyalloc(b->yy_buf_size + 2 ,yyscanner );
+	b->yy_ch_buf = (char *) Trans_yyalloc((yy_size_t) (b->yy_buf_size + 2) ,yyscanner );
 	if ( ! b->yy_ch_buf )
 		YY_FATAL_ERROR( "out of dynamic memory in Trans_yy_create_buffer()" );
 
@@ -2680,10 +2695,6 @@ static void Trans_yy_load_buffer_state  (yyscan_t yyscanner)
 	Trans_yyfree((void *) b ,yyscanner );
 }
 
-#ifndef __cplusplus
-extern int isatty (int );
-#endif /* __cplusplus */
-    
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
  * such as during a Trans_yyrestart() or at EOF.
@@ -2809,7 +2820,7 @@ static void Trans_yyensure_buffer_stack (yyscan_t yyscanner)
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
-		num_to_alloc = 1;
+      num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
 		yyg->yy_buffer_stack = (struct yy_buffer_state**)Trans_yyalloc
 								(num_to_alloc * sizeof(struct yy_buffer_state*)
 								, yyscanner);
@@ -2826,7 +2837,7 @@ static void Trans_yyensure_buffer_stack (yyscan_t yyscanner)
 	if (yyg->yy_buffer_stack_top >= (yyg->yy_buffer_stack_max) - 1){
 
 		/* Increase the buffer to prepare for a possible push. */
-		int grow_size = 8 /* arbitrary grow size */;
+		yy_size_t grow_size = 8 /* arbitrary grow size */;
 
 		num_to_alloc = yyg->yy_buffer_stack_max + grow_size;
 		yyg->yy_buffer_stack = (struct yy_buffer_state**)Trans_yyrealloc
@@ -2856,16 +2867,16 @@ YY_BUFFER_STATE Trans_yy_scan_buffer  (char * base, yy_size_t  size , yyscan_t y
 	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
 	     base[size-1] != YY_END_OF_BUFFER_CHAR )
 		/* They forgot to leave room for the EOB's. */
-		return 0;
+		return NULL;
 
 	b = (YY_BUFFER_STATE) Trans_yyalloc(sizeof( struct yy_buffer_state ) ,yyscanner );
 	if ( ! b )
 		YY_FATAL_ERROR( "out of dynamic memory in Trans_yy_scan_buffer()" );
 
-	b->yy_buf_size = size - 2;	/* "- 2" to take care of EOB's */
+	b->yy_buf_size = (int) (size - 2);	/* "- 2" to take care of EOB's */
 	b->yy_buf_pos = b->yy_ch_buf = base;
 	b->yy_is_our_buffer = 0;
-	b->yy_input_file = 0;
+	b->yy_input_file = NULL;
 	b->yy_n_chars = b->yy_buf_size;
 	b->yy_is_interactive = 0;
 	b->yy_at_bol = 1;
@@ -2888,13 +2899,13 @@ YY_BUFFER_STATE Trans_yy_scan_buffer  (char * base, yy_size_t  size , yyscan_t y
 YY_BUFFER_STATE Trans_yy_scan_string (yyconst char * yystr , yyscan_t yyscanner)
 {
     
-	return Trans_yy_scan_bytes(yystr,strlen(yystr) ,yyscanner);
+	return Trans_yy_scan_bytes(yystr,(int) strlen(yystr) ,yyscanner);
 }
 
 /** Setup the input buffer state to scan the given bytes. The next call to Trans_yylex() will
  * scan from a @e copy of @a bytes.
- * @param bytes the byte buffer to scan
- * @param len the number of bytes in the buffer pointed to by @a bytes.
+ * @param yybytes the byte buffer to scan
+ * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * @param yyscanner The scanner object.
  * @return the newly allocated buffer state object.
  */
@@ -2906,7 +2917,7 @@ YY_BUFFER_STATE Trans_yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len 
 	int i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
-	n = _yybytes_len + 2;
+	n = (yy_size_t) (_yybytes_len + 2);
 	buf = (char *) Trans_yyalloc(n ,yyscanner );
 	if ( ! buf )
 		YY_FATAL_ERROR( "out of dynamic memory in Trans_yy_scan_bytes()" );
@@ -2932,9 +2943,11 @@ YY_BUFFER_STATE Trans_yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len 
 #define YY_EXIT_FAILURE 2
 #endif
 
-static void yy_fatal_error (yyconst char* msg , yyscan_t yyscanner)
+static void yynoreturn yy_fatal_error (yyconst char* msg , yyscan_t yyscanner)
 {
-    	(void) fprintf( stderr, "%s\n", msg );
+	struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+	(void)yyg;
+	(void) fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
 }
 
@@ -2945,7 +2958,7 @@ static void yy_fatal_error (yyconst char* msg , yyscan_t yyscanner)
 	do \
 		{ \
 		/* Undo effects of setting up yytext. */ \
-        int yyless_macro_arg = (n); \
+        yy_size_t yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
 		yytext[yyleng] = yyg->yy_hold_char; \
 		yyg->yy_c_buf_p = yytext + yyless_macro_arg; \
@@ -3040,51 +3053,51 @@ void Trans_yyset_extra (YY_EXTRA_TYPE  user_defined , yyscan_t yyscanner)
 }
 
 /** Set the current line number.
- * @param line_number
+ * @param _line_number line number
  * @param yyscanner The scanner object.
  */
-void Trans_yyset_lineno (int  line_number , yyscan_t yyscanner)
+void Trans_yyset_lineno (int  _line_number , yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
         /* lineno is only valid if an input buffer exists. */
         if (! YY_CURRENT_BUFFER )
-           yy_fatal_error( "Trans_yyset_lineno called with no buffer" , yyscanner); 
+           YY_FATAL_ERROR( "Trans_yyset_lineno called with no buffer" );
     
-    yylineno = line_number;
+    yylineno = _line_number;
 }
 
 /** Set the current column.
- * @param line_number
+ * @param _column_no column number
  * @param yyscanner The scanner object.
  */
-void Trans_yyset_column (int  column_no , yyscan_t yyscanner)
+void Trans_yyset_column (int  _column_no , yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
         /* column is only valid if an input buffer exists. */
         if (! YY_CURRENT_BUFFER )
-           yy_fatal_error( "Trans_yyset_column called with no buffer" , yyscanner); 
+           YY_FATAL_ERROR( "Trans_yyset_column called with no buffer" );
     
-    yycolumn = column_no;
+    yycolumn = _column_no;
 }
 
 /** Set the input stream. This does not discard the current
  * input buffer.
- * @param in_str A readable stream.
+ * @param _in_str A readable stream.
  * @param yyscanner The scanner object.
  * @see Trans_yy_switch_to_buffer
  */
-void Trans_yyset_in (FILE *  in_str , yyscan_t yyscanner)
+void Trans_yyset_in (FILE *  _in_str , yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yyin = in_str ;
+    yyin = _in_str ;
 }
 
-void Trans_yyset_out (FILE *  out_str , yyscan_t yyscanner)
+void Trans_yyset_out (FILE *  _out_str , yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yyout = out_str ;
+    yyout = _out_str ;
 }
 
 int Trans_yyget_debug  (yyscan_t yyscanner)
@@ -3093,10 +3106,10 @@ int Trans_yyget_debug  (yyscan_t yyscanner)
     return yy_flex_debug;
 }
 
-void Trans_yyset_debug (int  bdebug , yyscan_t yyscanner)
+void Trans_yyset_debug (int  _bdebug , yyscan_t yyscanner)
 {
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yy_flex_debug = bdebug ;
+    yy_flex_debug = _bdebug ;
 }
 
 /* Accessor methods for yylval and yylloc */
@@ -3196,10 +3209,10 @@ static int yy_init_globals (yyscan_t yyscanner)
      * This function is called from Trans_yylex_destroy(), so don't allocate here.
      */
 
-    yyg->yy_buffer_stack = 0;
+    yyg->yy_buffer_stack = NULL;
     yyg->yy_buffer_stack_top = 0;
     yyg->yy_buffer_stack_max = 0;
-    yyg->yy_c_buf_p = (char *) 0;
+    yyg->yy_c_buf_p = NULL;
     yyg->yy_init = 0;
     yyg->yy_start = 0;
 
@@ -3212,8 +3225,8 @@ static int yy_init_globals (yyscan_t yyscanner)
     yyin = stdin;
     yyout = stdout;
 #else
-    yyin = (FILE *) 0;
-    yyout = (FILE *) 0;
+    yyin = NULL;
+    yyout = NULL;
 #endif
 
     /* For future reference: Set errno on error, since we are called by
@@ -3259,7 +3272,10 @@ int Trans_yylex_destroy  (yyscan_t yyscanner)
 #ifndef yytext_ptr
 static void yy_flex_strncpy (char* s1, yyconst char * s2, int n , yyscan_t yyscanner)
 {
-	register int i;
+	struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+	(void)yyg;
+
+	int i;
 	for ( i = 0; i < n; ++i )
 		s1[i] = s2[i];
 }
@@ -3268,7 +3284,7 @@ static void yy_flex_strncpy (char* s1, yyconst char * s2, int n , yyscan_t yysca
 #ifdef YY_NEED_STRLEN
 static int yy_flex_strlen (yyconst char * s , yyscan_t yyscanner)
 {
-	register int n;
+	int n;
 	for ( n = 0; s[n]; ++n )
 		;
 
@@ -3278,7 +3294,7 @@ static int yy_flex_strlen (yyconst char * s , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 817 "/home/homli/work/Transformer/src/query/parser/lex/scanner.l"
+#line 817 "/home/leehao/Transformer/src/query/parser/lex/scanner.l"
 
 
 

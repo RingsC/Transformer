@@ -33,10 +33,10 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 
 %define api.pure
 %pure-parser
-%expect 0
+%expect 1
 %locations
 %name-prefix="TransYY_yy"
-%lex-param		{Trans_yyscan_t yyscanner}
+%lex-param	{Trans_yyscan_t yyscanner}
 %parse-param 	{Trans_yyscan_t yyscanner}
 /*or using  as following, but for explicity we use the first type.
 *using lex-param and parse-param explicitly.
@@ -47,24 +47,24 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 	/*The type of bison*/
 	Trans_YYSTYPE	_trans_yystype_;
 	
-	int 			_ival_;
-	char* 			_str_;
+	int 		_ival_;
+	char* 		_str_;
 	const char* 	_keyword_;
-	bool			_boolean_;
+	bool		_boolean_;
 	
-	Transformer::Types::ASTNode*		_astNode_;
+	Transformer::Types::ASTNode*	     _astNode_;
 	Transformer::Types::TargetList*     _targetList_;
 	Transformer::Types::TableEntryList* _tableList_;
 	Transformer::Types::FromStmt* 	    _fromStmt_;
 	Transformer::Types::WhereStmt*      _whereStmt_;
-	Transformer::Types::Expr			_expr_;
-	Transformer::Types::AggrateStmt*    _aggrStmt_;
+	Transformer::Types::Expr*           _expr_;
+	Transformer::Types::AggregateStmt*  _aggrStmt_;
 }
 
 
-%type<_astNode_>	select_clause simple_select select_no_parens select_with_parens
-%type<_astNode_>	stmtblock stmtmulti	stmt SelectStmt
-%type<_astNode_>    target_entry table_entry
+%type<_astNode_>  select_clause simple_select select_no_parens select_with_parens
+%type<_astNode_>  stmtblock stmtmulti	stmt SelectStmt
+%type<_astNode_>  target_entry table_entry condition_stmt
 
 %type<_targetList_> target_list_opt target_list_stmt
 
@@ -75,12 +75,11 @@ static void TransYY_yyerror(YYLTYPE *yylloc, Trans_yyscan_t yyscanner,
 
 %token <_str_>	IDENT FCONST SCONST BCONST XCONST Op
 %token <_ival_>	ICONST PARAM
-%token			TYPECAST DOT_DOT COLON_EQUALS EQUALS_GREATER
-%token			LESS_EQUALS GREATER_EQUALS NOT_EQUALS
+%token		TYPECAST DOT_DOT COLON_EQUALS EQUALS_GREATER
+%token		LESS_EQUALS GREATER_EQUALS NOT_EQUALS
 
-%token<_keyword_> NOT NULLS_P WITH BETWEEN IN_P LIKE ILIKE SIMILAR NOT_LA FIRST_P LAST_P NULLS_LA TIME ORDINALITY WITH_LA
-					AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER ABSOLUTE_P ABORT_P
-%token<_keyword_> SELECT FROM WHERE ORDER BY HAVING GROUP LIMIT 
+%token<_keyword_> NOT NULLS_P WITH BETWEEN IN_P LIKE ILIKE SIMILAR NOT_LA FIRST_P LAST_P NULLS_LA TIME ORDINALITY WITH_LA AS TEMPORARY TEMP INTO LOCAL UNLOGGED TABLE ALL GLOBAL  BY GROUP_P ORDER ABSOLUTE_P ABORT_P
+%token<_keyword_> SELECT FROM WHERE HAVING GROUP LIMIT 
 				
 %%
 stmtblock:	stmtmulti
@@ -154,11 +153,11 @@ target_list_stmt:
 				;
 target_entry:	
 			IDENT									{
-														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ($1);
+														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ($1, strlen($1));
 														$$ = targetEntry;	
 													}
 			|	'*'									{
-														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ("*");
+														Transformer::Types::TargetEntry* targetEntry = new Transformer::Types::TargetEntry ("*", 1);
 														$$ = targetEntry;	
 													}
 			;
@@ -190,7 +189,7 @@ from_list:	from_list ',' table_entry				{
 													}
 			;
 table_entry : IDENT									{
-														Transformer::Types::TableEntry* table = new Transformer::Types::TableEntry ($1) ;
+														Transformer::Types::TableEntry* table = new Transformer::Types::TableEntry ($1, strlen($1)) ;
 														$$ = table; 
 													}
 			| IDENT '.' IDENT						{ //format:database.table
@@ -199,19 +198,28 @@ table_entry : IDENT									{
 			| IDENT '.' IDENT '.' IDENT 			{//format: schema.database.table
 														
 													}
-			;
+;			
 
 where_stmt : WHERE condition_stmt 
 													{
 														Transformer::Types::WhereStmt* where = new Transformer::Types::WhereStmt (); 
 														$$ = where; 				
 													}
-			|/*without where stmt*/					{ $$ = NULL ;}
+			|/*without where stmt*/					{ $$ = NULL; }
 			;
-condition_stmt: 									{ $$ = NULL; }
 
-groupby_stmt: GROUP BY IDENT						{
-															
+condition_stmt: IDENT						
+{ 
+  $$ = NULL; 
+}
+
+aggr_stmt: IDENT						
+{ 
+  $$ = NULL; 
+}
+
+groupby_stmt: GROUP BY IDENT						
+{
 													} 
 				
 %%

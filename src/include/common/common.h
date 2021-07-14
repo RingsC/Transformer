@@ -10,10 +10,10 @@
 
 namespace Transformer
 {
-  
+  typedef void            TVoid;
 #if defined(_WIN32) || defined(WIN32)
-
   typedef char             TChar;
+  typedef char*            TPointer;
   typedef unsigned int     TUInt32;
   typedef int              TInt32;
   typedef unsigned long    TULong32;
@@ -22,7 +22,8 @@ namespace Transformer
 
 #else
   typedef char             TChar;
-  typedef uint32_t         TUInt32;
+  typedef char*            TPointer;
+  typedef u_int32_t         TUInt32;
   typedef int32_t          TInt32;
   typedef bool             TBool;
 #endif //defined(_WIN32)

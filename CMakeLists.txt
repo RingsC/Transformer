@@ -112,6 +112,7 @@ include_directories(
         ${include_dir}/include/common
         ${include_dir}/include/memory
         ${include_dir}/include/query
+		${include_dir}/include/storage_interface
         ${include_dir}/include/query/optimizer
 		${include_dir}/include/query/optimizer/cost
 		${include_dir}/include/query/optimzier/path

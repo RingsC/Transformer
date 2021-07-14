@@ -4,7 +4,7 @@
  * We can incorprate the log4cxx or other logger to impl.
  */
 
-#ifdef __LOG_H__
+#ifndef __LOG_H__
 #define __LOG_H__
 
 //the encapsulated types in common.h

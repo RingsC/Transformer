@@ -23,7 +23,7 @@ set(storageinterface
 
 source_group(""             FILES ${execution_dir})
 source_group("include"  	FILES ${storage_interface_header_files})
-source_group("source"  		FILES ${storage_interface_source_files})
+source_group("source"       FILES ${storage_interface_source_files})
 
 #compiling the library of storage interface.
 add_library(StorageInterface SHARED ${storageinterface})

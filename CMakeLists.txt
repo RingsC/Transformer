@@ -41,6 +41,10 @@ endif (NOT CMAKE_CONFIGURATION_TYPES)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 message(STATUS "project module path is: " ${CMAKE_MODULE_PATH} )
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11")
+
 #set TRANS_EXPORT 
 if (NOT CMAKE_CREATE_DLL)
 	message(STATUS "TRANS_CREATE_DLL macro is not defined -- assuming yes")
